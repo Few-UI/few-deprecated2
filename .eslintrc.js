@@ -129,8 +129,9 @@ module.exports = {
         'no-unsafe-negation': 2,
         'no-unneeded-ternary': 2,
         'no-unused-vars': "off",
-        '@typescript-eslint/no-unused-vars': [ 'error', {
-            'varsIgnorePattern': '^h$'
+        '@typescript-eslint/no-unused-vars': [ 'warn', {
+            'varsIgnorePattern': '^h$',
+            'argsIgnorePattern': '^h$'
         } ],
         'no-useless-escape': 1,
         // 'no-use-before-define': [ 'warn', { functions: false, classes: true } ],

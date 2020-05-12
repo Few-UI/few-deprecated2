@@ -8,7 +8,7 @@ export const createComponent: { ( component: Component ): { (): JSX.Element } } 
     const renderFn = (): JSX.Element => {
         const [ model ] = useState( component.init );
 
-        return component.view( model );
+        return component.view( model, createElement );
     };
     renderFn.displayName = component.name;
     return renderFn;

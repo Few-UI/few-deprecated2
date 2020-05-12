@@ -14,7 +14,7 @@ export interface Model {
 }
 
 // View
-export type View = ( model: Model ) => JSX.Element;
+export type View = ( model: Model, h?: Function ) => JSX.Element;
 
 // Component
 export interface Component {
