@@ -1,4 +1,3 @@
-import React from 'react';
 
 /**
  * https://github.com/SunshowerC/blog/issues/7
@@ -18,6 +17,10 @@ export interface Model {
 export type View = ( model: Model ) => JSX.Element;
 
 // Component
-export type Component = () => JSX.Element;
+export interface Component {
+    view: View;
+    init: () => Model;
+    name: string;
+}
 
 

@@ -1,22 +1,28 @@
 import React from 'react';
 
 import {
-    View,
-    Model,
     Component
 } from './types';
 
-const FirstComponent: Component = () => {
-    // view
-    const view: View = model => <div>Hello {model.name}!</div>;
-
-    // model
-    const model: Model = {
-        name: 'Monster Hunter'
-    };
-
-    // create component
-    return view( model );
+const FirstComponent: Component = {
+    init: () => ( {
+        name: 'MonsterHunter'
+    } ),
+    // eslint-disable-next-line react/display-name
+    view: model => <div>Hello {model.name}</div>,
+    name: 'FirstComponent'
 };
 
-export default FirstComponent;
+
+const createReactComponent: { ( component: Component ): { (): JSX.Element } } = component => {
+    const renderFn = (): JSX.Element => {
+        // react part
+        const [ model ] = React.useState( component.init );
+
+        return component.view( model );
+    };
+    renderFn.displayName = component.name;
+    return renderFn;
+};
+
+export default createReactComponent( FirstComponent );
