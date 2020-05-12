@@ -3,16 +3,15 @@ import {
     Component
 } from './types';
 
-import { h, createComponent } from './reactHelper';
+import { h } from './reactHelper';
 
 const FirstComponent: Component = {
-    init: () => ( {
-        name: 'MonsterHunter'
-    } ),
+    name: 'FirstComponent',
     // eslint-disable-next-line react/display-name
-    view: model => <div>Hello {model.name}</div>,
-    name: 'FirstComponent'
+    view: model => <div>Hello {model.name}!</div>,
+    init: () => ( {
+        name: 'Monster Hunter'
+    } )
 };
 
-
-export default createComponent( FirstComponent );
+export default FirstComponent;

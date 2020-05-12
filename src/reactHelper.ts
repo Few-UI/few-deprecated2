@@ -6,7 +6,6 @@ import {
 
 export const createComponent: { ( component: Component ): { (): JSX.Element } } = component => {
     const renderFn = (): JSX.Element => {
-        // react part
         const [ model ] = React.useState( component.init );
 
         return component.view( model );
@@ -16,3 +15,4 @@ export const createComponent: { ( component: Component ): { (): JSX.Element } } 
 };
 
 export const h = React.createElement;
+
