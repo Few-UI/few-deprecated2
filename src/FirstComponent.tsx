@@ -1,8 +1,9 @@
-import React from 'react';
 
 import {
     Component
 } from './types';
+
+import { h, createComponent } from './reactHelper';
 
 const FirstComponent: Component = {
     init: () => ( {
@@ -14,15 +15,4 @@ const FirstComponent: Component = {
 };
 
 
-const createReactComponent: { ( component: Component ): { (): JSX.Element } } = component => {
-    const renderFn = (): JSX.Element => {
-        // react part
-        const [ model ] = React.useState( component.init );
-
-        return component.view( model );
-    };
-    renderFn.displayName = component.name;
-    return renderFn;
-};
-
-export default createReactComponent( FirstComponent );
+export default createComponent( FirstComponent );

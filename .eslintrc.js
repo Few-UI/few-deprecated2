@@ -1,4 +1,4 @@
-// https://eslint.org/docs/rules/
+// https://eslint.orgc/docs/rules/
 module.exports = {
     rules: {
         'array-bracket-spacing': [ 'error', 'always', { 'singleValue': true } ],
@@ -128,7 +128,10 @@ module.exports = {
         'no-unsafe-finally': 2,
         'no-unsafe-negation': 2,
         'no-unneeded-ternary': 2,
-        'no-unused-vars': 1, // TODO should be error (2)
+        'no-unused-vars': "off",
+        '@typescript-eslint/no-unused-vars': [ 'error', {
+            'varsIgnorePattern': '^h$'
+        } ],
         'no-useless-escape': 1,
         // 'no-use-before-define': [ 'warn', { functions: false, classes: true } ],
         'no-whitespace-before-property': 2,
@@ -162,7 +165,9 @@ module.exports = {
         'use-isnan': 2,
         'valid-jsdoc': [ 'warn', { 'requireReturn': false, 'requireReturnType': false, 'requireParamType': false, 'requireParamDescription': true, 'requireReturnDescription': true } ],
         'valid-typeof': 2,
-        'wrap-regex': 0
+        'wrap-regex': 0,
+        "react/display-name": [ 'warn', { "ignoreTranspilerName": true }],
+        "react/react-in-jsx-scope": "off"
     },
     globals: {
         define: 'readonly'

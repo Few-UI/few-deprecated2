@@ -5,13 +5,11 @@
         "esModuleInterop": true,
         "target": "es5",
         "jsx": "react",
+        "jsxFactory": "h",
         "sourceMap": true
     },
     "include": [
         "src/**/*", "test/**/*"
     ],
-    "exclude": [ "node_modules", "**/*.test.ts" ],
-    "references": [ {
-        "path": "node_modules/few"
-    } ]
+    "exclude": [ "node_modules", "**/*.test.ts" ]
 }
