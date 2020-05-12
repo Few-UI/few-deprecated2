@@ -1,4 +1,4 @@
-import React from 'react';
+import { createElement, useState } from 'react';
 
 import {
     Component
@@ -6,7 +6,7 @@ import {
 
 export const createComponent: { ( component: Component ): { (): JSX.Element } } = component => {
     const renderFn = (): JSX.Element => {
-        const [ model ] = React.useState( component.init );
+        const [ model ] = useState( component.init );
 
         return component.view( model );
     };
@@ -14,5 +14,5 @@ export const createComponent: { ( component: Component ): { (): JSX.Element } } 
     return renderFn;
 };
 
-export const h = React.createElement;
+export const h = createElement;
 

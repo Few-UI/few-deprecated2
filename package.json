@@ -46,7 +46,7 @@
     "scripts": {
         "build": "rollup -c",
         "start": "rollup -c -w",
-        "eslint": "eslint src/**",
+        "lint": "eslint src/**",
         "test": "jest"
     }
 }
