@@ -1,6 +1,7 @@
 /* eslint-env  */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import FirstComponent from './FirstComponent';
 
 // react
-ReactDOM.render( <div>Hello world!</div>, document.getElementById( 'entry-dom-element' ) );
+ReactDOM.render( <FirstComponent />, document.getElementById( 'entry-dom-element' ) );
