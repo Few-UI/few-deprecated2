@@ -1,4 +1,4 @@
-/* eslint-env  */
+/* eslint-env es6 */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FirstComponent from './FirstComponent';

@@ -1,16 +1,22 @@
 import React from 'react';
 
-const FirstComponent = (): JSX.Element => {
-    // template
-    const renderFn: { ( model: { [key: string]: object | string } ): JSX.Element} = model => <div>Hello {model.name}!</div>;
+import {
+    View,
+    Model,
+    Component
+} from './types';
+
+const FirstComponent: Component = () => {
+    // view
+    const view: View = model => <div>Hello {model.name}!</div>;
 
     // model
-    const model = {
+    const model: Model = {
         name: 'Monster Hunter'
     };
 
     // create component
-    return renderFn( model );
+    return view( model );
 };
 
 export default FirstComponent;
