@@ -22,5 +22,3 @@ export interface Component {
     init: () => Model;
     name: string;
 }
-
-

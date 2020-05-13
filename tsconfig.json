@@ -4,10 +4,13 @@
         // "outDir": "public",
         "allowJs": true,
         "esModuleInterop": true,
-        "target": "es6",
-        "jsx": "preserve",
+        // https://stackoverflow.com/questions/37709755/typescript-cannot-find-local-es6-module-error-ts2307-cannot-find-module
+        // maybe we switch to babel compile completely later
+        "target": "es5",
+        "module": "CommonJS",
+        "jsx": "react",
+        "jsxFactory": "h",
         // below is not required when use babel/buble
-        // "jsxFactory": "h",
         //"sourceMap": true,
         // "inlineSourceMap": true
     },

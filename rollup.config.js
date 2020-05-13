@@ -23,9 +23,12 @@ export default {
     plugins: [
         typescript(),
         // https://github.com/znck/example-functional-rollup-plugin-vue/blob/master/rollup.config.js
+        /*
         buble( {
+            objectAssign: 'Object.assign',
             jsx: 'h'
         } ),
+        */
         /*
         // alternatives for buble
         babel( {
