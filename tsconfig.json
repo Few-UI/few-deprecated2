@@ -7,7 +7,7 @@
         "target": "es6",
         "jsx": "preserve",
         // below is not required when use babel/buble
-        "jsxFactory": "h",
+        // "jsxFactory": "h",
         //"sourceMap": true,
         // "inlineSourceMap": true
     },

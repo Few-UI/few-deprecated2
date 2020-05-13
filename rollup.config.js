@@ -3,12 +3,11 @@
 // import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import serve from 'rollup-plugin-serve';
 import buble from '@rollup/plugin-buble';
 import typescript from '@rollup/plugin-typescript';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
-import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -66,8 +65,8 @@ export default {
             contentBase: 'public',
             host: '0.0.0.0',
             port: 8080
-        } ),
-        !production && livereload()
+        } )
+        // !production && livereload()
     ]
     // https://rollupjs.org/guide/en/#acorninjectplugins
     // acornInjectPlugins: [ acornJSX( ) ]
