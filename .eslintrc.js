@@ -1,3 +1,4 @@
+/* eslint-env node */
 // https://eslint.orgc/docs/rules/
 module.exports = {
     rules: {

@@ -14,7 +14,7 @@ import serve from 'rollup-plugin-serve';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-    input: 'src/main.tsx',
+    input: 'src/main.ts',
     output: {
         file: 'public/bundle.js',
         format: 'iife', // immediately-invoked function expression — suitable for <script> tags
@@ -27,8 +27,9 @@ export default {
             jsx: 'h'
         } ),
         /*
+        // alternatives for buble
         babel( {
-            presets: [ '@babel/preset-react', '@babel/preset-typescript' ]
+            presets: [ '@babel/preset-react' ]
         } ),
         */
         resolve(), // tells Rollup how to find date-fns in node_modules
@@ -66,8 +67,8 @@ export default {
             host: '0.0.0.0',
             port: 8080
         } )
-        // !production && livereload()
     ]
     // https://rollupjs.org/guide/en/#acorninjectplugins
+    // required when try to export ES6 code without babel/bubble
     // acornInjectPlugins: [ acornJSX( ) ]
 };

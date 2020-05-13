@@ -1,7 +1,8 @@
+/* eslint-env node */
 module.exports = {
     // roots: [ '<rootDir>' ],
     transform: {
-        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.tsx?$': 'ts-jest'
     },
     // testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     testMatch: [
@@ -11,5 +12,5 @@ module.exports = {
     collectCoverageFrom: [
         'src/**/*.{js,jsx,ts,tsx}'
     ],
-    moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx', 'json', 'node' ],
-}
+    moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx', 'json', 'node' ]
+};
