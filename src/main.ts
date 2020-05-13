@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import FirstComponent from './FirstComponent';
 import { createComponent } from './reactPolyfill';
 
-import Vue from 'vue';
+import { createApp } from 'vue';
 import FirstVue from './FirstVue';
 
 // react
@@ -24,4 +24,4 @@ import App from './App.vue';
 createApp( App ).mount( '#vue-test' );
 */
 
-Vue.createApp( FirstVue ).mount( '#vue-test' );
+createApp( FirstVue ).mount( '#vue-test' );
