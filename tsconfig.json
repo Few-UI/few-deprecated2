@@ -7,7 +7,7 @@
         // https://stackoverflow.com/questions/37709755/typescript-cannot-find-local-es6-module-error-ts2307-cannot-find-module
         // maybe we switch to babel compile completely later
         "target": "es5",
-        "module": "CommonJS",
+        // "module": "CommonJS",
         "jsx": "react",
         "jsxFactory": "h",
         // below is not required when use babel/buble
