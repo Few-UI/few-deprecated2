@@ -1,28 +1,37 @@
 /* eslint-env node */
+// import acornJSX from 'acorn-jsx';
+// import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import serve from 'rollup-plugin-serve';
-import typescript from 'rollup-plugin-typescript';
+import buble from '@rollup/plugin-buble';
+import typescript from '@rollup/plugin-typescript';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
+import livereload from 'rollup-plugin-livereload';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-    input: 'src/main.ts',
+    input: 'src/main.tsx',
     output: {
         file: 'public/bundle.js',
         format: 'iife', // immediately-invoked function expression — suitable for <script> tags
         sourcemap: true
     },
     plugins: [
-        // https://github.com/rollup/rollup/issues/487
-        replace( {
-            'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' )
-        } ),
         typescript(),
+        // https://github.com/znck/example-functional-rollup-plugin-vue/blob/master/rollup.config.js
+        buble( {
+            jsx: 'h'
+        } ),
+        /*
+        babel( {
+            presets: [ '@babel/preset-react', '@babel/preset-typescript' ]
+        } ),
+        */
         resolve(), // tells Rollup how to find date-fns in node_modules
         commonjs( { // converts date-fns to ES modules
             // special setup for react
@@ -48,11 +57,18 @@ export default {
                 ]
             }
         } ),
+        // https://github.com/rollup/rollup/issues/487
+        replace( {
+            'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' )
+        } ),
         production && terser(), // minify, but only in production
         !production && serve( {
             contentBase: 'public',
             host: '0.0.0.0',
             port: 8080
-        } )
+        } ),
+        !production && livereload()
     ]
+    // https://rollupjs.org/guide/en/#acorninjectplugins
+    // acornInjectPlugins: [ acornJSX( ) ]
 };

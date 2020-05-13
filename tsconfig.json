@@ -1,12 +1,15 @@
 {
     "compilerOptions": {
-        "outDir": "public",
+        // https://github.com/rollup/plugins/issues/287
+        // "outDir": "public",
         "allowJs": true,
         "esModuleInterop": true,
-        "target": "es5",
-        "jsx": "react",
+        "target": "es6",
+        "jsx": "preserve",
+        // below is not required when use babel/buble
         "jsxFactory": "h",
-        "sourceMap": true
+        //"sourceMap": true,
+        // "inlineSourceMap": true
     },
     "include": [
         "src/**/*", "test/**/*"
