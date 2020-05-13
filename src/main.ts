@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import FirstComponent from './FirstComponent';
-import { createComponent } from './reactHelper';
+import { createComponent } from './reactPolyfill';
 
 // react
 ReactDOM.render(
