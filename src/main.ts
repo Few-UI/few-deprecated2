@@ -1,16 +1,16 @@
 /* eslint-env es6 */
-import { createElement } from 'react';
-import ReactDOM from 'react-dom';
-
 import FirstComponent from './FirstComponent';
-import { createComponent } from './reactPolyfill';
+import { createComponent as createReactComponent } from './reactPolyfill';
 import { createComponent as createVueComponent } from './vuePolyfill';
 
 import { createApp } from 'vue';
+import { createElement } from 'react';
+import ReactDOM from 'react-dom';
+
 
 // react
 ReactDOM.render(
-    createElement( createComponent( FirstComponent ) ),
+    createElement( createReactComponent( FirstComponent ) ),
     document.getElementById( 'react-entrypoint' )
 );
 
