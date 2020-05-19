@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom';
 
 import FirstComponent from './FirstComponent';
 import { createComponent } from './reactPolyfill';
+import { createComponent as createVueComponent } from './vuePolyfill';
 
 import { createApp } from 'vue';
-import FirstVue from './FirstVue';
 
 // react
 ReactDOM.render(
     createElement( createComponent( FirstComponent ) ),
-    document.getElementById( 'entry-dom-element' )
+    document.getElementById( 'react-entrypoint' )
 );
 
 // vue
@@ -20,8 +20,5 @@ ReactDOM.render(
 // @ts-ignore
 /*
 import App from './App.vue';
-
-createApp( App ).mount( '#vue-test' );
 */
-
-createApp( FirstVue ).mount( '#vue-test' );
+createApp( createVueComponent( FirstComponent ) ).mount( '#vue-entrypoint' );

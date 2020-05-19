@@ -7,6 +7,7 @@
  *   - More flexibility in babel feature
  *   - Loosing some typescript feature and type check
  *     - Industry practice is using prettier eslint to fill the type check part.
+ *   - https://segmentfault.com/a/1190000021695864
  *
  * - tsc approach
  *   - use tsc + tslib to compile
@@ -92,6 +93,7 @@ export default {
                 'node_modules/vue/index.js': [
                     'createApp',
                     'defineComponent',
+                    'reactive',
                     'ref',
                     'h'
                 ]
