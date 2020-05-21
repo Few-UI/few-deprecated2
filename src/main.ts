@@ -12,7 +12,7 @@ import ThirdComponent from './ThirdComponent';
 
     // react
     ReactDOM.render(
-        createElement( createReactComponent( ThirdComponent ) ),
+        createElement( createReactComponent( SecondComponent ) ),
         document.getElementById( 'react-entrypoint' )
     );
 
@@ -24,4 +24,4 @@ import ThirdComponent from './ThirdComponent';
 /*
 import App from './App.vue';
 */
-createApp( createVueComponent( ThirdComponent ) ).mount( '#vue-entrypoint' );
+createApp( createVueComponent( SecondComponent ) ).mount( '#vue-entrypoint' );
