@@ -1,7 +1,7 @@
 import { createElement, useState } from 'react';
 
 import {
-    Component
+    ComponentDef
 } from './types';
 
 import lodashSet from 'lodash-es/set';
@@ -21,7 +21,7 @@ export const h = createElement;
  * @param component few component
  * @returns platform specific component
  */
-export const createComponent: { ( component: Component ): { (): JSX.Element } } = component => {
+export const createComponent: { ( component: ComponentDef ): { (): JSX.Element } } = component => {
     const renderFn = (): JSX.Element => {
         const [ model, setState ] = useState( component.init );
 
@@ -30,7 +30,7 @@ export const createComponent: { ( component: Component ): { (): JSX.Element } } 
             setState( { ...model } );
         };
 
-        return component.view( model, dispatch, createElement );
+        return component.view( { model, dispatch, createElement } );
     };
     renderFn.displayName = component.name;
     return renderFn;

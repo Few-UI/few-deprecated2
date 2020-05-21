@@ -14,11 +14,18 @@ export interface Model {
 }
 
 // View
-export type View = ( model: Model, dispatch: Function, h?: Function ) => JSX.Element;
+export type View = ( Component ) => JSX.Element;
 
-// Component
-export interface Component {
+// ComponentDef
+export interface ComponentDef {
     view: View;
     init: () => Model;
     name: string;
+}
+
+// Component
+export interface Component {
+    model: Model;
+    dispatch: Function;
+    h: Function;
 }
