@@ -2,6 +2,7 @@ import { h as createElement, reactive } from 'vue';
 
 import Vue from 'vue/dist/vue';
 import {
+    Component,
     ComponentDef
 } from './types';
 
@@ -35,14 +36,15 @@ export const createComponent = ( component: ComponentDef ): Vue.Component => (
         // so here even for Vue we use JSX.Element
         render: ( vm ): JSX.Element => component.view( vm ),
         setup: (): object => {
-            const vm = {
-                model: reactive( component.init() ),
-                dispatch: ( path, value ): void => {
-                    lodashSet( vm.model, path, value );
-                },
+            const vm = reactive( { model: component.init() } );
+            const dispatch = ( path, value ): void => {
+                lodashSet( vm.model, path, value );
+            };
+            return {
+                ...vm,
+                dispatch,
                 h
             };
-            return vm;
         }
     }
 );

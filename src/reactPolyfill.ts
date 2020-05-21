@@ -30,7 +30,7 @@ export const createComponent: { ( component: ComponentDef ): { (): JSX.Element }
             setState( { ...model } );
         };
 
-        return component.view( { model, dispatch, createElement } );
+        return component.view( { model, dispatch, h } );
     };
     renderFn.displayName = component.name;
     return renderFn;
