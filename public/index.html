@@ -14,6 +14,7 @@
     }
 
     </style>
+<base href="/">
 </head>
 
 <body>
@@ -22,6 +23,31 @@
     <h2>Vue</h2>
     <index id="vue-entrypoint"></index>
     <script src='bundle.js'></script>
+
+
+<!--
+page.js test code:
+- it can achieve client side routing with 'http://site/route' without #.
+- it has side effect for top level. ( 'about' below should be '/about' if no issue)
+- it hijack all the a link which may not be a good practice
+<script src="https://unpkg.com/page/page.js"></script>
+<script>
+  page.base('/');
+  page('/', function() {
+      console.log('index')
+  })
+  page('about', function(){
+    // Do stuff
+    console.log('about');
+  });
+  page('/#/about', function(){
+    // Do stuff
+    console.log('about');
+  });
+  page();
+</script>
+<a href="./about">about</a>
+-->
 </body>
 
 </html>
