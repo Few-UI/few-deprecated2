@@ -8,10 +8,11 @@ import ReactDOM from 'react-dom';
 
 import FirstComponent from './FirstComponent';
 import SecondComponent from './SecondComponent';
+import ThirdComponent from './ThirdComponent';
 
 // react
 ReactDOM.render(
-    createElement( createReactComponent( SecondComponent ) ),
+    createElement( createReactComponent( ThirdComponent ) ),
     document.getElementById( 'react-entrypoint' )
 );
 
@@ -22,4 +23,4 @@ ReactDOM.render(
 /*
 import App from './App.vue';
 */
-createApp( createVueComponent( SecondComponent ) ).mount( '#vue-entrypoint' );
+createApp( createVueComponent( ThirdComponent ) ).mount( '#vue-entrypoint' );
