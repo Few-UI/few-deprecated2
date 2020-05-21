@@ -28,23 +28,21 @@ export const h = ( type: string, props?: Vue.VNodeProps | null, ...children: Vue
  * @param component few component
  * @returns platform specific component
  */
-export const createComponent = ( component: ComponentDef ): Vue.Component => (
-    {
-        // in Vue render is deined as loose as 'Function'
-        // in typeScript by default JSX returns JSX.Element
-        // so here even for Vue we use JSX.Element
-        render: ( vm ): JSX.Element => component.view( vm ),
-        setup: (): object => {
-            const vm = {
-                model: reactive( component.init() ),
-                dispatch: ( path, value ): void => {
-                    lodashSet( vm.model, path, value );
-                },
-                h
-            };
-            return vm;
-        }
+export const createComponent = ( component: ComponentDef ): Vue.Component => ( {
+    // in Vue render is deined as loose as 'Function'
+    // in typeScript by default JSX returns JSX.Element
+    // so here even for Vue we use JSX.Element
+    render: ( vm ): JSX.Element => component.view( vm ),
+    setup: (): object => {
+        const vm = {
+            model: reactive( component.init() ),
+            dispatch: ( path, value ): void => {
+                lodashSet( vm.model, path, value );
+            },
+            h
+        };
+        return vm;
     }
-);
+} );
 
 

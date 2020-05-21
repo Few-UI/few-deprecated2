@@ -10,11 +10,12 @@ import FirstComponent from './FirstComponent';
 import SecondComponent from './SecondComponent';
 import ThirdComponent from './ThirdComponent';
 
-// react
-ReactDOM.render(
-    createElement( createReactComponent( ThirdComponent ) ),
-    document.getElementById( 'react-entrypoint' )
-);
+    // react
+    ReactDOM.render(
+        createElement( createReactComponent( ThirdComponent ) ),
+        document.getElementById( 'react-entrypoint' )
+    );
+
 
 // vue
 // https://github.com/vuejs/vue-cli/issues/1198
