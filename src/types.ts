@@ -10,11 +10,11 @@
 
 // Model
 export interface Model {
-    [key: string]: object | string;
+    [key: string]: object | string | number | boolean;
 }
 
 // View
-export type View = ( model: Model, h?: Function ) => JSX.Element;
+export type View = ( model: Model, dispatch: Function, h?: Function ) => JSX.Element;
 
 // Component
 export interface Component {

@@ -4,6 +4,8 @@ import {
     Component
 } from './types';
 
+import lodashSet from 'lodash-es/set';
+
 /**
  * Virtual DOM API as h
  *
@@ -21,9 +23,14 @@ export const h = createElement;
  */
 export const createComponent: { ( component: Component ): { (): JSX.Element } } = component => {
     const renderFn = (): JSX.Element => {
-        const [ model ] = useState( component.init );
+        const [ model, setState ] = useState( component.init );
 
-        return component.view( model, createElement );
+        const dispatch = ( path, value ): void => {
+            lodashSet( model, path, value );
+            setState( { ...model } );
+        };
+
+        return component.view( model, dispatch, createElement );
     };
     renderFn.displayName = component.name;
     return renderFn;
