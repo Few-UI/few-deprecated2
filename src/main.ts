@@ -7,9 +7,7 @@ import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import * as route from './route';
 
-import FirstComponent from './FirstComponent';
-import SecondComponent from './SecondComponent';
-import ThirdComponent from './ThirdComponent';
+import EntryComponent from './components/EntryComponent';
 
 const entryElem = document.getElementById( 'react-entrypoint' );
 
@@ -20,7 +18,7 @@ route.register( {
     parent: undefined,
     enter: () => {
         ReactDOM.render(
-            createElement( createReactComponent( SecondComponent ) ),
+            createElement( createReactComponent( EntryComponent ) ),
             entryElem
         );
     },
@@ -36,7 +34,7 @@ route.register( {
     path: '/vue',
     parent: undefined,
     enter: () => {
-        vueApp = createApp( createVueComponent( SecondComponent ) );
+        vueApp = createApp( createVueComponent( EntryComponent ) );
         vueApp.mount( entryElem );
     },
     leave: () => {

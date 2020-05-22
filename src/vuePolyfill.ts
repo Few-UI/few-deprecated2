@@ -16,6 +16,21 @@ import {
 
 import lodashSet from 'lodash-es/set';
 
+const polyfill = {
+    createElement: null,
+    createComponent: null
+};
+
+/**
+ * check if type is ComponentDef. use ComponentDef.init() to detect
+ * @param type component type
+ * @returns true if type is component def.
+ */
+const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
+    const componeDef = type as ComponentDef;
+    return typeof componeDef.init === 'function';
+};
+
 /**
  * Virtual DOM API as h
  *
@@ -27,7 +42,10 @@ import lodashSet from 'lodash-es/set';
  * @param children child components
  * @returns virtual DOM component
  */
-export const h = ( type: string, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
+export const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
+    if( isComponentDef( type ) ) {
+        return createElement( polyfill.createComponent( type ), props, children );
+    }
     return createElement( type, props, children );
 };
 
@@ -47,10 +65,13 @@ export const createComponent = ( component: ComponentDef ): Vue.Component => ( {
             dispatch: ( path, value ): void => {
                 lodashSet( vm.model, path, value );
             },
-            h
+            h: polyfill.createElement
         };
         return vm;
     }
 } );
+
+polyfill.createComponent = createComponent;
+polyfill.createElement = h;
 
 

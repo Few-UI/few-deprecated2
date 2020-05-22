@@ -1,7 +1,7 @@
 import {
     ComponentDef,
     Component
-} from './types';
+} from '../types';
 
 
 const ThirdComponent: ComponentDef = {

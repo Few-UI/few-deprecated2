@@ -1,6 +1,6 @@
 import {
     ComponentDef
-} from './types';
+} from '../types';
 
 
 const SecondComponent: ComponentDef = {
