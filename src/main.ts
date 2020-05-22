@@ -29,28 +29,22 @@ import App from './App.vue';
 createApp( createVueComponent( SecondComponent ) ).mount( '#vue-entrypoint' );
 
 // routing test code
-const states = {
-    about: {
-        component: () => {
-            console.log( 'about' );
-        },
-        path: '/about',
-        parent: undefined,
-        data: {
-            testUrl: 'aboutData'
-        },
-        params: {
-            param1: 'aa'
-        }
+const state = {
+    id: 'about',
+    path: '/about',
+    parent: undefined,
+    data: {
+        testUrl: 'aboutData'
+    },
+    params: {
+        param1: 'aa'
+    },
+    enter: () => {
+        console.log( 'about: enter' );
+    },
+    leave: () => {
+        console.log( 'about: leaving' );
     }
 };
 
-const listener = {
-    updateState: ( val ) => {
-        console.log( `updateState: ${JSON.stringify( val )}` );
-    }
-};
-
-route.register( listener, states );
-
-// route.unregister( listener );
+route.register( state );

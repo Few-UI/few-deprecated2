@@ -15,8 +15,8 @@ const POPSTATE = 'popState';
 const HASHCHANGE = 'hashchange';
 const HASH = '#';
 
-let _routingUnits = [];
-let states;
+const _routeChangeCallBacks = [];
+const _states = {};
 
 let currState;
 
@@ -47,8 +47,8 @@ const getPathFromRoot = ( href: string ): string => {
  */
 export const getPathFromBase = ( href: string ): string => {
     const base = '#';
-    return base[ 0 ] === '#' ?
-        ( href || loc.href || '' ).split( base )[ 1 ] || '' :
+    return base[0] === '#' ?
+        ( href || loc.href || '' ).split( base )[1] || '' :
         ( loc ? getPathFromRoot( href ) : href || '' ).replace( base, '' );
 };
 
@@ -58,12 +58,12 @@ export const getPathFromBase = ( href: string ): string => {
  * @param state state
  * @param states states
  */
-const updateStateHierarchy = ( allMatchedState: string[], state: any, states: any[] ): string[] => {
-    if( !states[ state.parent ] ) {
+const updateStateHierarchy = ( allMatchedState: string[], state: any, states: any ): string[] => {
+    if ( !states[state.parent] ) {
         allMatchedState.push( state );
         return;
     }
-    updateStateHierarchy( allMatchedState, states[ state.parent ], states );
+    updateStateHierarchy( allMatchedState, states[state.parent], states );
     allMatchedState.push( state );
 };
 
@@ -84,14 +84,14 @@ export function matchUrl( pattern: string, urlParamStr: string ): boolean {
  * @returns updated params
  */
 const getUpdatedQueryParams = ( url: string, params: any ): any => {
-    if( url.includes( '?' ) ) {
-        const paramsArr = url.split( '?' )[ 1 ].split( '&' );
+    if ( url.includes( '?' ) ) {
+        const paramsArr = url.split( '?' )[1].split( '&' );
         const res = {};
         paramsArr.forEach( paramStr => {
-            const paramKey = paramStr.split( '=' )[ 0 ];
-            const paramValue = paramStr.split( '=' )[ 1 ];
-            if( params[ paramKey ] ) {
-                res[ paramKey ] = paramValue;
+            const paramKey = paramStr.split( '=' )[0];
+            const paramValue = paramStr.split( '=' )[1];
+            if ( params[paramKey] ) {
+                res[paramKey] = paramValue;
             }
         } );
         return res;
@@ -106,24 +106,24 @@ const getUpdatedQueryParams = ( url: string, params: any ): any => {
  * @param urlParamStr input url
  * @returns result
  */
-export const getMatchedStateData = ( states: any[], urlParamStr: string ): any => {
-    for( const state in states ) {
+export const getMatchedStateData = ( states: any, urlParamStr: string ): any => {
+    for ( const state in states ) {
         const result: any = {};
         const allMatchedState = [];
-        updateStateHierarchy( allMatchedState, states[ state ], states );
+        updateStateHierarchy( allMatchedState, states[state], states );
         const finalURL = allMatchedState.map( ( elem ) => elem.path ).join( '' );
         result.stateHierarchies = allMatchedState;
-        result.currentState = states[ state ];
+        result.currentState = states[state];
         result.finalURL = finalURL;
         //handle query_params and update params
         let urlToMatch = urlParamStr;
-        if( urlParamStr && result.currentState.params ) {
-            urlToMatch = urlParamStr.split( '?' )[ 0 ];
-            if( matchUrl( finalURL, urlToMatch ) ) {
+        if ( urlParamStr && result.currentState.params ) {
+            urlToMatch = urlParamStr.split( '?' )[0];
+            if ( matchUrl( finalURL, urlToMatch ) ) {
                 result.currentState.params = getUpdatedQueryParams( urlParamStr, result.currentState.params );
             }
         }
-        if( matchUrl( finalURL, urlToMatch ) ) {
+        if ( matchUrl( finalURL, urlToMatch ) ) {
             return result;
         }
     }
@@ -139,29 +139,29 @@ export const getMatchedStateData = ( states: any[], urlParamStr: string ): any =
 export function go( to: string, params: string[], options: any ): void {
     //build URL
     const allMatchedState = [];
-    if( states[ to ] ) {
-        updateStateHierarchy( allMatchedState, states[ to ], states );
+    if ( _states[to] ) {
+        updateStateHierarchy( allMatchedState, _states[to], _states );
         let toURL = allMatchedState.map( ( elem ) => elem.path ).join( '' );
         toURL = `${getBaseURL()}${HASH}${toURL}`;
-        states[ to ].params = states[ to ].params ? states[ to ].params : {};
+        _states[to].params = _states[to].params ? _states[to].params : {};
         // handle params
-        if( params ) {
+        if ( params ) {
             //query params
-            if( states[ to ].params && !states[ to ].path.includes( '/:' ) ) {
+            if ( _states[to].params && !_states[to].path.includes( '/:' ) ) {
                 toURL += '?';
-                for( const key in params ) {
-                    toURL += key + '=' + params[ key ];
+                for ( const key in params ) {
+                    toURL += key + '=' + params[key];
                 }
                 //resolve query params
-                states[ to ].params = getUpdatedQueryParams( toURL, states[ to ].params );
+                _states[to].params = getUpdatedQueryParams( toURL, _states[to].params );
             }
 
             //TODO lets resolve the params in URL.. example- "url": "/:parentCategory/:category"
-            if( states[ to ].path.split( '/:' ).length > 1 ) {
-                states[ to ].path.split( '/:' ).forEach( param => {
-                    if( param ) {
-                        toURL = toURL.replace( `:${param}`, params[ param ] );
-                        states[ to ].params[ param ] = params[ param ];
+            if ( _states[to].path.split( '/:' ).length > 1 ) {
+                _states[to].path.split( '/:' ).forEach( param => {
+                    if ( param ) {
+                        toURL = toURL.replace( `:${param}`, params[param] );
+                        _states[to].params[param] = params[param];
                     }
                 } );
             }
@@ -170,7 +170,7 @@ export function go( to: string, params: string[], options: any ): void {
         win.history.pushState( {}, to, toURL );
 
         //handle options
-        if( options && options.reload ) {
+        if ( options && options.reload ) {
             location.reload();
         }
     } else {
@@ -185,39 +185,39 @@ export function go( to: string, params: string[], options: any ): void {
 const _processURL = ( url: string ): void => {
     // let urlStruct = DEFAULT_PARSER( getPathFromBase( url ) );
     const urlParam = getPathFromBase( url );
-    for( const unit in _routingUnits ) {
-        const routingComponent = _routingUnits[ unit ];
-        if( states && Object.keys( states ).length > 0 ) {
-            if( !urlParam ) {
+    for ( const unit in _routeChangeCallBacks ) {
+        const routeChangeCallback = _routeChangeCallBacks[unit];
+        if ( _states && Object.keys( _states ).length > 0 ) {
+            if ( !urlParam ) {
                 //TODO: get the default state name from workspace
-                const defaultStateName = Object.keys( states )[ 0 ];
-                currState = states[ defaultStateName ];
-                go( defaultStateName, currState.params, { reload:true } );
+                const defaultStateName = Object.keys( _states )[0];
+                currState = _states[defaultStateName];
+                go( defaultStateName, currState.params, { reload: true } );
             } else {
                 let newState = null;
                 const params = {};
-                const matchedStateData = getMatchedStateData( states, urlParam );
+                const matchedStateData = getMatchedStateData( _states, urlParam );
 
-                if( matchedStateData ) {
+                if ( matchedStateData ) {
                     newState = matchedStateData.currentState;
                 }
 
                 // process state
-                if( newState ) {
+                if ( newState ) {
                     // TODO: we can do view based routing:
                     // - if currState.view === newState.view, update data
                     // - else switch view
-                    if( currState === newState ) {
+                    if ( currState === newState ) {
                         // TODO: update param and set state
                         // this._component.updateModel( params );
                     } else {
                         const model = {};
-                        for( const key in params ) {
+                        for ( const key in params ) {
                             // set( model, key, params[key] );
                         }
                         const prevState = currState;
                         currState = newState;
-                        routingComponent.updateState( { currState, prevState, urlParam } );
+                        routeChangeCallback( { currState, prevState, urlParam } );
                     }
                 } else {
                     // state not found
@@ -242,14 +242,14 @@ const addWindowListener = (): void => {
     history.pushState = ( f => function pushState( ...args: any[] ): any {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'pushstate' ) );
-        win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[ 2 ] } } ) );
+        win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
         return ret;
     } )( history.pushState );
 
     history.replaceState = ( f => function replaceState( ...args: any[] ): any {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'replacestate' ) );
-        win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[ 2 ] } } ) );
+        win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
         return ret;
     } )( history.replaceState );
 
@@ -271,13 +271,13 @@ const addWindowListener = (): void => {
  * Start client router service
  */
 const start = (): void => {
-    if( !_started ) {
-        if( win ) {
-            if( document.readyState === 'interactive' || document.readyState === 'complete' ) {
+    if ( !_started ) {
+        if ( win ) {
+            if ( document.readyState === 'interactive' || document.readyState === 'complete' ) {
                 addWindowListener( /*autoExec*/ );
             } else {
                 document.onreadystatechange = (): void => {
-                    if( document.readyState === 'interactive' ) {
+                    if ( document.readyState === 'interactive' ) {
                         // the timeout is needed to solve
                         // a weird safari bug https://github.com/riot/route/issues/33
                         setTimeout( function() { addWindowListener( /*autoExec*/ ); }, 1 );
@@ -293,8 +293,8 @@ const start = (): void => {
  * Stop client router service
  */
 const stop = (): void => {
-    if( _started ) {
-        if( win ) {
+    if ( _started ) {
+        if ( win ) {
             // win.removeEventListener( POPSTATE, _processURL );
             win.removeEventListener( 'locationchange', locationChangeHandler );
         }
@@ -302,33 +302,38 @@ const stop = (): void => {
     }
 };
 
+const updateState = ( transition ) => {
+    console.log( `updateState: ${JSON.stringify( transition )}` );
+    // TODO: shall we support async here?
+    if ( transition.prevState && transition.prevState.leave ) {
+        // leave.
+        transition.prevState.leave();
+    }
+
+    if ( transition.currState && transition.currState.enter ) {
+        // enter
+        transition.currState.enter();
+    }
+};
+
 /**
  * register router element
- * @param unit route unit
- * @param allStates unknown....
+ * @param allStates predefind states
  */
-export const register = ( unit: any, allStates: any ): void => {
-    if( _routingUnits.length === 0 ) {
+export const register = ( state: any ): void => {
+    const unInit = _routeChangeCallBacks.length === 0;
+    if ( unInit ) {
         start();
     }
-    states = allStates;
-    _routingUnits.push( unit );
 
-    // init current element
-    _processURL( document.URL );
-};
+    // state definitions
+    _states[state.id] = state;
 
-/**
- * unregister router element
- * @param {Element} unit router process unit
- */
-export const unregister = ( unit: any ): void => {
-    // do nothing
-    _routingUnits = _routingUnits.filter( u => u !== unit );
+    // onChange callbacks
+    _routeChangeCallBacks.push( updateState );
 
-    if( _routingUnits.length === 0 ) {
-        stop();
+    if( unInit ) {
+        // init current element
+        _processURL( document.URL );
     }
 };
-
-
