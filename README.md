@@ -3,7 +3,7 @@
 # few
 How to be declarative :)
 
-![DECL](doc/stateMgmt.png)
+![DECL](./doc/stateMgmt.png)
 
 
 ## References
