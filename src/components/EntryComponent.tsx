@@ -9,9 +9,10 @@ import ThirdComponent from './ThirdComponent';
 
 const EntryComponent: ComponentDef = {
     name: 'SecondComponent',
-    // h( 'div', null, 'current number: ', model.name ) is working too
+    // h( 'div', null, 'current number: ', model.name ) is working too, but
+    // it is not friendly for jsbeautify
     view: ( { h } ) =>
-        h( 'div', null, [
+        h( 'div', {}, [
             h( FirstComponent ),
             h( SecondComponent ),
             h( ThirdComponent )

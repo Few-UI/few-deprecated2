@@ -1,7 +1,9 @@
 ![build](https://github.com/Few-UI/few/workflows/build/badge.svg)
 
 # few
-DECL
+How to be declarative :)
+
+![DECL](doc/stateMgmt.png)
 
 
 ## References

@@ -16,6 +16,8 @@ import {
 
 import lodashSet from 'lodash-es/set';
 
+
+// resolve cross reference
 const polyfill = {
     createElement: null,
     createComponent: null
@@ -42,7 +44,7 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
  * @param children child components
  * @returns virtual DOM component
  */
-export const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
+const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
     if( isComponentDef( type ) ) {
         return createElement( polyfill.createComponent( type ), props, children );
     }

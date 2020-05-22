@@ -1,4 +1,4 @@
-import { createElement, useState, ReactPropTypes, ReactNode } from 'react';
+import { createElement, useState } from 'react';
 
 import {
     ComponentDef
@@ -6,6 +6,7 @@ import {
 
 import lodashSet from 'lodash-es/set';
 
+// resolve cross reference
 const polyfill = {
     createElement: null,
     createComponent: null
@@ -19,6 +20,24 @@ const polyfill = {
 const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
     const componeDef = type as ComponentDef;
     return typeof componeDef.init === 'function';
+};
+
+/**
+ * Virtual DOM API as h
+ *
+ * bridge tsc jsx to vue3
+ * https://www.ctolib.com/topics-143214.html
+ *
+ * @param type component type
+ * @param props component properties
+ * @param children child components
+ * @returns virtual DOM component
+ */
+const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
+    if( isComponentDef( type ) ) {
+        return createElement( polyfill.createComponent( type ), props, children );
+    }
+    return createElement( type, props, children );
 };
 
 /**
@@ -41,23 +60,6 @@ export function createComponent( component: ComponentDef ): { (): JSX.Element } 
     return renderFn;
 }
 
-/**
- * Virtual DOM API as h
- *
- * bridge tsc jsx to vue3
- * https://www.ctolib.com/topics-143214.html
- *
- * @param type component type
- * @param props component properties
- * @param children child components
- * @returns virtual DOM component
- */
-export const h = ( type: string | ComponentDef, props?: any | null, ...children: ReactNode[] ): JSX.Element => {
-    if( isComponentDef( type ) ) {
-        return createElement( polyfill.createComponent( type ), props, children );
-    }
-    return createElement( type, props, children );
-};
 
 polyfill.createComponent = createComponent;
 polyfill.createElement = h;
