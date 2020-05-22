@@ -3,7 +3,7 @@
 # few
 How to be declarative :)
 
-![DECL](./doc/stateMgmt.png)
+![DECL](https://github.com/Few-UI/few/blob/master/docs/stateMgmt.png)
 
 
 ## References
