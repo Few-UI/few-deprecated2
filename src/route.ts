@@ -4,6 +4,31 @@
  * https://github.com/Few-UI/few-custom-element/blob/master/src/few-route-service.js
  * https://github.com/riot/route/blob/master/src/index.js
  */
+
+/*
+page.js test code:
+- it can achieve client side routing with 'http://site/route' without #.
+- it has side effect for top level. ( 'about' below should be '/about' if no issue)
+- it hijack all the a link which may not be a good practice
+<script src="https://unpkg.com/page/page.js"></script>
+<script>
+  page.base('/');
+  page('/', function() {
+      console.log('index')
+  })
+  page('about', function(){
+    // Do stuff
+    console.log('about');
+  });
+  page('/#/about', function(){
+    // Do stuff
+    console.log('about');
+  });
+  page();
+</script>
+<a href="./about">about</a>
+*/
+
 import { getBaseURL } from './utils';
 
 let _started = false;

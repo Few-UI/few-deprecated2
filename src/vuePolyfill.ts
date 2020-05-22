@@ -1,3 +1,11 @@
+// vue
+// https://github.com/vuejs/vue-cli/issues/1198
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+/*
+import App from './App.vue';
+*/
+
 import { h as createElement, reactive } from 'vue';
 
 import Vue from 'vue/dist/vue';

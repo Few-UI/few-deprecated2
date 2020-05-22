@@ -5,31 +5,47 @@ import { createComponent as createVueComponent } from './vuePolyfill';
 import { createApp } from 'vue';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
+import * as route from './route';
 
 import FirstComponent from './FirstComponent';
 import SecondComponent from './SecondComponent';
 import ThirdComponent from './ThirdComponent';
 
-// rout test
-import * as route from './route';
+const entryElem = document.getElementById( 'react-entrypoint' );
 
 // react
-ReactDOM.render(
-    createElement( createReactComponent( SecondComponent ) ),
-    document.getElementById( 'react-entrypoint' )
-);
+route.register( {
+    id: 'react',
+    path: '/react',
+    parent: undefined,
+    enter: () => {
+        ReactDOM.render(
+            createElement( createReactComponent( SecondComponent ) ),
+            entryElem
+        );
+    },
+    leave: () => {
+        ReactDOM.unmountComponentAtNode( entryElem );
+    }
+} );
 
 // vue
-// https://github.com/vuejs/vue-cli/issues/1198
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-/*
-import App from './App.vue';
-*/
-createApp( createVueComponent( SecondComponent ) ).mount( '#vue-entrypoint' );
+let vueApp;
+route.register( {
+    id: 'vue',
+    path: '/vue',
+    parent: undefined,
+    enter: () => {
+        vueApp = createApp( createVueComponent( SecondComponent ) );
+        vueApp.mount( entryElem );
+    },
+    leave: () => {
+        vueApp.unmount( entryElem );
+    }
+} );
 
-// routing test code
-const state = {
+// about
+route.register( {
     id: 'about',
     path: '/about',
     parent: undefined,
@@ -45,6 +61,4 @@ const state = {
     leave: () => {
         console.log( 'about: leaving' );
     }
-};
-
-route.register( state );
+} );
