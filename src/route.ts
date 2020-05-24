@@ -29,6 +29,12 @@ page.js test code:
 <a href="./about">about</a>
 */
 
+import {
+    RoutStateMap,
+    RouteState,
+    RouteTransition
+} from './types';
+
 import { getBaseURL } from './utils';
 
 let _started = false;
@@ -36,12 +42,12 @@ const RE_ORIGIN = /^.+?\/\/+[^/]+/;
 const win = typeof window !== 'undefined' && window;
 const loc = win && win.location; // see html5-history-api
 
-const POPSTATE = 'popState';
+// const POPSTATE = 'popState';
 const HASHCHANGE = 'hashchange';
 const HASH = '#';
 
 const _routeChangeCallBacks = [];
-const _states = {};
+const _states: RoutStateMap = {};
 
 let currState;
 
@@ -51,9 +57,11 @@ let currState;
  * @param {string} path - current path (normalized)
  * @returns {array} array
  */
+/*
 function DEFAULT_PARSER( path ) {
     return path.split( /[/?#]/ );
 }
+*/
 
 /**
  * Get the part after domain name
@@ -83,7 +91,7 @@ export const getPathFromBase = ( href: string ): string => {
  * @param state state
  * @param states states
  */
-const updateStateHierarchy = ( allMatchedState: string[], state: any, states: any ): string[] => {
+const updateStateHierarchy = ( allMatchedState: RouteState[], state: RouteState, states: RoutStateMap ): string[] => {
     if ( !states[state.parent] ) {
         allMatchedState.push( state );
         return;
@@ -108,7 +116,7 @@ export function matchUrl( pattern: string, urlParamStr: string ): boolean {
  * @param params query params
  * @returns updated params
  */
-const getUpdatedQueryParams = ( url: string, params: any ): any => {
+const getUpdatedQueryParams = ( url: string, params: object ): object => {
     if ( url.includes( '?' ) ) {
         const paramsArr = url.split( '?' )[1].split( '&' );
         const res = {};
@@ -131,10 +139,19 @@ const getUpdatedQueryParams = ( url: string, params: any ): any => {
  * @param urlParamStr input url
  * @returns result
  */
-export const getMatchedStateData = ( states: any, urlParamStr: string ): any => {
+export const getMatchedStateData = ( states: RoutStateMap, urlParamStr: string ): {
+    stateHierarchies: RouteState[];
+    currentState: RouteState;
+    finalURL: string;
+} => {
     for ( const state in states ) {
-        const result: any = {};
-        const allMatchedState = [];
+        const result = {
+            stateHierarchies: null,
+            currentState: null,
+            finalURL: null
+        };
+
+        const allMatchedState: RouteState[] = [];
         updateStateHierarchy( allMatchedState, states[state], states );
         const finalURL = allMatchedState.map( ( elem ) => elem.path ).join( '' );
         result.stateHierarchies = allMatchedState;
@@ -161,7 +178,7 @@ export const getMatchedStateData = ( states: any, urlParamStr: string ): any => 
  * @param params params
  * @param options options
  */
-export function go( to: string, params: string[], options: any ): void {
+export function go( to: string, params: string[], options: { reload: boolean } ): void {
     //build URL
     const allMatchedState = [];
     if ( _states[to] ) {
@@ -220,7 +237,7 @@ const _processURL = ( url: string ): void => {
                 go( defaultStateName, currState.params, { reload: true } );
             } else {
                 let newState = null;
-                const params = {};
+                // const params = {};
                 const matchedStateData = getMatchedStateData( _states, urlParam );
 
                 if ( matchedStateData ) {
@@ -236,10 +253,12 @@ const _processURL = ( url: string ): void => {
                         // TODO: update param and set state
                         // this._component.updateModel( params );
                     } else {
+                        /*
                         const model = {};
                         for ( const key in params ) {
-                            // set( model, key, params[key] );
+                            set( model, key, params[key] );
                         }
+                        */
                         const prevState = currState;
                         currState = newState;
                         routeChangeCallback( { currState, prevState, urlParam } );
@@ -264,14 +283,14 @@ const locationChangeHandler = ( event: CustomEvent ): void => _processURL( event
  * @param autoExec - see route.start
  */
 const addWindowListener = (): void => {
-    history.pushState = ( f => function pushState( ...args: any[] ): any {
+    history.pushState = ( f => function pushState( ...args: unknown[] ): unknown {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'pushstate' ) );
         win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
         return ret;
     } )( history.pushState );
 
-    history.replaceState = ( f => function replaceState( ...args: any[] ): any {
+    history.replaceState = ( f => function replaceState( ...args: unknown[] ): unknown {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'replacestate' ) );
         win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
@@ -317,7 +336,7 @@ const start = (): void => {
 /**
  * Stop client router service
  */
-const stop = (): void => {
+export const stop = (): void => {
     if ( _started ) {
         if ( win ) {
             // win.removeEventListener( POPSTATE, _processURL );
@@ -327,8 +346,7 @@ const stop = (): void => {
     }
 };
 
-const updateState = ( transition ) => {
-    console.log( `updateState: ${JSON.stringify( transition )}` );
+const updateState = ( transition: RouteTransition ): void => {
     // TODO: shall we support async here?
     if ( transition.prevState && transition.prevState.leave ) {
         // leave.
@@ -343,9 +361,9 @@ const updateState = ( transition ) => {
 
 /**
  * register router element
- * @param allStates predefind states
+ * @param state predefind states
  */
-export const register = ( state: any ): void => {
+export const register = ( state: RouteState ): void => {
     const unInit = _routeChangeCallBacks.length === 0;
     if ( unInit ) {
         start();

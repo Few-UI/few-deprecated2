@@ -29,3 +29,23 @@ export interface Component {
     dispatch: Function;
     h: Function;
 }
+
+// Route
+export interface RouteState {
+    id: string;
+    path: string;
+    parent: string;
+    enter: Function;
+    leave: Function;
+    data?: object;
+    params?: object;
+}
+
+export interface RouteTransition {
+    prevState: RouteState;
+    currState: RouteState;
+}
+
+export interface RoutStateMap {
+    [key: string]: RouteState;
+}

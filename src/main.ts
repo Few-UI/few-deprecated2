@@ -54,9 +54,11 @@ route.register( {
         param1: 'aa'
     },
     enter: () => {
+        // eslint-disable-next-line no-console
         console.log( 'about: enter' );
     },
     leave: () => {
+        // eslint-disable-next-line no-console
         console.log( 'about: leaving' );
     }
 } );
