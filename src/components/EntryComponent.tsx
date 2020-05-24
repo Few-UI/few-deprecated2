@@ -8,7 +8,7 @@ import ThirdExample from './ThirdExample';
 
 
 const EntryComponent: ComponentDef = {
-    name: 'SecondComponent',
+    name: 'EntryComponent',
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
     view: ( { h } ) =>

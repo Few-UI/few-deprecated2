@@ -1,6 +1,7 @@
 import { createElement, useState } from 'react';
 
 import {
+    Component,
     ComponentDef
 } from './types';
 
@@ -42,21 +43,29 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
 
 /**
  * create platform specific component from few component
- * @param component few component
+ * @param componentDef few component
  * @returns platform specific component
  */
-export function createComponent( component: ComponentDef ): { (): JSX.Element } {
+export function createComponent( componentDef: ComponentDef ): { (): JSX.Element } {
     const renderFn = (): JSX.Element => {
-        const [ model, setState ] = useState( component.init );
+        const [ model, setState ] = useState( componentDef.init );
 
         const dispatch = ( path, value ): void => {
             lodashSet( model, path, value );
             setState( { ...model } );
         };
 
-        return component.view( { model, dispatch, h: polyfill.createElement } );
+        const component: Component = { model, dispatch, h: polyfill.createElement };
+
+        if( componentDef.update ) {
+            component.actions = {
+                plusOne: componentDef.update.bind( null, 'plusOne', component )
+            };
+        }
+
+        return componentDef.view( component );
     };
-    renderFn.displayName = component.name;
+    renderFn.displayName = componentDef.name;
     return renderFn;
 }
 

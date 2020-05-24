@@ -18,9 +18,10 @@ export type View = ( Component ) => JSX.Element;
 
 // ComponentDef
 export interface ComponentDef {
-    view: View;
-    init: () => Model;
     name: string;
+    init: () => Model;
+    update?: Function;
+    view: View;
 }
 
 // Component
@@ -28,6 +29,7 @@ export interface Component {
     model: Model;
     dispatch: Function;
     h: Function;
+    actions?: object;
 }
 
 // Route

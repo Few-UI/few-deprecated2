@@ -10,6 +10,7 @@ import { h as createElement, reactive } from 'vue';
 
 import Vue from 'vue/dist/vue';
 import {
+    Component,
     ComponentDef
 } from './types';
 
@@ -53,23 +54,30 @@ const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...child
 
 /**
  * create platform specific component from few component
- * @param component few component
+ * @param componentDef few component
  * @returns platform specific component
  */
-export const createComponent = ( component: ComponentDef ): Vue.Component => ( {
+export const createComponent = ( componentDef: ComponentDef ): Vue.Component => ( {
     // in Vue render is deined as loose as 'Function'
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
-    render: ( vm ): JSX.Element => component.view( vm ),
+    render: ( component ): JSX.Element => componentDef.view( component ),
     setup: (): object => {
-        const vm = {
-            model: reactive( component.init() ),
+        const component: Component = {
+            model: reactive( componentDef.init() ),
             dispatch: ( path, value ): void => {
-                lodashSet( vm.model, path, value );
+                lodashSet( component.model, path, value );
             },
             h: polyfill.createElement
         };
-        return vm;
+
+        if( componentDef.update ) {
+            component.actions = {
+                plusOne: componentDef.update.bind( null, 'plusOne', component )
+            };
+        }
+
+        return component;
     }
 } );
 
