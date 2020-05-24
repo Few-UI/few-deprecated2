@@ -3,8 +3,8 @@ import {
 } from '../types';
 
 
-const SecondComponent: ComponentDef = {
-    name: 'SecondComponent',
+const UpdateExample: ComponentDef = {
+    name: 'UpdateExample',
     // h( 'div', null, 'current number: ', model.name ) is working too
     view: ( { model, dispatch, h } ) =>
         h( 'div', null, [
@@ -23,4 +23,4 @@ const SecondComponent: ComponentDef = {
     } )
 };
 
-export default SecondComponent;
+export default UpdateExample;

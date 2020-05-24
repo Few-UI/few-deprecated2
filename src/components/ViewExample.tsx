@@ -3,8 +3,8 @@ import {
 } from '../types';
 
 
-const FirstComponent: ComponentDef = {
-    name: 'FirstComponent',
+const ViewExample: ComponentDef = {
+    name: 'ViewExample',
     // eslint-disable-next-line react/display-name
     view: ( { model, h }: Component ) => <div>Hello {model.name}!</div>,
     init: () => ( {
@@ -12,4 +12,4 @@ const FirstComponent: ComponentDef = {
     } )
 };
 
-export default FirstComponent;
+export default ViewExample;

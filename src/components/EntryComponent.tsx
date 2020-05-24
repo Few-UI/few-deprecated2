@@ -2,9 +2,9 @@ import {
     ComponentDef
 } from '../types';
 
-import FirstComponent from './FirstComponent';
-import SecondComponent from './SecondComponent';
-import ThirdComponent from './ThirdComponent';
+import ViewExample from './ViewExample';
+import UpdateExample from './UpdateExample';
+import ThirdExample from './ThirdExample';
 
 
 const EntryComponent: ComponentDef = {
@@ -13,9 +13,9 @@ const EntryComponent: ComponentDef = {
     // it is not friendly for jsbeautify
     view: ( { h } ) =>
         h( 'div', {}, [
-            h( FirstComponent ),
-            h( SecondComponent ),
-            h( ThirdComponent )
+            h( ViewExample ),
+            h( UpdateExample ),
+            h( ThirdExample )
         ] ),
     init: () => ( {} )
 };
