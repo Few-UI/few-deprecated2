@@ -21,6 +21,9 @@ export interface ComponentDef {
     name: string;
     init: () => Model;
     update?: Function;
+    actions?: {
+        [key: string]: Function;
+    };
     view: View;
 }
 

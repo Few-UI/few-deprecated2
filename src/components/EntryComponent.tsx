@@ -3,7 +3,7 @@ import {
 } from '../types';
 
 import ViewExample from './ViewExample';
-import UpdateExample from './UpdateExample';
+import ActionExample from './ActionExample';
 import ThirdExample from './ThirdExample';
 
 
@@ -14,7 +14,7 @@ const EntryComponent: ComponentDef = {
     view: ( { h } ) =>
         h( 'div', {}, [
             h( ViewExample ),
-            h( UpdateExample ),
+            h( ActionExample ),
             h( ThirdExample )
         ] ),
     init: () => ( {} )

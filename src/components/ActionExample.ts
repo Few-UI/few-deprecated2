@@ -10,8 +10,8 @@ const UpdateExample: ComponentDef = {
         value: 7
     } ),
     // elm style of upedate
-    update: ( msg: string, component: Component ): void => {
-        if( msg === 'plusOne' ) {
+    actions: {
+        plusOne: ( component: Component ): void => {
             const { model, dispatch } = component;
             dispatch( 'value', model.value as number + 1 );
         }

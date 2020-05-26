@@ -71,10 +71,11 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             h: polyfill.createElement
         };
 
-        if( componentDef.update ) {
-            component.actions = {
-                plusOne: componentDef.update.bind( null, 'plusOne', component )
-            };
+        if( componentDef.actions ) {
+            component.actions = {};
+            Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
+                component.actions[key] = value.bind( null, component );
+            } );
         }
 
         return component;
