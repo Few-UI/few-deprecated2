@@ -27,3 +27,22 @@
 "hahahaha" : String
 ```
 
+- When define:
+```
+type Msg = Change String
+```
+  it is defining function below implicitly:
+```
+Change: String -> Msg
+```
+  which Change can used as function at any callback placeses:
+```
+view model =
+  div []
+    [ input [ placeholder "Text to reverse", value model.content, onInput Change ] []
+    , div [] [ text (String.reverse model.content) ]
+    ]
+```
+
+- The `update` in ELM is true dispatch - match msg(action), change the model
+

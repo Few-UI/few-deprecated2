@@ -24,7 +24,7 @@ const UpdateExample: ComponentDef = {
                 model.value
             ] ),
             h( 'button', {
-                onClick: () => actions.plusOne()
+                onClick: actions.plusOne
             }, [
                 '+1'
             ] )
