@@ -4,8 +4,8 @@ import {
 } from '../types';
 
 
-const UpdateExample: ComponentDef = {
-    name: 'UpdateExample',
+const ActionExample: ComponentDef = {
+    name: 'ActionExample',
     init: () => ( {
         value: 7
     } ),
@@ -31,4 +31,4 @@ const UpdateExample: ComponentDef = {
         ] )
 };
 
-export default UpdateExample;
+export default ActionExample;
