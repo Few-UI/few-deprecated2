@@ -10,7 +10,7 @@ const ThirdExample: ComponentDef = {
     view: ( { model, dispatch, h }: Component ) =>
         <div>
             <div>Hello {model.name}!</div>
-            <button onClick={() => dispatch( 'name', 'Monster Hunter' )}>set name</button>
+            <button onClick={(): void => dispatch( 'name', 'Monster Hunter' )}>set name</button>
         </div>,
     init: () => ( {
     } )

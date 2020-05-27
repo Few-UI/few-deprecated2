@@ -1,15 +1,19 @@
 /* eslint-env es6 */
-import { createComponent as createReactComponent } from './reactPolyfill';
-import { createComponent as createVueComponent } from './vuePolyfill';
+import {
+    createApp as createReactApp
+} from './reactPolyfill';
 
-import { createApp } from 'vue';
-import { createElement } from 'react';
-import ReactDOM from 'react-dom';
+import {
+    createApp as createVueApp
+} from './vuePolyfill';
+
 import * as route from './route';
 
 import EntryComponent from './components/EntryComponent';
 
-const entryElem = document.getElementById( 'react-entrypoint' );
+const entryElem = document.getElementById( 'main-entrypoint' );
+
+let app;
 
 // react
 route.register( {
@@ -17,28 +21,25 @@ route.register( {
     path: '/react',
     parent: undefined,
     enter: () => {
-        ReactDOM.render(
-            createElement( createReactComponent( EntryComponent ) ),
-            entryElem
-        );
+        app = createReactApp( EntryComponent );
+        app.mount( entryElem );
     },
     leave: () => {
-        ReactDOM.unmountComponentAtNode( entryElem );
+        app.unmount( entryElem );
     }
 } );
 
 // vue
-let vueApp;
 route.register( {
     id: 'vue',
     path: '/vue',
     parent: undefined,
     enter: () => {
-        vueApp = createApp( createVueComponent( EntryComponent ) );
-        vueApp.mount( entryElem );
+        app = createVueApp( EntryComponent );
+        app.mount( entryElem );
     },
     leave: () => {
-        vueApp.unmount( entryElem );
+        app.unmount( entryElem );
     }
 } );
 

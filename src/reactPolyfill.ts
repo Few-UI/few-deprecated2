@@ -5,6 +5,9 @@ import {
     ComponentDef
 } from './types';
 
+
+import ReactDOM from 'react-dom';
+
 import lodashSet from 'lodash-es/set';
 
 // resolve cross reference
@@ -69,6 +72,14 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
     renderFn.displayName = componentDef.name;
     return renderFn;
 }
+
+export const createApp = ( componentDef: ComponentDef ): any => {
+    const component = createElement( createComponent( componentDef ) );
+    return {
+        mount: ( elem: HTMLElement ): void => { ReactDOM.render( component, elem ); },
+        unmount: ( elem: HTMLElement ): void => { ReactDOM.unmountComponentAtNode( elem ); }
+    };
+};
 
 
 polyfill.createComponent = createComponent;

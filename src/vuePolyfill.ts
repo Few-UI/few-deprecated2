@@ -6,7 +6,11 @@
 import App from './App.vue';
 */
 
-import { h as createElement, reactive } from 'vue';
+import {
+    h as createElement,
+    createApp as createVueApp,
+    reactive
+} from 'vue';
 
 import Vue from 'vue/dist/vue';
 import {
@@ -82,7 +86,15 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     }
 } );
 
+/**
+ * Create app for specific component def
+ * @param componentDef component definition
+ * @returns web app object
+ */
+export const createApp = ( componentDef: ComponentDef ): Vue.App => {
+    return createVueApp( createComponent( componentDef ) );
+};
+
 polyfill.createComponent = createComponent;
 polyfill.createElement = h;
-
 
