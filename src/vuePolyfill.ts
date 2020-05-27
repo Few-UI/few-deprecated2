@@ -19,7 +19,7 @@ import {
 } from './types';
 
 
-import lodashSet from 'lodash-es/set';
+import lodashSet from 'lodash/set';
 
 
 // resolve cross reference

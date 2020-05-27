@@ -8,7 +8,7 @@ import {
 
 import ReactDOM from 'react-dom';
 
-import lodashSet from 'lodash-es/set';
+import lodashSet from 'lodash/set';
 
 // resolve cross reference
 const polyfill = {
