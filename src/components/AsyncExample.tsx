@@ -7,7 +7,6 @@ import {
 const AsyncExample: ComponentDef = {
     name: 'AsyncExample',
     init: () => ( {} ),
-    // elm style of upedate
     actions: {
         setValue1: ( { dispatch }: Component ): void => dispatch( 'value1', 'value1' ),
         setValue2: ( { dispatch }: Component ): void => dispatch( 'value2', 'value2' ),
