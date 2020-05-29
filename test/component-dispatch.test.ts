@@ -18,17 +18,13 @@ import {
     App
 } from '../src/types';
 
-// frameworks
-import { createApp as createReactApp } from '../src/reactPolyfill';
-import { createApp as createVueApp } from '../src/vuePolyfill';
-const _frameworks = {
-    react: createReactApp,
-    vue: createVueApp
-};
+import {
+    wait,
+    trimHtmlComments,
+    getSupportedFrameworks
+} from './utils';
 
-import { wait } from './utils';
-import SyncActionExample from './components/SyncActionExample';
-
+import NewKeyDispatchExample from './components/NewKeyDispatchExample';
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>
@@ -49,16 +45,16 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         } );
 
         it( `SyncActionExample on ${name}`, async() => {
-            app = createApp( SyncActionExample ).mount( containerElem );
-            expect( containerElem.innerHTML ).toEqual( '<div><div>current number: 7</div><button>+1</button></div>' );
+            app = createApp( NewKeyDispatchExample ).mount( containerElem );
+            expect( trimHtmlComments( containerElem.innerHTML ) ).toEqual( '<div><div>Hello !</div><button>set name</button></div>' );
 
             // await is not required for react case
             const buttonElem = containerElem.getElementsByTagName( 'button' )[0];
             buttonElem.click();
             await wait();
 
-            expect( containerElem.innerHTML ).toEqual( '<div><div>current number: 8</div><button>+1</button></div>' );
+            expect( containerElem.innerHTML ).toEqual( '<div><div>Hello Monster Hunter!</div><button>set name</button></div>' );
         } );
     } );
 
-Object.entries( _frameworks ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );
+Object.entries( getSupportedFrameworks() ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );

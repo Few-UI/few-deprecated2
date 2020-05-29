@@ -16,7 +16,8 @@ import Vue from 'vue/dist/vue';
 import {
     App,
     Component,
-    ComponentDef
+    ComponentDef,
+    CreateAppFunction
 } from './types';
 
 
@@ -51,7 +52,7 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
  * @returns virtual DOM component
  */
 const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
-    if( isComponentDef( type ) ) {
+    if ( isComponentDef( type ) ) {
         return createElement( polyfill.createComponent( type ), props, children );
     }
     return createElement( type, props, children );
@@ -76,7 +77,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             h: polyfill.createElement
         };
 
-        if( componentDef.actions ) {
+        if ( componentDef.actions ) {
             component.actions = {};
             Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
                 component.actions[key] = value.bind( null, component );
@@ -92,7 +93,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
  * @param componentDef component definition
  * @returns web app object
  */
-export const createApp = ( componentDef: ComponentDef ): App => {
+export const createApp: CreateAppFunction = componentDef => {
     const vueApp = createVueApp( createComponent( componentDef ) );
     const app: App = {
         mount: ( elem: HTMLElement ) => ( ( vueApp.mount( elem ), app ) ),

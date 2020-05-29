@@ -1,6 +1,6 @@
 import {
     ComponentDef
-} from '../types';
+} from '../../src/types';
 
 const ThirdExample: ComponentDef = {
     name: 'ThirdExample',
@@ -19,6 +19,7 @@ const ThirdExample: ComponentDef = {
                 'set name'
             ] )
         ] ),
+    // the name key dosen't exist in init data
     init: () => ( {} )
 };
 

@@ -4,7 +4,6 @@ import {
 
 import ViewExample from './ViewExample';
 import AsyncExample from './AsyncExample';
-import ThirdExample from './ThirdExample';
 
 
 const EntryComponent: ComponentDef = {
@@ -14,8 +13,7 @@ const EntryComponent: ComponentDef = {
     view: ( { h } ) =>
         h( 'div', {}, [
             h( ViewExample ),
-            h( AsyncExample ),
-            h( ThirdExample )
+            h( AsyncExample )
         ] ),
     init: () => ( {} )
 };

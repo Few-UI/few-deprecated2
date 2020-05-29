@@ -3,7 +3,8 @@ import { createElement, useState } from 'react';
 import {
     App,
     Component,
-    ComponentDef
+    ComponentDef,
+    CreateAppFunction
 } from './types';
 
 
@@ -76,7 +77,7 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
     return renderFn;
 }
 
-export const createApp = ( componentDef: ComponentDef ): App => {
+export const createApp: CreateAppFunction = componentDef => {
     const component = createElement( createComponent( componentDef ) );
     const app: App = {
         mount: ( elem: HTMLElement ) => ( ( ReactDOM.render( component, elem ), app ) ),
