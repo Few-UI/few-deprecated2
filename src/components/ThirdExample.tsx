@@ -3,7 +3,6 @@ import {
     Component
 } from '../types';
 
-
 const ThirdExample: ComponentDef = {
     name: 'ThirdExample',
     // eslint-disable-next-line react/display-name
@@ -12,8 +11,7 @@ const ThirdExample: ComponentDef = {
             <div>Hello {model.name}!</div>
             <button onClick={(): void => dispatch( 'name', 'Monster Hunter' )}>set name</button>
         </div>,
-    init: () => ( {
-    } )
+    init: () => ( {} )
 };
 
 export default ThirdExample;
