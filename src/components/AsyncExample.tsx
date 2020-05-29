@@ -6,22 +6,12 @@ import {
 
 const AsyncExample: ComponentDef = {
     name: 'AsyncExample',
-    init: () => ( {
-    } ),
+    init: () => ( {} ),
     // elm style of upedate
     actions: {
-        setValue1: ( component: Component ): void => {
-            const { dispatch } = component;
-            dispatch( 'value1', 'value1' );
-        },
-        setValue2: ( component: Component ): void => {
-            const { dispatch } = component;
-            dispatch( 'value2', 'value2' );
-        },
-        setValue3: ( component: Component ): void => {
-            const { dispatch } = component;
-            setTimeout( ()=>dispatch( 'value3', 'value3' ), 5000 );
-        }
+        setValue1: ( { dispatch }: Component ): void => dispatch( 'value1', 'value1' ),
+        setValue2: ( { dispatch }: Component ): void => dispatch( 'value2', 'value2' ),
+        setValue3: ( { dispatch }: Component ): void => { setTimeout( () => dispatch( 'value3', 'value3' ), 5000 ); }
     },
     // eslint-disable-next-line react/display-name
     view: ( { model, actions, h }: Component ) =>
