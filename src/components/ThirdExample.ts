@@ -1,13 +1,12 @@
 import {
-    ComponentDef,
-    Component
+    ComponentDef
 } from '../types';
 
 const ThirdExample: ComponentDef = {
     name: 'ThirdExample',
     // h( 'div', null, 'current number: ', model.name ) is working too
     // eslint-disable-next-line react/display-name
-    view: ( { model, dispatch, h }: Component ) =>
+    view: ( { model, dispatch, h } ) =>
         h( 'div', null, [
             h( 'div', null, [
                 'Hello ',
@@ -15,7 +14,7 @@ const ThirdExample: ComponentDef = {
                 '!'
             ] ),
             h( 'button', {
-                onClick: (): void => dispatch( 'name', 'Monster Hunter' )
+                onClick: () => dispatch( 'name', 'Monster Hunter' )
             }, [
                 'set name'
             ] )

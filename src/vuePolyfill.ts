@@ -93,7 +93,12 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
  * @returns web app object
  */
 export const createApp = ( componentDef: ComponentDef ): App => {
-    return createVueApp( createComponent( componentDef ) );
+    const vueApp = createVueApp( createComponent( componentDef ) );
+    const app: App = {
+        mount: ( elem: HTMLElement ) => ( ( vueApp.mount( elem ), app ) ),
+        unmount: ( elem: HTMLElement ) => ( ( vueApp.unmount( elem ), app ) )
+    };
+    return app;
 };
 
 polyfill.createComponent = createComponent;

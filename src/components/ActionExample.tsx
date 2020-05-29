@@ -1,5 +1,4 @@
 import {
-    Component,
     ComponentDef
 } from '../types';
 
@@ -14,7 +13,7 @@ const ActionExample: ComponentDef = {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
     // eslint-disable-next-line react/display-name
-    view: ( { model, actions, h }: Component ) =>
+    view: ( { model, actions, h } ) =>
         <div>
             <div>current number: {model.value}</div>
             {/*

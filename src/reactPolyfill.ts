@@ -78,10 +78,11 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
 
 export const createApp = ( componentDef: ComponentDef ): App => {
     const component = createElement( createComponent( componentDef ) );
-    return {
-        mount: ( elem: HTMLElement ): void => { ReactDOM.render( component, elem ); },
-        unmount: ( elem: HTMLElement ): void => { ReactDOM.unmountComponentAtNode( elem ); }
+    const app: App = {
+        mount: ( elem: HTMLElement ) => ( ( ReactDOM.render( component, elem ), app ) ),
+        unmount: ( elem: HTMLElement ) => ( ( ReactDOM.unmountComponentAtNode( elem ), app ) )
     };
+    return app;
 };
 
 

@@ -64,6 +64,6 @@ export interface RoutStateMap {
 }
 
 export interface App {
-    mount: Function;
-    unmount: Function;
+    mount: ( elem: HTMLElement ) => App;
+    unmount: ( elem: HTMLElement ) => App;
 }

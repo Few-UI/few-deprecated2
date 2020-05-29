@@ -2,7 +2,6 @@ import {
     ComponentDef
 } from '../types';
 
-
 const AsyncExample: ComponentDef = {
     name: 'AsyncExample',
     init: () => ( {} ),
