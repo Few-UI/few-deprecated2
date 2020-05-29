@@ -1,10 +1,9 @@
 import {
     ComponentDef
-} from '../types';
+} from '../../src/types';
 
-
-const ActionExample: ComponentDef = {
-    name: 'ActionExample',
+const SyncActionExample: ComponentDef = {
+    name: 'SyncActionExample',
     init: () => ( {
         value: 7
     } ),
@@ -25,4 +24,4 @@ const ActionExample: ComponentDef = {
         </div>
 };
 
-export default ActionExample;
+export default SyncActionExample;

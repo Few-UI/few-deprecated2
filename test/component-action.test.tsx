@@ -14,7 +14,11 @@
  *       composed: true
  */
 
- // frameworks
+import {
+    App
+} from '../src/types';
+
+// frameworks
 import { createApp as createReactApp } from '../src/reactPolyfill';
 import { createApp as createVueApp } from '../src/vuePolyfill';
 const _frameworks = {
@@ -23,12 +27,14 @@ const _frameworks = {
 };
 
 import { wait } from './utils';
-import ActionExample from '../src/components/ActionExample';
+import SyncActionExample from './components/SyncActionExample';
 
-const _testSuite = ( name: string, createApp: Function ) => void
+
+// Test
+const _testSuite = ( name: string, createApp: Function ): void =>
     describe( `Component test on ${name}`, () => {
-        let app;
-        let containerElem;
+        let app: App;
+        let containerElem: HTMLElement;
 
         beforeEach( () => {
             containerElem = document.createElement( 'div' );
@@ -42,14 +48,12 @@ const _testSuite = ( name: string, createApp: Function ) => void
             document.body.removeChild( containerElem );
         } );
 
-        it( 'ActionExample (react)', async() => {
-            app = createApp( ActionExample );
-            app.mount( containerElem );
+        it( `SyncActionExample on ${name}`, async() => {
+            app = createApp( SyncActionExample ).mount( containerElem );
             expect( containerElem.innerHTML ).toEqual( '<div><div>current number: 7</div><button>+1</button></div>' );
 
-            const buttonElem = containerElem.getElementsByTagName( 'button' )[0];
-
             // await is not required for react case
+            const buttonElem = containerElem.getElementsByTagName( 'button' )[0];
             buttonElem.click();
             await wait();
 
