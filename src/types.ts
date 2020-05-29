@@ -32,7 +32,9 @@ export interface Component {
     model: Model;
     dispatch: Function;
     h: Function;
-    actions?: object;
+    actions?: {
+        [key: string]: Function;
+    };
 }
 
 // Route
