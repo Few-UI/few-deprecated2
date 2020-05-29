@@ -62,7 +62,7 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
 
         const component: Component = { model: vm.model, dispatch, h: polyfill.createElement };
 
-       if( componentDef.actions ) {
+        if( componentDef.actions ) {
             component.actions = {};
             Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
                 component.actions[key] = value.bind( null, component );
