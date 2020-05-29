@@ -14,6 +14,7 @@ import {
 
 import Vue from 'vue/dist/vue';
 import {
+    App,
     Component,
     ComponentDef
 } from './types';
@@ -23,10 +24,10 @@ import lodashSet from 'lodash/set';
 
 
 // resolve cross reference
-const polyfill = {
-    createElement: null,
-    createComponent: null
-};
+const polyfill: {
+    createComponent?: Function;
+    createElement?: Function;
+} = {};
 
 /**
  * check if type is ComponentDef. use ComponentDef.init() to detect
@@ -65,11 +66,11 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     // in Vue render is deined as loose as 'Function'
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
-    render: ( component ): JSX.Element => componentDef.view( component ),
+    render: ( component: Component ): JSX.Element => componentDef.view( component ),
     setup: (): object => {
         const component: Component = {
             model: reactive( componentDef.init() ),
-            dispatch: ( path, value ): void => {
+            dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
             },
             h: polyfill.createElement
@@ -91,7 +92,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
  * @param componentDef component definition
  * @returns web app object
  */
-export const createApp = ( componentDef: ComponentDef ): Vue.App => {
+export const createApp = ( componentDef: ComponentDef ): App => {
     return createVueApp( createComponent( componentDef ) );
 };
 

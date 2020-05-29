@@ -46,10 +46,10 @@ const loc = win && win.location; // see html5-history-api
 const HASHCHANGE = 'hashchange';
 const HASH = '#';
 
-const _routeChangeCallBacks = [];
+const _routeChangeCallBacks: Function[] = [];
 const _states: RoutStateMap = {};
 
-let currState;
+let currState: RouteState;
 
 
 /**
@@ -116,10 +116,10 @@ export function matchUrl( pattern: string, urlParamStr: string ): boolean {
  * @param params query params
  * @returns updated params
  */
-const getUpdatedQueryParams = ( url: string, params: object ): object => {
+const getUpdatedQueryParams = ( url: string, params: { [key: string]: string } ): { [key: string]: string } => {
     if ( url.includes( '?' ) ) {
         const paramsArr = url.split( '?' )[1].split( '&' );
-        const res = {};
+        const res: { [key: string]: string } = {};
         paramsArr.forEach( paramStr => {
             const paramKey = paramStr.split( '=' )[0];
             const paramValue = paramStr.split( '=' )[1];
@@ -145,7 +145,11 @@ export const getMatchedStateData = ( states: RoutStateMap, urlParamStr: string )
     finalURL: string;
 } => {
     for ( const state in states ) {
-        const result = {
+        const result: {
+            stateHierarchies: RouteState[];
+            currentState: RouteState;
+            finalURL: string;
+        } = {
             stateHierarchies: null,
             currentState: null,
             finalURL: null
@@ -178,9 +182,9 @@ export const getMatchedStateData = ( states: RoutStateMap, urlParamStr: string )
  * @param params params
  * @param options options
  */
-export function go( to: string, params: string[], options: { reload: boolean } ): void {
+export function go( to: string, params: { [key: string]: string }, options: { reload: boolean } ): void {
     //build URL
-    const allMatchedState = [];
+    const allMatchedState: RouteState[] = [];
     if ( _states[to] ) {
         updateStateHierarchy( allMatchedState, _states[to], _states );
         let toURL = allMatchedState.map( ( elem ) => elem.path ).join( '' );
@@ -283,14 +287,14 @@ const locationChangeHandler = ( event: CustomEvent ): void => _processURL( event
  * @param autoExec - see route.start
  */
 const addWindowListener = (): void => {
-    history.pushState = ( f => function pushState( ...args: unknown[] ): unknown {
+    history.pushState = ( f => function pushState( ...args: any[] ): unknown {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'pushstate' ) );
         win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
         return ret;
     } )( history.pushState );
 
-    history.replaceState = ( f => function replaceState( ...args: unknown[] ): unknown {
+    history.replaceState = ( f => function replaceState( ...args: any[] ): unknown {
         const ret = f.apply( this, args );
         // win.dispatchEvent( new Event( 'replacestate' ) );
         win.dispatchEvent( new CustomEvent( 'locationchange', { detail: { oldURL: location.href, newURL: location.origin + args[2] } } ) );
@@ -375,7 +379,7 @@ export const register = ( state: RouteState ): void => {
     // onChange callbacks
     _routeChangeCallBacks.push( updateState );
 
-    if( unInit ) {
+    if ( unInit ) {
         // init current element
         _processURL( document.URL );
     }

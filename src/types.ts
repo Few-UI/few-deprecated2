@@ -13,20 +13,6 @@ export interface Model {
     [key: string]: object | string | number | boolean;
 }
 
-// View
-export type View = ( Component ) => JSX.Element;
-
-// ComponentDef
-export interface ComponentDef {
-    name: string;
-    init: () => Model;
-    update?: Function;
-    actions?: {
-        [key: string]: Function;
-    };
-    view: View;
-}
-
 // Component
 export interface Component {
     model: Model;
@@ -37,6 +23,24 @@ export interface Component {
     };
 }
 
+// View
+export type View = ( component: Component ) => JSX.Element;
+
+// ComponentDef
+export interface ComponentDef {
+    name: string;
+    init: () => Model;
+    update?: Function;
+    actions?: {
+        [key: string]: Action;
+    };
+    view: View;
+}
+
+
+// Action
+export type Action = ( { model, dispatch }: Component, ...args: any[] ) => void
+
 // Route
 export interface RouteState {
     id: string;
@@ -45,7 +49,9 @@ export interface RouteState {
     enter: Function;
     leave: Function;
     data?: object;
-    params?: object;
+    params?: {
+        [key: string]: string;
+    };
 }
 
 export interface RouteTransition {
@@ -55,4 +61,9 @@ export interface RouteTransition {
 
 export interface RoutStateMap {
     [key: string]: RouteState;
+}
+
+export interface App {
+    mount: Function;
+    unmount: Function;
 }

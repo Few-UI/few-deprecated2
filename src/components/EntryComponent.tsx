@@ -1,4 +1,5 @@
 import {
+    Component,
     ComponentDef
 } from '../types';
 
@@ -12,7 +13,7 @@ const EntryComponent: ComponentDef = {
     name: 'EntryComponent',
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
-    view: ( { h } ) =>
+    view: ( { h }: Component ) =>
         h( 'div', {}, [
             h( ViewExample ),
             h( ActionExample ),

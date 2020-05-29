@@ -168,8 +168,16 @@ module.exports = {
         'valid-jsdoc': [ 'warn', { 'requireReturn': false, 'requireReturnType': false, 'requireParamType': false, 'requireParamDescription': true, 'requireReturnDescription': true } ],
         'valid-typeof': 2,
         'wrap-regex': 0,
-        "react/display-name": [ 'warn', { "ignoreTranspilerName": true }],
-        "react/react-in-jsx-scope": "off"
+        "react/display-name": [ 'warn', { "ignoreTranspilerName": true } ],
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/no-explicit-any": [ "warn", {
+            "fixToUnknown": true,
+            "ignoreRestArgs": true
+        } ],
+        "@typescript-eslint/explicit-function-return-type": [ "warn", {
+            "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+        } ],
+        "react/prop-types": 0
     },
     globals: {
         define: 'readonly'

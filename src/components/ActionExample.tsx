@@ -11,10 +11,7 @@ const ActionExample: ComponentDef = {
     } ),
     // elm style of upedate
     actions: {
-        plusOne: ( component: Component ): void => {
-            const { model, dispatch } = component;
-            dispatch( 'value', model.value as number + 1 );
-        }
+        plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
     // eslint-disable-next-line react/display-name
     view: ( { model, actions, h }: Component ) =>
@@ -25,7 +22,7 @@ const ActionExample: ComponentDef = {
                 h function has loose signature as Functon, which doesn't have
                 issue above
             */}
-            <button onClick={(): void => actions.plusOne()}>+1</button>
+            <button onClick={() => void actions.plusOne()}>+1</button>
         </div>
 };
 

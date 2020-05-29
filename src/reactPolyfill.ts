@@ -1,6 +1,7 @@
 import { createElement, useState } from 'react';
 
 import {
+    App,
     Component,
     ComponentDef
 } from './types';
@@ -11,10 +12,10 @@ import ReactDOM from 'react-dom';
 import lodashSet from 'lodash/set';
 
 // resolve cross reference
-const polyfill = {
-    createElement: null,
-    createComponent: null
-};
+const polyfill: {
+    createComponent?: Function;
+    createElement?: Function;
+} = {};
 
 /**
  * check if type is ComponentDef. use ComponentDef.init() to detect
@@ -55,7 +56,7 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
             model: componentDef.init()
         } ) );
 
-        const dispatch = ( path, value ): void => {
+        const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );
             setState( { ...vm } );
         };
@@ -75,7 +76,7 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
     return renderFn;
 }
 
-export const createApp = ( componentDef: ComponentDef ): any => {
+export const createApp = ( componentDef: ComponentDef ): App => {
     const component = createElement( createComponent( componentDef ) );
     return {
         mount: ( elem: HTMLElement ): void => { ReactDOM.render( component, elem ); },

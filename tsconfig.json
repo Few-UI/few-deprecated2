@@ -10,6 +10,7 @@
         // "module": "CommonJS",
         "jsx": "react",
         "jsxFactory": "h",
+        "noImplicitAny": true
         // below is not required when use babel/buble
         //"sourceMap": true,
         // "inlineSourceMap": true

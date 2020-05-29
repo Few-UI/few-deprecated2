@@ -1,4 +1,5 @@
 /* eslint-env es6 */
+import { App } from './types';
 import {
     createApp as createReactApp
 } from './reactPolyfill';
@@ -13,7 +14,7 @@ import EntryComponent from './components/EntryComponent';
 
 const entryElem = document.getElementById( 'main-entrypoint' );
 
-let app;
+let app: App;
 
 // react
 route.register( {
