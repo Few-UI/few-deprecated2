@@ -4,6 +4,7 @@ import {
 
 import ViewExample from './ViewExample';
 import ActionExample from './ActionExample';
+import AsyncExample from './AsyncExample';
 import ThirdExample from './ThirdExample';
 
 
@@ -15,6 +16,7 @@ const EntryComponent: ComponentDef = {
         h( 'div', {}, [
             h( ViewExample ),
             h( ActionExample ),
+            h( AsyncExample ),
             h( ThirdExample )
         ] ),
     init: () => ( {} )

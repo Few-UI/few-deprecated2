@@ -51,14 +51,16 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  */
 export function createComponent( componentDef: ComponentDef ): { (): JSX.Element } {
     const renderFn = (): JSX.Element => {
-        const [ model, setState ] = useState( componentDef.init );
+        const [ vm, setState ] = useState( () => ( {
+            model: componentDef.init()
+        } ) );
 
         const dispatch = ( path, value ): void => {
-            lodashSet( model, path, value );
-            setState( { ...model } );
+            lodashSet( vm.model, path, value );
+            setState( { ...vm } );
         };
 
-        const component: Component = { model, dispatch, h: polyfill.createElement };
+        const component: Component = { model: vm.model, dispatch, h: polyfill.createElement };
 
        if( componentDef.actions ) {
             component.actions = {};
