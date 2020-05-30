@@ -18,14 +18,6 @@ import {
     App
 } from '../src/types';
 
-// frameworks
-import { createApp as createReactApp } from '../src/reactPolyfill';
-import { createApp as createVueApp } from '../src/vuePolyfill';
-const _frameworks = {
-    react: createReactApp,
-    vue: createVueApp
-};
-
 import {
     wait,
     getSupportedFrameworks
