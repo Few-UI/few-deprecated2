@@ -24,6 +24,8 @@ import {
 } from './utils';
 import SyncActionExample from './components/SyncActionExample';
 
+jest.useFakeTimers();
+
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>
     describe( `Component test on ${name}`, () => {

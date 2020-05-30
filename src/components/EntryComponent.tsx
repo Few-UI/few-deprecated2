@@ -3,7 +3,7 @@ import {
 } from '../types';
 
 import ViewExample from './ViewExample';
-import AsyncExample from './AsyncExample';
+import AsyncActionExample from '../../test/components/AsyncActionExample';
 
 
 const EntryComponent: ComponentDef = {
@@ -11,10 +11,10 @@ const EntryComponent: ComponentDef = {
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
     view: ( { h } ) =>
-        h( 'div', {}, [
+        h( 'div', {},
             h( ViewExample ),
-            h( AsyncExample )
-        ] ),
+            h( AsyncActionExample )
+        ),
     init: () => ( {} )
 };
 

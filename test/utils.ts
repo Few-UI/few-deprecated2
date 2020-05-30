@@ -1,4 +1,4 @@
-/* eslint-env es6 */
+/* eslint-env jest */
 
 // available frame work
 import {
@@ -7,6 +7,8 @@ import {
 
 import { createApp as createReactApp } from '../src/reactPolyfill';
 import { createApp as createVueApp } from '../src/vuePolyfill';
+
+import { act } from 'react-dom/test-utils';
 
 export const getSupportedFrameworks = (): { [key: string]: CreateAppFunction } => ( {
     react: createReactApp,
@@ -19,9 +21,15 @@ export const getSupportedFrameworks = (): { [key: string]: CreateAppFunction } =
  * @returns promise
  */
 export const wait = ( elapsed = 0 ): Promise<{}> => {
+    // act is react-dom/jest specific but harmless to other framework
+    act( () => jest.advanceTimersByTime( elapsed ) );
+    return Promise.resolve( {} );
+    /*
+    native impl
     return new Promise( resolve => setTimeout( () => {
         resolve( null );
     }, elapsed ) );
+    */
 };
 
 /**

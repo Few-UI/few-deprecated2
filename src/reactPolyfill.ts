@@ -41,9 +41,9 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
  */
 const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
     if( isComponentDef( type ) ) {
-        return createElement( polyfill.createComponent( type ), props, children );
+        return createElement( polyfill.createComponent( type ), props, ...children );
     }
-    return createElement( type, props, children );
+    return createElement( type, props, ...children );
 };
 
 /**

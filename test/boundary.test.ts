@@ -19,6 +19,8 @@ import { App } from '../src/types';
 
 import SyncActionExample from './components/SyncActionExample';
 
+jest.useFakeTimers();
+
 describe( 'Boundary Test Cases', () => {
     let app: App;
     let containerElem: HTMLElement;
