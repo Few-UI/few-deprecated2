@@ -3,7 +3,7 @@ import {
 } from '../types';
 
 import ViewExample from './ViewExample';
-import TextboxExample from '../../test/components/TextboxExample';
+import AsyncInitExample from './AsyncInitExample';
 
 const EntryComponent: ComponentDef = {
     name: 'EntryComponent',
@@ -12,7 +12,7 @@ const EntryComponent: ComponentDef = {
     view: ( { h } ) =>
         h( 'div', {},
             h( ViewExample ),
-            h( TextboxExample )
+            h( AsyncInitExample )
         ),
     init: () => ( {} )
 };
