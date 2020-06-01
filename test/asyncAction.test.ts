@@ -31,7 +31,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
             document.body.removeChild( containerElem );
         } );
 
-        it( `SyncActionExample on ${name}`, async() => {
+        it( `AsyncActionExample on ${name}`, async() => {
             app = createApp( AsyncActionExample ).mount( containerElem );
             expect( trimHtmlComments( containerElem.innerHTML ) ).toEqual( [
                 '<div>',

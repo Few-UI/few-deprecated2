@@ -20,7 +20,7 @@ const SyncActionExample: ComponentDef = {
                 h function has loose signature as Functon, which doesn't have
                 issue above
             */}
-            <button onClick={() => void actions.plusOne()}>+1</button>
+            <button onClick={actions.plusOne}>+1</button>
         </div>
 };
 

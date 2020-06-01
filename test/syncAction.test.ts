@@ -28,7 +28,7 @@ jest.useFakeTimers();
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `Component test on ${name}`, () => {
+    describe( `SyncActionExample test on ${name}`, () => {
         let app: App;
         let containerElem: HTMLElement;
 

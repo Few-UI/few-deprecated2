@@ -52,6 +52,13 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
  * @returns virtual DOM component
  */
 const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
+    // align on input behavior with react
+    if( type === 'input' && props.onChange ) {
+        props.onInput = props.onChange;
+        delete props.onChange;
+    }
+
+
     if ( isComponentDef( type ) ) {
         return createElement( polyfill.createComponent( type ), props, children );
     }

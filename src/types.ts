@@ -19,7 +19,7 @@ export interface Component {
     dispatch: Function;
     h: Function;
     actions?: {
-        [key: string]: Function;
+        [key: string]: ( event?: unknown ) => void;
     };
 }
 
@@ -32,14 +32,15 @@ export interface ComponentDef {
     init: () => Model;
     update?: Function;
     actions?: {
-        [key: string]: Action;
+        [key: string]: ActionDef;
     };
     view: View;
 }
 
 
 // Action
-export type Action = ( { model, dispatch }: Component, ...args: any[] ) => void
+export type ActionDef = ( { model, dispatch }: Component, ...args: any[] ) => void
+
 
 // Route
 export interface RouteState {

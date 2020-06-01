@@ -13,11 +13,11 @@ const AsyncActionExample: ComponentDef = {
     // eslint-disable-next-line react/display-name
     view: ( { model, actions, h } ) =>
         <div>
-            <button id='button1' onClick={() => void actions.setValue1()}>value1</button>
+            <button id='button1' onClick={actions.setValue1}>value1</button>
             <div id='value1'>{model.value1}</div>
-            <button id='button2' onClick={() => void actions.setValue2()}>value2</button>
+            <button id='button2' onClick={actions.setValue2}>value2</button>
             <div id='value2'>{model.value2}</div>
-            <button id='button3' onClick={() => void actions.setValue3()}>value3</button>
+            <button id='button3' onClick={actions.setValue3}>value3</button>
             <div id='value3'>{model.value3}</div>
         </div>
 };

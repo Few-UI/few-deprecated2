@@ -1,18 +1,4 @@
 /* eslint-env jest */
-/**
- * https://github.com/testing-library/dom-testing-library/blob/master/src/event-map.js
- *
- * 3 ways to simulate click:
- * - buttonElem.click();
- *
- * - buttonElem.onclick( new MouseEvent( 'click' ) );
- *
- * - buttonElem.dispatchEvent( new MouseEvent( 'click', {
- *       bubbles: true,
- *       cancelable: true,
- *       button: 0,
- *       composed: true
- */
 
 import {
     App
@@ -30,7 +16,7 @@ jest.useFakeTimers();
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `Component test on ${name}`, () => {
+    describe( `NewKeyDispatchExample test on ${name}`, () => {
         let app: App;
         let containerElem: HTMLElement;
 
