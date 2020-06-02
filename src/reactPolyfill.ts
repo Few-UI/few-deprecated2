@@ -29,6 +29,16 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
 };
 
 /**
+ * check if type is ComponentDef. use ComponentDef.init() to detect
+ * @param value component type
+ * @returns true if type is promise.
+ */
+const isPromise = ( value: unknown ): value is Promise<unknown> => {
+    const val = value as Promise<unknown>;
+    return val && val.then && typeof val.then === 'function';
+};
+
+/**
  * Virtual DOM API as h
  *
  * bridge tsc jsx to vue3
@@ -53,9 +63,17 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  */
 export function createComponent( componentDef: ComponentDef ): { (): JSX.Element } {
     const renderFn = (): JSX.Element => {
-        const [ vm, setState ] = useState( () => ( {
-            model: componentDef.init()
-        } ) );
+        const [ vm, setState ] = useState( () => {
+            const model = componentDef.init();
+            if ( isPromise( model ) ) {
+                return {
+                    model: {}
+                };
+            }
+            return {
+                model
+            };
+        } );
 
         const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );

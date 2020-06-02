@@ -41,6 +41,16 @@ const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => 
 };
 
 /**
+ * check if type is ComponentDef. use ComponentDef.init() to detect
+ * @param value component type
+ * @returns true if type is promise.
+ */
+const isPromise = ( value: unknown ): value is Promise<unknown> => {
+    const val = value as Promise<unknown>;
+    return val && val.then && typeof val.then === 'function';
+};
+
+/**
  * Virtual DOM API as h
  *
  * bridge tsc jsx to vue3
@@ -76,8 +86,9 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     // so here even for Vue we use JSX.Element
     render: ( component: Component ): JSX.Element => componentDef.view( component ),
     setup: (): object => {
+        const model = componentDef.init();
         const component: Component = {
-            model: reactive( componentDef.init() ),
+            model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
             },

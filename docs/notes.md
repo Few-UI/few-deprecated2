@@ -47,6 +47,8 @@ view model =
 - The `update` in ELM is true dispatch - match msg(action), change the model
 
 # Async component
+- For sync it returns { data }
+
 ## Vue
 ```
 Vue.component('async-example', function (resolve, reject) {
@@ -57,5 +59,30 @@ Vue.component('async-example', function (resolve, reject) {
     })
   }, 1000)
 })
+```
+## ELM
+```
+init : () -> (Model, Cmd Msg)
+init _ =
+  ( Loading
+  , Http.get
+      { url = "https://elm-lang.org/assets/public-opinion.txt"
+      , expect = Http.expectString GotText
+      }
+  )
+```
+
+## React
+```
+const ProductDisplay = () => {
+ const {
+   state: product,
+   dispatch
+ } = React.useContext(ProductsContext);
+
+ useEffect(() => updateProductBackend(product, dispatch));
+
+ return <Product data={product} />;
+};
 ```
 

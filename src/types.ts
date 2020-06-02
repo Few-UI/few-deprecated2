@@ -29,7 +29,7 @@ export type View = ( component: Component ) => JSX.Element;
 // ComponentDef
 export interface ComponentDef {
     name: string;
-    init: () => Model;
+    init: () => Model | Promise<Model>;
     update?: Function;
     actions?: {
         [key: string]: ActionDef;
