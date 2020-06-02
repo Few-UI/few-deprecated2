@@ -21,6 +21,7 @@ export interface Component {
     actions?: {
         [key: string]: ( event?: unknown ) => void;
     };
+    _init?: Promise<Model>;
 }
 
 // View

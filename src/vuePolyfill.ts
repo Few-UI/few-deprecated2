@@ -1,5 +1,6 @@
 // vue
 // https://github.com/vuejs/vue-cli/issues/1198
+// https://learnvue.co/2020/03/how-to-use-lifecycle-hooks-in-vue3/
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 /*
@@ -9,7 +10,8 @@ import App from './App.vue';
 import {
     h as createElement,
     createApp as createVueApp,
-    reactive
+    reactive,
+    onMounted
 } from 'vue';
 
 import Vue from 'vue/dist/vue';
@@ -95,12 +97,21 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             h: polyfill.createElement
         };
 
+
         if ( componentDef.actions ) {
             component.actions = {};
             Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
                 component.actions[key] = value.bind( null, component );
             } );
         }
+
+        onMounted( () => {
+            if( isPromise( model ) ) {
+                Promise.resolve( model ).then( model =>{
+                    Object.assign( component.model, model );
+                } );
+            }
+        } );
 
         return component;
     }

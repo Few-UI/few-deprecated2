@@ -1,7 +1,13 @@
-import { createElement, useState } from 'react';
+import {
+    createElement,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 
 import {
     App,
+    Model,
     Component,
     ComponentDef,
     CreateAppFunction
@@ -63,9 +69,12 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  */
 export function createComponent( componentDef: ComponentDef ): { (): JSX.Element } {
     const renderFn = (): JSX.Element => {
+        const initPromise = useRef( null );
+
         const [ vm, setState ] = useState( () => {
             const model = componentDef.init();
             if ( isPromise( model ) ) {
+                initPromise.current = model;
                 return {
                     model: {}
                 };
@@ -74,6 +83,15 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
                 model
             };
         } );
+
+        useEffect( ()=> {
+            if( initPromise.current ) {
+                Promise.resolve( initPromise.current ).then( model => {
+                    vm.model = model as Model;
+                    setState( { ...vm } );
+                } );
+            }
+        }, [] );
 
         const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );
