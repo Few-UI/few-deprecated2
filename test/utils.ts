@@ -10,27 +10,38 @@ import { createApp as createVueApp } from '../src/vuePolyfill';
 
 import { act } from 'react-dom/test-utils';
 
+
 export const getSupportedFrameworks = (): { [key: string]: CreateAppFunction } => ( {
     react: createReactApp,
     vue: createVueApp
 } );
 
+let _mockTimerEnabled = false;
+
+/**
+ * enable mock timer
+ */
+export const enableMockTimer = (): void => {
+    _mockTimerEnabled = true;
+    jest.useFakeTimers();
+};
+
 /**
  * wait for elapsed time and return a promise
+ * Note: act is react-dom/jest specific but harmless to other framework
+ *
  * @param elapsed elapsed time
  * @returns promise
  */
-export const wait = ( elapsed = 0 ): Promise<{}> => {
-    // act is react-dom/jest specific but harmless to other framework
-    act( () => jest.advanceTimersByTime( elapsed ) );
-    return Promise.resolve( {} );
-    /*
-    native impl
-    return new Promise( resolve => setTimeout( () => {
-        resolve( null );
-    }, elapsed ) );
-    */
-};
+export const wait = ( elapsed = 0 ): Promise<void> => act( (): Promise<void> => {
+    if ( _mockTimerEnabled ) {
+        jest.advanceTimersByTime( elapsed );
+        return Promise.resolve();
+    }
+
+    // real timer
+    return new Promise( resolve => setTimeout( resolve, elapsed ) );
+} );
 
 /**
  * trim comments in HTML string

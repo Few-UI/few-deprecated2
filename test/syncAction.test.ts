@@ -20,11 +20,12 @@ import {
 
 import {
     wait,
+    enableMockTimer,
     getSupportedFrameworks
 } from './utils';
 import SyncActionExample from './components/SyncActionExample';
 
-jest.useFakeTimers();
+enableMockTimer();
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>

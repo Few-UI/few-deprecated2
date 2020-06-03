@@ -6,12 +6,13 @@ import {
 
 import {
     wait,
+    enableMockTimer,
     setValueToInputElement,
     getSupportedFrameworks
 } from './utils';
 import TextboxExample from './components/TextboxExample';
 
-jest.useFakeTimers();
+enableMockTimer();
 
 const _testSuite = ( name: string, createApp: Function ): void =>
     describe( `Component test on ${name}`, () => {

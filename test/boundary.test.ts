@@ -13,13 +13,16 @@
  *       button: 0,
  *       composed: true
  */
-import { wait } from './utils';
+import {
+    wait,
+    enableMockTimer
+} from './utils';
 import { createApp } from '../src/vuePolyfill';
 import { App } from '../src/types';
 
 import SyncActionExample from './components/SyncActionExample';
 
-jest.useFakeTimers();
+enableMockTimer();
 
 describe( 'Boundary Test Cases', () => {
     let app: App;

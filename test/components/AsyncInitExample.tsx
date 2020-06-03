@@ -1,6 +1,6 @@
 import {
     ComponentDef
-} from '../types';
+} from '../../src/types';
 
 /**
  * wait for elapsed time and return a promise
@@ -16,9 +16,11 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
 const AsyncInitExample: ComponentDef = {
     name: 'AsyncInitExample',
     // elm returns model and cmd ( call back which will launch dispatch )
-    init: () => wait( 2000 ).then( () => ( {
-        asyncVal: 'asyncVal'
-    } ) ),
+    init: () => wait( 1000 ).then( () => {
+        return {
+            asyncVal: 'asyncVal'
+        };
+    } ),
     // elm style of upedate
     actions: {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
@@ -26,7 +28,7 @@ const AsyncInitExample: ComponentDef = {
     // eslint-disable-next-line react/display-name
     view: ( { model, h } ) =>
         <pre>
-           {JSON.stringify( model, null, 2 )}
+            {JSON.stringify( model )}
         </pre>
 };
 

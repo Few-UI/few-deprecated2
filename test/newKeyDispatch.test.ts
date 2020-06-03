@@ -6,13 +6,14 @@ import {
 
 import {
     wait,
+    enableMockTimer,
     trimHtmlComments,
     getSupportedFrameworks
 } from './utils';
 
 import NewKeyDispatchExample from './components/NewKeyDispatchExample';
 
-jest.useFakeTimers();
+enableMockTimer();
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>

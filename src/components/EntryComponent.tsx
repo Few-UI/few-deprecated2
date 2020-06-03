@@ -3,8 +3,8 @@ import {
 } from '../types';
 
 import ViewExample from './ViewExample';
-import AsyncInitExample from './AsyncInitExample';
-import DispatchInitExample from './DispatchInitExample';
+import AsyncInitExample from '../../test/components/AsyncInitExample';
+// import DispatchInitExample from './DispatchInitExample';
 
 const EntryComponent: ComponentDef = {
     name: 'EntryComponent',
@@ -13,8 +13,8 @@ const EntryComponent: ComponentDef = {
     view: ( { h } ) =>
         h( 'div', {},
             h( ViewExample ),
-            h( AsyncInitExample ),
-            h( DispatchInitExample )
+            h( AsyncInitExample )
+            // h( DispatchInitExample )
         ),
     init: () => ( {} )
 };

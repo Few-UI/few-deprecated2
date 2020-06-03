@@ -6,12 +6,13 @@ import {
 
 import {
     wait,
+    enableMockTimer,
     trimHtmlComments,
     getSupportedFrameworks
 } from './utils';
 import AsyncActionExample from './components/AsyncActionExample';
 
-jest.useFakeTimers();
+enableMockTimer();
 
 // Test
 const _testSuite = ( name: string, createApp: Function ): void =>
