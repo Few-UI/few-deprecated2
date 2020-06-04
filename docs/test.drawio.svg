@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="121px" height="61px" viewBox="-0.5 -0.5 121 61" content="&lt;mxfile host=&quot;&quot; modified=&quot;2020-06-04T17:00:19.555Z&quot; agent=&quot;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.45.1 Chrome/78.0.3904.130 Electron/7.2.4 Safari/537.36&quot; etag=&quot;lbZd-VQCC_syvVsJzWcZ&quot; version=&quot;13.1.3&quot;&gt;&lt;diagram id=&quot;6hGFLwfOUW9BJ-s0fimq&quot; name=&quot;Page-1&quot;&gt;jZNNb4MwDIZ/Te6BrF/X0nabtGmHTto5ApdEDRiFdND9+gVw+NBUaVwcHttJ/NphIinaZysr9Y4ZGBbzrGXiwOI4Wm923nTkPpDVE4Hc6oyCJnDWP0CQE73pDOpFoEM0TldLmGJZQuoWTFqLzTLsgmZ5aiVz+APOqTR/6ZfOnBroNt5M/AV0rsLJ0ZrqK2QIpkpqJTNsZkgcmUgsohtWRZuA6cQLugx5pwfe8WIWSvefhHhI+JbmRrV9Qu08OVjZePP6weLE2zfEa+3tSZbpna7u7kEPi7cyg27LiIl9o7SDcyXTztv4CfBMucKQ+6KNSdCg7XMFiHTLuee1s3iFmWfPd6vec8HSzTjvP8/p7mAdtA/rj0ZV/TgCFuCsL4CHhC01giZxHLFm6msUmqVmPV0TkzRK+bj1pLZfkODhd2ps75s9D3H8BQ==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="0" width="120" height="60" rx="9" ry="9" fill="#e3c800" stroke="#b09500" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 30px; margin-left: 1px;">
+                        <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                Test Draw IO, Looks Fancy
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="34" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    Test Draw IO, Looks...
+                </text>
+            </switch>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://desk.draw.io/support/solutions/articles/16000042487" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Viewer does not support full SVG 1.1
+            </text>
+        </a>
+    </switch>
+</svg>
