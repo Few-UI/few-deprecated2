@@ -175,6 +175,7 @@ module.exports = {
             "ignoreRestArgs": true
         } ],
         "@typescript-eslint/explicit-function-return-type": [ "warn", {
+            "allowTypedFunctionExpressions": true,
             "allowConciseArrowFunctionExpressionsStartingWithVoid": true
         } ],
         "react/prop-types": 0

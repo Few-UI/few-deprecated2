@@ -5,8 +5,7 @@ import {
 const NewKeyDispatchExample: ComponentDef = {
     name: 'NewKeyDispatchExample',
     // h( 'div', null, 'current number: ', model.name ) is working too
-    // eslint-disable-next-line react/display-name
-    view: h => ( props, { model, dispatch } ) =>
+    view: h => ( props, { model, dispatch } ): JSX.Element =>
         h( 'div', null,
             h( 'div', null,
                 'Hello ',

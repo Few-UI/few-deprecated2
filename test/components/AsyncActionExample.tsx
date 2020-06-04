@@ -1,4 +1,5 @@
 import {
+    RenderFn,
     ComponentDef
 } from '../../src/types';
 
@@ -10,8 +11,7 @@ const AsyncActionExample: ComponentDef = {
         setValue2: ( { dispatch } ) => void dispatch( 'value2', 'value2' ),
         setValue3: ( { dispatch } ) => void setTimeout( () => dispatch( 'value3', 'value3' ), 3000 )
     },
-    // eslint-disable-next-line react/display-name
-    view: h => ( props, { model, actions } ) =>
+    view: h => ( props, { model, actions } ): JSX.Element =>
         <div>
             <button id='button1' onClick={actions.setValue1}>value1</button>
             <div id='value1'>{model.value1}</div>

@@ -5,8 +5,7 @@ import {
 
 const ViewExample: ComponentDef = {
     name: 'ViewExample',
-    // eslint-disable-next-line react/display-name
-    view: h => ( props, { model } ) => <div>Hello {model.name}!</div>,
+    view: h => ( props, { model } ): JSX.Element => <div>Hello {model.name}!</div>,
     init: () => ( {
         name: 'Monster Hunter'
     } )
