@@ -5,7 +5,7 @@ import {
 const NewKeyDispatchExample: ComponentDef = {
     name: 'NewKeyDispatchExample',
     // h( 'div', null, 'current number: ', model.name ) is working too
-    view: h => ( props, { model, dispatch } ): JSX.Element =>
+    view: h => ( _, { model, dispatch } ): JSX.Element =>
         h( 'div', null,
             h( 'div', null,
                 'Hello ',

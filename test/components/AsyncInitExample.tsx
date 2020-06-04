@@ -25,7 +25,7 @@ const AsyncInitExample: ComponentDef = {
     actions: {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
-    view: h => ( props, { model } ): JSX.Element =>
+    view: h => ( _, { model } ): JSX.Element =>
         <pre>
             {JSON.stringify( model )}
         </pre>

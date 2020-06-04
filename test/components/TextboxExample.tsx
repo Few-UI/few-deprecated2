@@ -5,7 +5,7 @@ import {
 
 const ViewExample: ComponentDef = {
     name: 'ViewExample',
-    view: h => ( props, { model, actions } ): JSX.Element =>
+    view: h => ( _, { model, actions } ): JSX.Element =>
         <div>
             <input id='text' value={model.name as string} onChange={actions.updateName} />
             <div id='result'>{model.name}</div>

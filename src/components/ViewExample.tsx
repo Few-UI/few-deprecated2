@@ -5,7 +5,7 @@ import {
 
 const ViewExample: ComponentDef = {
     name: 'ViewExample',
-    view: h => ( props, { model } ): JSX.Element => <div>Hello {model.name}!</div>,
+    view: h => ( _, { model } ): JSX.Element => <div>Hello {model.name}!</div>,
     init: () => ( {
         name: 'Monster Hunter'
     } )

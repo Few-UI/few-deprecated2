@@ -11,7 +11,7 @@ const SyncActionExample: ComponentDef = {
     actions: {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
-    view: h => ( props, { model, actions } ): JSX.Element =>
+    view: h => ( _, { model, actions } ): JSX.Element =>
         <div>
             <div>current number: {model.value}</div>
             {/*

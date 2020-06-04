@@ -36,7 +36,7 @@ const DispatchInitExample: ComponentDef = {
         loadMockData: ( { dispatch } ) => void
             setTimeout( () => dispatch( 'asyncPath', 'asyncPath' ), 1000 )
     },
-    view: h => ( props, { model } ): JSX.Element =>
+    view: h => ( _, { model } ): JSX.Element =>
         <pre>
            {JSON.stringify( model, null, 2 )}
         </pre>
