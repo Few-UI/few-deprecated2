@@ -37,7 +37,7 @@ const DispatchInitExample: ComponentDef = {
             setTimeout( () => dispatch( 'asyncPath', 'asyncPath' ), 1000 )
     },
     // eslint-disable-next-line react/display-name
-    view: ( { model, h } ) =>
+    view: h => ( props, { model } ) =>
         <pre>
            {JSON.stringify( model, null, 2 )}
         </pre>

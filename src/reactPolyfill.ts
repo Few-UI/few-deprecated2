@@ -107,7 +107,10 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             } );
         }
 
-        return componentDef.view( component, props );
+        // we can do better bindings later
+        const renderFn = componentDef.view( polyfill.createElement );
+
+        return renderFn( props, component );
     };
     renderFn.displayName = componentDef.name;
     return renderFn;

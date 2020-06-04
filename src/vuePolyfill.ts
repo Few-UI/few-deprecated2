@@ -88,7 +88,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
     render: ( component: Component & Vue.ComponentOptions ): JSX.Element => {
-        return componentDef.view( component, component.$attrs );
+        return componentDef.view( polyfill.createElement )( component.$attrs, component );
     },
     setup: (): object => {
         const model = componentDef.init();

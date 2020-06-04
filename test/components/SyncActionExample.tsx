@@ -12,7 +12,7 @@ const SyncActionExample: ComponentDef = {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
     // eslint-disable-next-line react/display-name
-    view: ( { model, actions, h } ) =>
+    view: h => ( props, { model, actions } ) =>
         <div>
             <div>current number: {model.value}</div>
             {/*

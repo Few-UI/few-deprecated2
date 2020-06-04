@@ -26,7 +26,7 @@ const AsyncInitExample: ComponentDef = {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
     // eslint-disable-next-line react/display-name
-    view: ( { model, h } ) =>
+    view: h => ( props, { model } ) =>
         <pre>
             {JSON.stringify( model )}
         </pre>

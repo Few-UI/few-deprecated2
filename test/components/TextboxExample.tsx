@@ -6,7 +6,7 @@ import {
 const ViewExample: ComponentDef = {
     name: 'ViewExample',
     // eslint-disable-next-line react/display-name
-    view: ( { model, actions, h } ) =>
+    view: h => ( props, { model, actions } ) =>
         <div>
             <input id='text' value={model.name as string} onChange={actions.updateName} />
             <div id='result'>{model.name}</div>

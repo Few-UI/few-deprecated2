@@ -25,7 +25,7 @@ export interface Component {
 }
 
 // View
-export type View = ( component: Component, ...args: any[] ) => JSX.Element;
+export type View = ( h: Function ) => ( props: object, component: Component ) => JSX.Element;
 
 // ComponentDef
 export interface ComponentDef {

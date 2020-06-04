@@ -11,7 +11,7 @@ const AsyncActionExample: ComponentDef = {
         setValue3: ( { dispatch } ) => void setTimeout( () => dispatch( 'value3', 'value3' ), 3000 )
     },
     // eslint-disable-next-line react/display-name
-    view: ( { model, actions, h } ) =>
+    view: h => ( props, { model, actions } ) =>
         <div>
             <button id='button1' onClick={actions.setValue1}>value1</button>
             <div id='value1'>{model.value1}</div>
