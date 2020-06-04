@@ -67,8 +67,8 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  * @param componentDef few component
  * @returns platform specific component
  */
-export function createComponent( componentDef: ComponentDef ): { (): JSX.Element } {
-    const renderFn = (): JSX.Element => {
+export function createComponent( componentDef: ComponentDef ): { ( props: React.Attributes ): JSX.Element } {
+    const renderFn = ( props: React.Attributes ): JSX.Element => {
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {
@@ -107,7 +107,7 @@ export function createComponent( componentDef: ComponentDef ): { (): JSX.Element
             } );
         }
 
-        return componentDef.view( component );
+        return componentDef.view( component, props );
     };
     renderFn.displayName = componentDef.name;
     return renderFn;

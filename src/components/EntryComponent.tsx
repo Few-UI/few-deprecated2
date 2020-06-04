@@ -3,7 +3,7 @@ import {
 } from '../types';
 
 import ViewExample from './ViewExample';
-import AsyncInitExample from '../../test/components/AsyncInitExample';
+import PropExample from './PropExample';
 // import DispatchInitExample from './DispatchInitExample';
 
 const EntryComponent: ComponentDef = {
@@ -13,7 +13,10 @@ const EntryComponent: ComponentDef = {
     view: ( { h } ) =>
         h( 'div', {},
             h( ViewExample ),
-            h( AsyncInitExample )
+            h( PropExample, {
+                firstName: 'Final',
+                lastName: 'Fantasy'
+            } )
             // h( DispatchInitExample )
         ),
     init: () => ( {} )

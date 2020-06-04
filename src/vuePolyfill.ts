@@ -83,10 +83,13 @@ const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...child
  * @returns platform specific component
  */
 export const createComponent = ( componentDef: ComponentDef ): Vue.Component => ( {
+    name: componentDef.name,
     // in Vue render is deined as loose as 'Function'
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
-    render: ( component: Component ): JSX.Element => componentDef.view( component ),
+    render: ( component: Component & Vue.ComponentOptions ): JSX.Element => {
+        return componentDef.view( component, component.$attrs );
+    },
     setup: (): object => {
         const model = componentDef.init();
         const component: Component = {
