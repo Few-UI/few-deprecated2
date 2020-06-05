@@ -1,6 +1,4 @@
-import {
-    ComponentDef
-} from '../../src/types';
+import { ComponentDef } from '../../src/types';
 
 /**
  * wait for elapsed time and return a promise
@@ -13,7 +11,7 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
     }, elapsed ) );
 };
 
-const AsyncInitExample: ComponentDef = {
+export default {
     name: 'AsyncInitExample',
     // elm returns model and cmd ( call back which will launch dispatch )
     init: () => wait( 1000 ).then( () => {
@@ -29,6 +27,4 @@ const AsyncInitExample: ComponentDef = {
         <pre>
             {JSON.stringify( model )}
         </pre>
-};
-
-export default AsyncInitExample;
+} as ComponentDef;

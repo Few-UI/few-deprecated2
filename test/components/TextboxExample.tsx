@@ -1,9 +1,6 @@
-import {
-    ComponentDef
-} from '../../src/types';
+import { ComponentDef } from '../../src/types';
 
-
-const ViewExample: ComponentDef = {
+export default {
     name: 'ViewExample',
     view: h => ( _, { model, actions } ): JSX.Element =>
         <div>
@@ -18,6 +15,4 @@ const ViewExample: ComponentDef = {
             dispatch( 'name', e.target.value );
         }
     }
-};
-
-export default ViewExample;
+} as ComponentDef;

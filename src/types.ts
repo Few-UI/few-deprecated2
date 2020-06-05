@@ -29,6 +29,7 @@ export type RenderFn = ( props: object, component: Component ) => JSX.Element;
 export type View = ( h: Function ) => RenderFn;
 
 // ComponentDef
+// export interface ComponentDef {
 export interface ComponentDef {
     name: string;
     init: () => Model | Promise<Model>;

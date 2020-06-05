@@ -1,14 +1,9 @@
-import {
-    ComponentDef
-} from '../types';
+import { ComponentDef } from '../types';
 
-
-const ViewExample: ComponentDef = {
+export default {
     name: 'ViewExample',
     view: h => ( _, { model } ): JSX.Element => <div>Hello {model.name}!</div>,
     init: () => ( {
         name: 'Monster Hunter'
     } )
-};
-
-export default ViewExample;
+} as ComponentDef;

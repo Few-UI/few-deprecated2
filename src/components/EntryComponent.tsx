@@ -1,12 +1,10 @@
-import {
-    ComponentDef
-} from '../types';
+import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
 import PropExample from './PropExample';
 // import DispatchInitExample from './DispatchInitExample';
 
-const EntryComponent: ComponentDef = {
+export default {
     name: 'EntryComponent',
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
@@ -20,6 +18,5 @@ const EntryComponent: ComponentDef = {
             // h( DispatchInitExample )
         ),
     init: () => ( {} )
-};
+} as ComponentDef;
 
-export default EntryComponent;

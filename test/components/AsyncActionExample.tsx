@@ -1,9 +1,6 @@
-import {
-    RenderFn,
-    ComponentDef
-} from '../../src/types';
+import { ComponentDef } from '../../src/types';
 
-const AsyncActionExample: ComponentDef = {
+export default {
     name: 'AsyncActionExample',
     init: () => ( {} ),
     actions: {
@@ -20,6 +17,4 @@ const AsyncActionExample: ComponentDef = {
             <button id='button3' onClick={actions.setValue3}>value3</button>
             <div id='value3'>{model.value3}</div>
         </div>
-};
-
-export default AsyncActionExample;
+} as ComponentDef;
