@@ -16,7 +16,7 @@ export default {
             <ViewExample />
             {/*
             // @ts-ignore */}
-            <PropExample firstName='Final' lastName='Fantasy' />
+            <PropExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef;
