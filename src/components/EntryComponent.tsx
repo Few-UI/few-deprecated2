@@ -1,7 +1,7 @@
 import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
-import PropExample from './PropExample';
+import PropExample from '../../test/components/PropExample';
 // import DispatchInitExample from './DispatchInitExample';
 
 export default {
