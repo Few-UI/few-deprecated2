@@ -8,7 +8,7 @@ const PropWidget = {
 } as ComponentDef;
 
 export default {
-    name: 'PropEample',
+    name: 'PropExample',
     init: () => ( {
         value: 7
     } ),

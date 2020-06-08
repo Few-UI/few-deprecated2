@@ -16,6 +16,29 @@ const entryElem = document.getElementById( 'main-entrypoint' );
 
 let app: App;
 
+// about
+route.register( {
+    id: 'about',
+    path: '/about',
+    parent: undefined,
+    data: {
+        testUrl: 'aboutData'
+    },
+    params: {
+        param1: 'aa'
+    },
+    enter: () => {
+        // eslint-disable-next-line no-console
+        console.log( 'about: enter' );
+        entryElem.innerHTML = 'Click any link above...';
+    },
+    leave: () => {
+        // eslint-disable-next-line no-console
+        console.log( 'about: leaving' );
+        entryElem.innerHTML = '';
+    }
+} );
+
 // react
 route.register( {
     id: 'react',
@@ -41,26 +64,5 @@ route.register( {
     },
     leave: () => {
         app.unmount( entryElem );
-    }
-} );
-
-// about
-route.register( {
-    id: 'about',
-    path: '/about',
-    parent: undefined,
-    data: {
-        testUrl: 'aboutData'
-    },
-    params: {
-        param1: 'aa'
-    },
-    enter: () => {
-        // eslint-disable-next-line no-console
-        console.log( 'about: enter' );
-    },
-    leave: () => {
-        // eslint-disable-next-line no-console
-        console.log( 'about: leaving' );
     }
 } );
