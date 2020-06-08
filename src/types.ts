@@ -38,6 +38,7 @@ export interface ComponentDef {
         [key: string]: ActionDef;
     };
     view: View;
+    _compiled?: any;
 }
 
 

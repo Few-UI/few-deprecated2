@@ -70,9 +70,14 @@ const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...child
         delete props.onChange;
     }
 
-
     if ( isComponentDef( type ) ) {
-        return createElement( polyfill.createComponent( type ), props, children );
+        if( !type._compiled || !type._compiled.vue ) {
+            type._compiled = {
+                ...type._compiled,
+                vue: polyfill.createComponent( type )
+            };
+        }
+        return createElement( type._compiled.vue, props, children );
     }
     return createElement( type, props, children );
 };

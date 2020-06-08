@@ -57,7 +57,13 @@ const isPromise = ( value: unknown ): value is Promise<unknown> => {
  */
 const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
     if( isComponentDef( type ) ) {
-        return createElement( polyfill.createComponent( type ), props, ...children );
+        if( !type._compiled || !type._compiled.react ) {
+            type._compiled = {
+                ...type._compiled,
+                react: polyfill.createComponent( type )
+            };
+        }
+        return createElement( type._compiled.react, props, ...children );
     }
     return createElement( type, props, ...children );
 };

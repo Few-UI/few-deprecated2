@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import {
-    App, ComponentDef
+    App
 } from '../src/types';
 
 import {
@@ -43,8 +43,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
             await wait();
 
             // it is creating a new DOM which may be wrong
-            const resultElem2 = buttonElem.parentElement.firstElementChild;
-            expect( resultElem2.textContent ).toEqual( 'Hello value 8!' );
+            expect( resultElem.textContent ).toEqual( 'Hello value 8!' );
         } );
     } );
 

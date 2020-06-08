@@ -171,7 +171,6 @@ module.exports = {
         "react/display-name": [ 'warn', { "ignoreTranspilerName": true } ],
         "react/react-in-jsx-scope": "off",
         "@typescript-eslint/no-explicit-any": [ "warn", {
-            "fixToUnknown": true,
             "ignoreRestArgs": true
         } ],
         "@typescript-eslint/explicit-function-return-type": [ "warn", {
