@@ -7,13 +7,6 @@
 import App from './App.vue';
 */
 
-import {
-    h as createElement,
-    createApp as createVueApp,
-    reactive,
-    onMounted
-} from 'vue';
-
 import Vue from 'vue/dist/vue';
 import {
     App,
@@ -22,35 +15,25 @@ import {
     CreateAppFunction
 } from './types';
 
+import {
+    h as createElement,
+    createApp as createVueApp,
+    reactive,
+    onMounted
+} from 'vue';
 
 import lodashSet from 'lodash/set';
 
+import {
+    isPromise,
+    isComponentDef
+} from './utils';
 
 // resolve cross reference
 const polyfill: {
     createComponent?: Function;
     createElement?: Function;
 } = {};
-
-/**
- * check if type is ComponentDef. use ComponentDef.init() to detect
- * @param type component type
- * @returns true if type is component def.
- */
-const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
-    const componeDef = type as ComponentDef;
-    return typeof componeDef.init === 'function';
-};
-
-/**
- * check if type is ComponentDef. use ComponentDef.init() to detect
- * @param value component type
- * @returns true if type is promise.
- */
-const isPromise = ( value: unknown ): value is Promise<unknown> => {
-    const val = value as Promise<unknown>;
-    return val && val.then && typeof val.then === 'function';
-};
 
 /**
  * Virtual DOM API as h

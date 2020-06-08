@@ -1,5 +1,9 @@
 /* eslint-env es6 */
 
+import {
+    ComponentDef
+} from './types';
+
 export const BaseIndent = '  ';
 
 // DOM Node type in browser
@@ -243,5 +247,25 @@ export const parseExpr = ( str: string ): string => {
  */
 export const cloneJson = ( input: JSON ): JSON => {
     return input ? JSON.parse( JSON.stringify( input ) ) : input;
+};
+
+/**
+ * check if type is ComponentDef. use ComponentDef.init() to detect
+ * @param type component type
+ * @returns true if type is component def.
+ */
+export const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
+    const componeDef = type as ComponentDef;
+    return typeof componeDef.init === 'function';
+};
+
+/**
+ * check if type is ComponentDef. use ComponentDef.init() to detect
+ * @param value component type
+ * @returns true if type is promise.
+ */
+export const isPromise = ( value: unknown ): value is Promise<unknown> => {
+    const val = value as Promise<unknown>;
+    return val && val.then && typeof val.then === 'function';
 };
 

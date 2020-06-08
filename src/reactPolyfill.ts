@@ -1,11 +1,4 @@
 import {
-    createElement,
-    useEffect,
-    useRef,
-    useState
-} from 'react';
-
-import {
     App,
     Model,
     Component,
@@ -13,36 +6,27 @@ import {
     CreateAppFunction
 } from './types';
 
+import {
+    createElement,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 
 import ReactDOM from 'react-dom';
 
 import lodashSet from 'lodash/set';
+
+import {
+    isPromise,
+    isComponentDef
+} from './utils';
 
 // resolve cross reference
 const polyfill: {
     createComponent?: Function;
     createElement?: Function;
 } = {};
-
-/**
- * check if type is ComponentDef. use ComponentDef.init() to detect
- * @param type component type
- * @returns true if type is component def.
- */
-const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
-    const componeDef = type as ComponentDef;
-    return typeof componeDef.init === 'function';
-};
-
-/**
- * check if type is ComponentDef. use ComponentDef.init() to detect
- * @param value component type
- * @returns true if type is promise.
- */
-const isPromise = ( value: unknown ): value is Promise<unknown> => {
-    const val = value as Promise<unknown>;
-    return val && val.then && typeof val.then === 'function';
-};
 
 /**
  * Virtual DOM API as h
