@@ -78,7 +78,13 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     render: ( component: Component & Vue.ComponentOptions ): JSX.Element => {
         return componentDef.view( polyfill.createElement )( component.$attrs, component );
     },
-    setup: (): object => {
+    /*
+    when u declare 'props', then it can be accessed as input of setup function. Otherwise it is attrs
+    props: {
+        firstName: String
+    },
+    */
+    setup: ( /*props: any*/ ): object => {
         const model = componentDef.init();
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
