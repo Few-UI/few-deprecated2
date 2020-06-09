@@ -38,6 +38,7 @@ export interface ComponentDef {
         [key: string]: ActionDef;
     };
     view: View;
+    watchers?: WatchersDef;
     _compiled?: {
         [platform: string]: any;
     };
@@ -46,6 +47,15 @@ export interface ComponentDef {
 
 // Action
 export type ActionDef = ( { model, dispatch }: Component, ...args: any[] ) => void
+
+// Watch
+export interface Watcher {
+    action: ( event?: unknown ) => void;
+    when?: boolean;
+    watch?: unknown;
+}
+
+export type WatchersDef = ( { model, dispatch }: Component, ...args: any[] ) => Watcher[]
 
 
 // Route

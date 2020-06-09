@@ -7,16 +7,19 @@ const PropSubscriptionWidget = {
         <div>
             <div>Name: {firstName || 'Jane'} {lastName || 'Dole'}</div>
             <div>Address: {model.address}</div>
-            <div>{( actions.getAddress(), '' )}</div>
         </div>,
     init: () => ( {
         address: 'loading...'
     } ),
+    watchers: ( { model, actions } ) => [ {
+        watch: model.lastName,
+        action: actions.getAddress
+    } ],
     actions: {
         getAddress: async( { model, dispatch } ): Promise<void> => {
-            if ( model.address !== 'winter fell' ) {
-                await wait( 500 );
-                dispatch( 'address', 'winter fell' );
+            await wait( 1000 );
+            if ( model.address !== 'winter fall' ) {
+                dispatch( 'address', 'winter fall' );
             }
         }
     }

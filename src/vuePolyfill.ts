@@ -19,7 +19,8 @@ import {
     h as createElement,
     createApp as createVueApp,
     reactive,
-    onMounted
+    onMounted,
+    onUpdated
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -102,12 +103,36 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             } );
         }
 
+        const watching = {
+            current: [] as any[]
+        };
+        const updateWatchers = () => {
+            if ( componentDef.watchers ) {
+                const watcherRes = componentDef.watchers( component );
+                const lastRes = watching.current;
+                watcherRes.forEach( ( curr, idx ) => {
+                    const isDefined = lastRes.length > 0;
+                    const last = lastRes.length > idx ? lastRes[idx] : undefined;
+                    if ( !isDefined || last.watch !== curr.watch ) {
+                        curr.action();
+                    }
+                } );
+                watching.current = watcherRes;
+            }
+        };
+
         onMounted( () => {
             if( isPromise( model ) ) {
                 Promise.resolve( model ).then( model =>{
                     Object.assign( component.model, model );
                 } );
             }
+
+            updateWatchers();
+        } );
+
+        onUpdated( () => {
+            updateWatchers();
         } );
 
         return component;

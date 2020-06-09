@@ -21,6 +21,7 @@ import {
     isPromise,
     isComponentDef
 } from './utils';
+import { watch } from 'fs';
 
 // resolve cross reference
 const polyfill: {
@@ -40,8 +41,8 @@ const polyfill: {
  * @returns virtual DOM component
  */
 const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
-    if( isComponentDef( type ) ) {
-        if( !type._compiled || !type._compiled.react ) {
+    if ( isComponentDef( type ) ) {
+        if ( !type._compiled || !type._compiled.react ) {
             type._compiled = {
                 ...type._compiled,
                 react: polyfill.createComponent( type )
@@ -58,7 +59,7 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  * @returns platform specific component
  */
 export function createComponent( componentDef: ComponentDef ): { ( props: React.Attributes ): JSX.Element } {
-    const renderFn = ( props: React.Attributes ): JSX.Element => {
+    const RenderFn = ( props: React.Attributes ): JSX.Element => {
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {
@@ -74,14 +75,6 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             };
         } );
 
-        useEffect( ()=> {
-            if( initPromise.current ) {
-                Promise.resolve( initPromise.current ).then( model => {
-                    vm.model = model as Model;
-                    setState( { ...vm } );
-                } );
-            }
-        }, [] );
 
         const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );
@@ -90,20 +83,48 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
 
         const component: Component = { model: vm.model, dispatch, h: polyfill.createElement };
 
-        if( componentDef.actions ) {
+        if ( componentDef.actions ) {
             component.actions = {};
             Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
                 component.actions[key] = value.bind( null, component );
             } );
         }
 
+        // async init
+        useEffect( () => {
+            if ( initPromise.current ) {
+                Promise.resolve( initPromise.current ).then( model => {
+                    vm.model = model as Model;
+                    setState( { ...vm } );
+                } );
+            }
+        }, [] );
+
+
+        // watchers
+        const watching = useRef( [] );
+        useEffect( () => {
+            if ( componentDef.watchers ) {
+                const watcherRes = componentDef.watchers( component );
+                const lastRes = watching.current;
+                watcherRes.forEach( ( curr, idx ) => {
+                    const isDefined = lastRes.length > 0;
+                    const last = lastRes.length > idx ? lastRes[idx] : undefined;
+                    if ( !isDefined || last.watch !== curr.watch ) {
+                        curr.action();
+                    }
+                } );
+                watching.current = watcherRes;
+            }
+        } );
+
         // we can do better bindings later
         const renderFn = componentDef.view( polyfill.createElement );
 
         return renderFn( props, component );
     };
-    renderFn.displayName = componentDef.name;
-    return renderFn;
+    RenderFn.displayName = componentDef.name;
+    return RenderFn;
 }
 
 export const createApp: CreateAppFunction = componentDef => {
