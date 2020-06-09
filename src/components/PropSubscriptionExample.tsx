@@ -7,6 +7,9 @@ const PropSubscriptionWidget = {
         <div>
             <div>Name: {firstName || 'Jane'} {lastName || 'Dole'}</div>
             <div>Address: {model.address}</div>
+            {/*
+                <div>{( actions.getAddress(), '' )}</div>
+            */}
         </div>,
     init: () => ( {
         address: 'loading...'
