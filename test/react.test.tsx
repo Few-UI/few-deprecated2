@@ -8,6 +8,8 @@ import {
 import { useEffect, useState, createElement as h } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+enableMockTimer();
+
 const printStatck = [] as string[];
 
 ////////////////////////////////
