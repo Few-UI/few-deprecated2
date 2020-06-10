@@ -4,10 +4,10 @@ import { wait } from '../utils';
 
 const PropSubscriptionWidget = {
     name: 'PropSubscriptionWidget',
-    view: h => ( { firstName, lastName }: { [key: string]: string }, { model, actions } ): JSX.Element =>
+    view: h => ( { props: { firstName, lastName }, model: { address }, actions } ): JSX.Element =>
         <div>
             <div>Name: {firstName || 'Jane'} {lastName || 'Dole'}</div>
-            <div>Address: {model.address}</div>
+            <div>Address: {address}</div>
             {/*
                 <div>{( actions.getAddress(), '' )}</div>
             */}
@@ -38,7 +38,7 @@ export default {
     actions: {
         changeFamily: ( { model, dispatch } ) => void dispatch( 'lastName', 'Tully' )
     },
-    view: h => ( _, { model, actions } ): JSX.Element =>
+    view: h => ( { model, actions } ): JSX.Element =>
         h( 'div', null,
             h( PropSubscriptionWidget, {
                 firstName: 'Ed',

@@ -2,7 +2,7 @@ import { ComponentDef } from '../../src/types';
 
 const PropWidget = {
     name: 'PropWidget',
-    view: h => ( { firstName, lastName }: { [key: string]: string } ): JSX.Element =>
+    view: h => ( { props: { firstName, lastName } } ): JSX.Element =>
         <div>Hello {firstName || 'Jane'} {lastName || 'Dole'}!</div>,
     init: () => ( {} )
 } as ComponentDef;
@@ -16,7 +16,7 @@ export default {
     actions: {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
-    view: h => ( _, { model, actions } ): JSX.Element =>
+    view: h => ( { model, actions } ): JSX.Element =>
         h( 'div', null,
             h( PropWidget, {
                 firstName: 'value',

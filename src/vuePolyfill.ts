@@ -77,7 +77,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
     render: ( component: Component & Vue.ComponentOptions ): JSX.Element => {
-        return componentDef.view( polyfill.createElement )( component.$attrs, component );
+        return componentDef.view( polyfill.createElement )( component );
     },
     /*
     when u declare 'props', then it can be accessed as input of setup function. Otherwise it is attrs
@@ -85,13 +85,14 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         firstName: String
     },
     */
-    setup: ( /*props: any*/ ): object => {
+    setup: ( _: never, context: Vue.SetupContext ): object => {
         const model = componentDef.init();
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
             },
+            props: context.attrs,
             h: polyfill.createElement
         };
 

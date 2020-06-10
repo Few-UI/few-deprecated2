@@ -2,7 +2,7 @@ import { ComponentDef } from '../../src/types';
 
 export default {
     name: 'ViewExample',
-    view: h => ( _, { model, actions } ): JSX.Element =>
+    view: h => ( { model, actions } ): JSX.Element =>
         <div>
             <input id='text' value={model.name as string} onChange={actions.updateName} />
             <div id='result'>{model.name}</div>

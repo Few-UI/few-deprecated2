@@ -23,7 +23,7 @@ export default {
     actions: {
         plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
     },
-    view: h => ( _, { model } ): JSX.Element =>
+    view: h => ( { model } ): JSX.Element =>
         <pre>
             {JSON.stringify( model )}
         </pre>

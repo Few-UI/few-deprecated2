@@ -17,6 +17,7 @@ export interface Model {
 export interface Component {
     model: Model;
     dispatch: Function;
+    props: { [key: string]: any};
     h: Function;
     actions?: {
         [key: string]: ( event?: unknown ) => void;
@@ -25,7 +26,7 @@ export interface Component {
 }
 
 // View
-export type RenderFn = ( props: object, component: Component ) => JSX.Element;
+export type RenderFn = ( component: Component ) => JSX.Element;
 export type View = ( h: Function ) => RenderFn;
 
 // ComponentDef

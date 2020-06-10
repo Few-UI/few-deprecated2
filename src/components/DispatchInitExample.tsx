@@ -34,7 +34,7 @@ export default {
         loadMockData: ( { dispatch } ) => void
             setTimeout( () => dispatch( 'asyncPath', 'asyncPath' ), 1000 )
     },
-    view: h => ( _, { model } ): JSX.Element =>
+    view: h => ( { model } ): JSX.Element =>
         <pre>
            {JSON.stringify( model, null, 2 )}
         </pre>

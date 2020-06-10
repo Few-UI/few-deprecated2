@@ -50,7 +50,7 @@
         "c": "git add -A && git-cz",
         "build": "rollup -c",
         "start": "rollup -c -w",
-        "lint": "eslint src/** --no-error-on-unmatched-pattern",
+        "lint": "eslint \"src/**/*\" \"test/**/*\" --no-error-on-unmatched-pattern",
         "test": "jest"
     },
     "config": {

@@ -81,7 +81,12 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             setState( { ...vm } );
         };
 
-        const component: Component = { model: vm.model, dispatch, h: polyfill.createElement };
+        const component: Component = {
+            model: vm.model,
+            dispatch,
+            props,
+            h: polyfill.createElement
+        };
 
         if ( componentDef.actions ) {
             component.actions = {};
@@ -121,7 +126,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         // we can do better bindings later
         const renderFn = componentDef.view( polyfill.createElement );
 
-        return renderFn( props, component );
+        return renderFn( component );
     };
     RenderFn.displayName = componentDef.name;
     return RenderFn;
