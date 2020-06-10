@@ -1,3 +1,4 @@
+// https://medium.com/@mickey.vip/an-approach-to-nested-reusable-view-functions-in-elm-a1531b9abaf3
 import { ComponentDef } from '../types';
 import { wait } from '../utils';
 
@@ -31,19 +32,21 @@ const PropSubscriptionWidget = {
 export default {
     name: 'PropSubscriptionExample',
     init: () => ( {
-        value: 7
+        lastName: 'Stark'
     } ),
     // elm style of upedate
     actions: {
-        plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
+        changeFamily: ( { model, dispatch } ) => void dispatch( 'lastName', 'Tully' )
     },
-    view: h => (): JSX.Element =>
+    view: h => ( _, { model, actions } ): JSX.Element =>
         h( 'div', null,
             h( PropSubscriptionWidget, {
                 firstName: 'Ed',
-                lastName: 'Stark'
-            } )
-
+                lastName: model.lastName
+            } ),
+            h( 'button', {
+                onClick: actions.changeFamily
+            }, 'change' )
         )
 } as ComponentDef;
 
