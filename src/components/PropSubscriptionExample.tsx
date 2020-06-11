@@ -4,7 +4,7 @@ import { wait } from '../utils';
 
 const PropSubscriptionWidget = {
     name: 'PropSubscriptionWidget',
-    view: h => ( { props: { firstName, lastName }, model: { address }, actions } ): JSX.Element =>
+    view: h => ( { props: { firstName, lastName }, model: { address } } ): JSX.Element =>
         <div>
             <div>Name: {firstName || 'Jane'} {lastName || 'Dole'}</div>
             <div>Address: {address}</div>
@@ -13,17 +13,20 @@ const PropSubscriptionWidget = {
             */}
         </div>,
     init: () => ( {
-        address: 'loading...'
+        address: 'undefined'
     } ),
-    watchers: ( { model, actions } ) => [ {
-        watch: model.lastName,
+    watchers: ( { props, actions } ) => [ {
+        watch: props.lastName,
         action: actions.getAddress
     } ],
     actions: {
-        getAddress: async( { model, dispatch } ): Promise<void> => {
+        getAddress: async( { props: { lastName }, dispatch } ): Promise<void> => {
+            dispatch( 'address', 'loading...' );
             await wait( 1000 );
-            if ( model.address !== 'winter fall' ) {
+            if ( lastName === 'Stark' ) {
                 dispatch( 'address', 'winter fall' );
+            } else if ( lastName === 'Tully' ) {
+                dispatch( 'address', 'river run' );
             }
         }
     }
@@ -36,7 +39,8 @@ export default {
     } ),
     // elm style of upedate
     actions: {
-        changeFamily: ( { model, dispatch } ) => void dispatch( 'lastName', 'Tully' )
+        changeFamily: ( { model, dispatch } ) => void
+            dispatch( 'lastName', model.lastName === 'Stark' ? 'Tully' : 'Stark' )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         h( 'div', null,
