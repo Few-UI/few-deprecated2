@@ -15,38 +15,27 @@
  */
 
 import {
-    App
-} from '../src/types';
-
-import {
     wait,
-    enableMockTimer,
+    setupComponentTest,
     getSupportedFrameworks
 } from './utils';
-import SyncActionExample from './components/SyncActionExample';
+import Component from './components/SyncActionExample';
 
-enableMockTimer();
+// debug: enable this line
+// const createApp = getSupportedFrameworks().react;
 
-// Test
+// debug: comment this line
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `SyncActionExample test on ${name}`, () => {
-        let app: App;
-        let containerElem: HTMLElement;
+    // debug: enable this line
+    // describe( 'debug specific suite', () => {
+    describe( `${Component.name} test on ${name}`, () => {
+        const fixture = setupComponentTest();
 
-        beforeEach( () => {
-            containerElem = document.createElement( 'div' );
-            document.body.appendChild( containerElem );
-        } );
-
-        afterEach( () => {
-            if ( app ) {
-                app.unmount( containerElem );
-            }
-            document.body.removeChild( containerElem );
-        } );
-
-        it( `SyncActionExample on ${name}`, async() => {
-            app = createApp( SyncActionExample ).mount( containerElem );
+        // debug: enable this line
+        // it( 'debug specific test', async() => {
+        it( `${Component.name} test on ${name}`, async() => {
+            const containerElem = fixture.container;
+            fixture.app = createApp( Component ).mount( containerElem );
             expect( containerElem.innerHTML ).toEqual( '<div><div>current number: 7</div><button>+1</button></div>' );
 
             // await is not required for react case
@@ -58,4 +47,5 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         } );
     } );
 
+// debug: comment this line
 Object.entries( getSupportedFrameworks() ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );

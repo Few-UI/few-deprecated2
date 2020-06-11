@@ -1,39 +1,28 @@
 /* eslint-env jest */
 
 import {
-    App
-} from '../src/types';
-
-import {
     wait,
-    enableMockTimer,
     trimHtmlComments,
+    setupComponentTest,
     getSupportedFrameworks
 } from './utils';
-import AsyncActionExample from './components/AsyncActionExample';
+import Component from './components/AsyncActionExample';
 
-enableMockTimer();
+// debug: enable this line
+// const createApp = getSupportedFrameworks().react;
 
-// Test
+// debug: comment this line
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `Component test on ${name}`, () => {
-        let app: App;
-        let containerElem: HTMLElement;
+    // debug: enable this line
+    // describe( 'debug specific suite', () => {
+    describe( `${Component.name} test on ${name}`, () => {
+        const fixture = setupComponentTest();
 
-        beforeEach( () => {
-            containerElem = document.createElement( 'div' );
-            document.body.appendChild( containerElem );
-        } );
-
-        afterEach( () => {
-            if ( app ) {
-                app.unmount( containerElem );
-            }
-            document.body.removeChild( containerElem );
-        } );
-
-        it( `AsyncActionExample on ${name}`, async() => {
-            app = createApp( AsyncActionExample ).mount( containerElem );
+        // debug: enable this line
+        // it( 'debug specific test', async() => {
+        it( `${Component.name} test on ${name}`, async() => {
+            const containerElem = fixture.container;
+            fixture.app = createApp( Component ).mount( containerElem );
             expect( trimHtmlComments( containerElem.innerHTML ) ).toEqual( [
                 '<div>',
                   '<button id="button1">value1</button>',
@@ -70,4 +59,5 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         } );
     } );
 
+// debug: comment this line
 Object.entries( getSupportedFrameworks() ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );

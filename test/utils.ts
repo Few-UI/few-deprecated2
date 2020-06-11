@@ -2,6 +2,7 @@
 
 // available frame work
 import {
+    App,
     CreateAppFunction
 } from '../src/types';
 
@@ -13,7 +14,7 @@ import { act } from 'react-dom/test-utils';
 
 export const getSupportedFrameworks = (): { [key: string]: CreateAppFunction } => ( {
     react: createReactApp,
-    vue: createVueApp
+    vue3: createVueApp
 } );
 
 let _mockTimerEnabled = false;
@@ -24,6 +25,38 @@ let _mockTimerEnabled = false;
 export const enableMockTimer = (): void => {
     _mockTimerEnabled = true;
     jest.useFakeTimers();
+};
+
+export const setupComponentTest = ( skipMockTimer?: boolean ): {
+    app: App;
+    container: HTMLElement;
+} => {
+    const fixture = {
+        app: null as App,
+        container: null as HTMLElement
+    };
+
+    beforeEach( () => {
+        fixture.container = document.createElement( 'div' );
+        document.body.appendChild( fixture.container );
+    } );
+
+    afterEach( () => {
+        const { app, container } = fixture;
+        if ( app ) {
+            app.unmount( container );
+        }
+        document.body.removeChild( container );
+
+        fixture.app = null;
+        fixture.container = null;
+    } );
+
+    if( !skipMockTimer ) {
+        enableMockTimer();
+    }
+
+    return fixture;
 };
 
 /**

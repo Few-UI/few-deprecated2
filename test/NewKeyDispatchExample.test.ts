@@ -1,40 +1,28 @@
 /* eslint-env jest */
 
 import {
-    App
-} from '../src/types';
-
-import {
     wait,
-    enableMockTimer,
+    setupComponentTest,
     trimHtmlComments,
     getSupportedFrameworks
 } from './utils';
+import Component from './components/NewKeyDispatchExample';
 
-import NewKeyDispatchExample from './components/NewKeyDispatchExample';
+// debug: enable this line
+// const createApp = getSupportedFrameworks().react;
 
-enableMockTimer();
-
-// Test
+// debug: comment this line
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `NewKeyDispatchExample test on ${name}`, () => {
-        let app: App;
-        let containerElem: HTMLElement;
+    // debug: enable this line
+    // describe( 'debug specific suite', () => {
+    describe( `${Component.name} test on ${name}`, () => {
+        const fixture = setupComponentTest();
 
-        beforeEach( () => {
-            containerElem = document.createElement( 'div' );
-            document.body.appendChild( containerElem );
-        } );
-
-        afterEach( () => {
-            if ( app ) {
-                app.unmount( containerElem );
-            }
-            document.body.removeChild( containerElem );
-        } );
-
-        it( `SyncActionExample on ${name}`, async() => {
-            app = createApp( NewKeyDispatchExample ).mount( containerElem );
+        // debug: enable this line
+        // it( 'debug specific test', async() => {
+        it( `${Component.name} test on ${name}`, async() => {
+            const containerElem = fixture.container;
+            fixture.app = createApp( Component ).mount( containerElem );
             expect( trimHtmlComments( containerElem.innerHTML ) ).toEqual( '<div><div>Hello !</div><button>set name</button></div>' );
 
             // await is not required for react case
@@ -46,4 +34,5 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         } );
     } );
 
+// debug: comment this line
 Object.entries( getSupportedFrameworks() ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );

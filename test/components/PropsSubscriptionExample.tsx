@@ -1,6 +1,6 @@
 // https://medium.com/@mickey.vip/an-approach-to-nested-reusable-view-functions-in-elm-a1531b9abaf3
-import { ComponentDef } from '../types';
-import { wait } from '../utils';
+import { ComponentDef } from '../../src/types';
+import { wait } from '../../src/utils';
 
 const PropSubscriptionWidget = {
     name: 'PropSubscriptionWidget',
@@ -49,6 +49,7 @@ export default {
                 lastName: model.lastName
             } ),
             h( 'button', {
+                id: 'changeFamily',
                 onClick: actions.changeFamily
             }, 'change' )
         )

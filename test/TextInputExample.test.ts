@@ -1,40 +1,30 @@
 /* eslint-env jest */
 
 import {
-    App
-} from '../src/types';
-
-import {
     wait,
-    enableMockTimer,
+    setupComponentTest,
     setValueToInputElement,
     getSupportedFrameworks
 } from './utils';
-import TextboxExample from './components/TextboxExample';
+import Component from './components/TextboxExample';
 
-enableMockTimer();
+// debug: enable this line
+// const createApp = getSupportedFrameworks().react;
 
+// debug: comment this line
 const _testSuite = ( name: string, createApp: Function ): void =>
-    describe( `Component test on ${name}`, () => {
-        let app: App;
-        let containerElem: HTMLElement;
-
-        beforeEach( () => {
-            containerElem = document.createElement( 'div' );
-            document.body.appendChild( containerElem );
-        } );
-
-        afterEach( () => {
-            if ( app ) {
-                app.unmount( containerElem );
-            }
-            document.body.removeChild( containerElem );
-        } );
+    // debug: enable this line
+    // describe( 'debug specific suite', () => {
+    describe( `${Component.name} test on ${name}`, () => {
+        const fixture = setupComponentTest();
 
         // https://github.com/jsdom/jsdom/commit/ea6a2e4143cf67e30b528eb32d7b6c0b88595846
         // inputElem.value = 'a' will not change DOM but brower will interpret it correclty
-        it( `TextboxExample on ${name}`, async() => {
-            app = createApp( TextboxExample ).mount( containerElem );
+        // debug: enable this line
+        // it( 'debug specific test', async() => {
+        it( `${Component.name} test on ${name}`, async() => {
+            const containerElem = fixture.container;
+            fixture.app = createApp( Component ).mount( containerElem );
 
             // await is not required for react case
             const textElem = document.getElementById( 'text' ) as HTMLInputElement;
@@ -69,4 +59,5 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         } );
     } );
 
+// debug: comment this line
 Object.entries( getSupportedFrameworks() ).forEach( ( [ name, createApp ] ) => _testSuite( name, createApp ) );

@@ -1,7 +1,7 @@
 import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
-import PropSubscriptionExample from './PropSubscriptionExample';
+import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 // import DispatchInitExample from './DispatchInitExample';
 
 export default {
@@ -16,7 +16,7 @@ export default {
             <ViewExample />
             {/*
             // @ts-ignore */}
-            <PropSubscriptionExample />
+            <PropsSubscriptionExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef;

@@ -2,13 +2,11 @@
 
 import {
     wait,
-    enableMockTimer
+    setupComponentTest
 } from './utils';
 
 import { useEffect, useState, createElement as h } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-
-enableMockTimer();
 
 const printStatck = [] as string[];
 
@@ -105,22 +103,15 @@ const ChangeContainer = (): JSX.Element => {
 };
 ChangeContainer.displayName = 'ChangeContainer';
 
-describe( `PropExample test on ${name}`, () => {
-    let containerElem: HTMLElement;
-
-    beforeEach( () => {
-        containerElem = document.createElement( 'div' );
-        document.body.appendChild( containerElem );
-    } );
+describe( 'react features', () => {
+    const fixture = setupComponentTest();
 
     afterEach( () => {
-        unmountComponentAtNode( containerElem );
-        document.body.removeChild( containerElem );
         printStatck.splice( 0, printStatck.length );
     } );
 
     it( 'Test useEffect on constant prop', async() => {
-        render( <ConstantContainer />, containerElem );
+        render( <ConstantContainer />, fixture.container );
 
         // init
         await wait();
@@ -141,7 +132,7 @@ describe( `PropExample test on ${name}`, () => {
     } );
 
     it( 'Test useEffect for changeState on ChangeContainer', async() => {
-        render( <ChangeContainer />, containerElem );
+        render( <ChangeContainer />, fixture.container );
 
         // init
         await wait();
@@ -164,7 +155,7 @@ describe( `PropExample test on ${name}`, () => {
     } );
 
     it( 'Test useEffect for changeScope on ChangeContainer', async() => {
-        render( <ChangeContainer />, containerElem );
+        render( <ChangeContainer />, fixture.container );
 
         // init
         await wait();
@@ -188,7 +179,7 @@ describe( `PropExample test on ${name}`, () => {
     } );
 
     it( 'Test useEffect for changeSubScope on ChangeContainer', async() => {
-        render( <ChangeContainer />, containerElem );
+        render( <ChangeContainer />, fixture.container );
 
         // init
         await wait();
@@ -212,7 +203,7 @@ describe( `PropExample test on ${name}`, () => {
     } );
 
     it( 'Test useEffect for changeValue on ChangeContainer', async() => {
-        render( <ChangeContainer />, containerElem );
+        render( <ChangeContainer />, fixture.container );
 
         // init
         await wait();
@@ -236,7 +227,7 @@ describe( `PropExample test on ${name}`, () => {
     } );
 
     it( 'Test useEffect for changeWidget on ChangeWidget', async() => {
-        render( <ChangeContainer />, containerElem );
+        render( <ChangeContainer />, fixture.container );
 
         // init
         await wait();
