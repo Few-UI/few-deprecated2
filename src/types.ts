@@ -22,6 +22,7 @@ export interface Component {
     actions?: {
         [key: string]: ( event?: unknown ) => void;
     };
+    elem?: HTMLElement;
     _init?: Promise<Model>;
 }
 
@@ -47,7 +48,7 @@ export interface ComponentDef {
 
 
 // Action
-export type ActionDef = ( { model, dispatch }: Component, ...args: any[] ) => void
+export type ActionDef = ( vm: Component, ...args: any[] ) => void
 
 // Watch
 export interface Watcher {
@@ -56,7 +57,7 @@ export interface Watcher {
     watch?: unknown;
 }
 
-export type WatchersDef = ( { model, dispatch }: Component, ...args: any[] ) => Watcher[]
+export type WatchersDef = ( vm: Component, ...args: any[] ) => Watcher[]
 
 
 // Route

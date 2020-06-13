@@ -13,7 +13,7 @@ import {
     useState
 } from 'react';
 
-import ReactDOM from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 
 import lodashSet from 'lodash/set';
 
@@ -59,6 +59,9 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  * @returns platform specific component
  */
 export function createComponent( componentDef: ComponentDef ): { ( props: React.Attributes ): JSX.Element } {
+    // we can do better bindings later
+    const renderFn = componentDef.view( polyfill.createElement );
+
     const RenderFn = ( props: React.Attributes ): JSX.Element => {
         const initPromise = useRef( null );
 
@@ -75,6 +78,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             };
         } );
 
+        const domRef = useRef();
 
         const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );
@@ -98,6 +102,8 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         // async init
         useEffect( () => {
             if ( initPromise.current ) {
+                // all API be consistent
+                component.elem = domRef.current;
                 Promise.resolve( initPromise.current ).then( model => {
                     vm.model = model as Model;
                     setState( { ...vm } );
@@ -109,6 +115,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         // watchers
         const watching = useRef( [] );
         useEffect( () => {
+            component.elem = domRef.current;
             if ( componentDef.watchers ) {
                 const watcherRes = componentDef.watchers( component );
                 const lastRes = watching.current;
@@ -123,10 +130,9 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             }
         } );
 
-        // we can do better bindings later
-        const renderFn = componentDef.view( polyfill.createElement );
-
-        return renderFn( component );
+        return createElement( 'div', {
+            ref: domRef
+        }, renderFn( component ) );
     };
     RenderFn.displayName = componentDef.name;
     return RenderFn;

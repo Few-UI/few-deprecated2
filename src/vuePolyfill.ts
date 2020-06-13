@@ -20,7 +20,8 @@ import {
     createApp as createVueApp,
     reactive,
     onMounted,
-    onUpdated
+    onUpdated,
+    ref
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -77,9 +78,11 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     // in Vue render is deined as loose as 'Function'
     // in typeScript by default JSX returns JSX.Element
     // so here even for Vue we use JSX.Element
+    /*
     render: ( component: Component & Vue.ComponentOptions ): JSX.Element => {
         return componentDef.view( polyfill.createElement )( component );
     },
+    */
     /*
     when u declare 'props', then it can be accessed as input of setup function. Otherwise it is attrs
     props: {
@@ -88,6 +91,9 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     */
     setup: ( _: never, context: Vue.SetupContext ): object => {
         const model = componentDef.init();
+
+        const domRef = ref( null );
+
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
@@ -108,7 +114,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         const watching = {
             current: [] as any[]
         };
-        const updateWatchers = () => {
+        const updateWatchers = (): void => {
             if ( componentDef.watchers ) {
                 const watcherRes = componentDef.watchers( component );
                 const lastRes = watching.current;
@@ -124,6 +130,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         };
 
         onMounted( () => {
+            component.elem = domRef.value;
             if( isPromise( model ) ) {
                 Promise.resolve( model ).then( model =>{
                     Object.assign( component.model, model );
@@ -137,7 +144,12 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             updateWatchers();
         } );
 
-        return component;
+        const renderFn = componentDef.view( polyfill.createElement );
+
+        // return component;
+        return (): JSX.Element => h( 'div', {
+            ref: domRef
+        }, renderFn( component ) as Vue.VNode );
     }
 } );
 
