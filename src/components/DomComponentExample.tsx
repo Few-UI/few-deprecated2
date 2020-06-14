@@ -2,7 +2,7 @@ import { ComponentDef } from '../types';
 
 export default {
     name: 'DomComponentExample',
-    view: h => (): JSX.Element => <div></div>,
+    view: h => ( { ref } ): JSX.Element => <div ref={ref( 'el' )}></div>,
     init: () => ( {
         color: 'black'
     } ),
@@ -11,8 +11,9 @@ export default {
         action: actions.createDomComponent
     } ],
     actions: {
-        createDomComponent: ( { elem } ): void => {
-            elem.innerHTML = '<code>This is a DOM component</code>';
+        createDomComponent: ( { model } ): void => {
+            const el = model.el as HTMLElement;
+            el.innerHTML = '<code>This is a DOM component</code>';
         }
     }
 } as ComponentDef;

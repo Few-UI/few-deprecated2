@@ -10,7 +10,7 @@
 
 // Model
 export interface Model {
-    [key: string]: object | string | number | boolean;
+    [key: string]: object | string | number | boolean | HTMLElement;
 }
 
 // Component
@@ -22,7 +22,7 @@ export interface Component {
     actions?: {
         [key: string]: ( event?: unknown ) => void;
     };
-    elem?: HTMLElement;
+    ref?: ( path: string ) => ( el: HTMLElement ) => void;
     _init?: Promise<Model>;
 }
 

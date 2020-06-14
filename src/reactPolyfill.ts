@@ -78,8 +78,6 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             };
         } );
 
-        const domRef = useRef();
-
         const dispatch = ( path: string, value: unknown ): void => {
             lodashSet( vm.model, path, value );
             setState( { ...vm } );
@@ -88,6 +86,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         const component: Component = {
             model: vm.model,
             dispatch,
+            ref: path => el => void lodashSet( vm.model, path, el ),
             props,
             h: polyfill.createElement
         };
@@ -103,7 +102,6 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         useEffect( () => {
             if ( initPromise.current ) {
                 // all API be consistent
-                component.elem = domRef.current;
                 Promise.resolve( initPromise.current ).then( model => {
                     vm.model = model as Model;
                     setState( { ...vm } );
@@ -115,7 +113,6 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         // watchers
         const watching = useRef( [] );
         useEffect( () => {
-            component.elem = domRef.current;
             if ( componentDef.watchers ) {
                 const watcherRes = componentDef.watchers( component );
                 const lastRes = watching.current;
@@ -130,9 +127,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
             }
         } );
 
-        return createElement( 'div', {
-            ref: domRef
-        }, renderFn( component ) );
+        return  renderFn( component );
     };
     RenderFn.displayName = componentDef.name;
     return RenderFn;

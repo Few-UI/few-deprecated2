@@ -99,6 +99,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
             },
+            ref: path => el => void lodashSet( component.model, path, el ),
             props: context.attrs,
             h: polyfill.createElement
         };
@@ -130,7 +131,6 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         };
 
         onMounted( () => {
-            component.elem = domRef.value;
             if( isPromise( model ) ) {
                 Promise.resolve( model ).then( model =>{
                     Object.assign( component.model, model );
@@ -147,9 +147,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         const renderFn = componentDef.view( polyfill.createElement );
 
         // return component;
-        return (): JSX.Element => h( 'div', {
-            ref: domRef
-        }, renderFn( component ) as Vue.VNode );
+        return (): JSX.Element => renderFn( component );
     }
 } );
 
