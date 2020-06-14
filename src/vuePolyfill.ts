@@ -10,6 +10,7 @@ import App from './App.vue';
 import Vue from 'vue/dist/vue';
 import {
     App,
+    Ref,
     Component,
     ComponentDef,
     CreateAppFunction
@@ -92,14 +93,14 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     setup: ( _: never, context: Vue.SetupContext ): object => {
         const model = componentDef.init();
 
-        const domRef = ref( null );
-
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
             },
-            ref: path => el => void lodashSet( component.model, path, el ),
+            ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
+                component.ref[path || 'el'] = el;
+            } ) as Ref,
             props: context.attrs,
             h: polyfill.createElement
         };

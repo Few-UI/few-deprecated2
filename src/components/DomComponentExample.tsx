@@ -11,8 +11,8 @@ export default {
         action: actions.createDomComponent
     } ],
     actions: {
-        createDomComponent: ( { model } ): void => {
-            const el = model.el as HTMLElement;
+        createDomComponent: ( { ref } ): void => {
+            const el = ref.el as HTMLElement;
             el.innerHTML = '<code>This is a DOM component</code>';
         }
     }

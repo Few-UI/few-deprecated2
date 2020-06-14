@@ -13,16 +13,22 @@ export interface Model {
     [key: string]: object | string | number | boolean | HTMLElement;
 }
 
+// Ref
+export interface Ref {
+    ( key: string ): ( el: HTMLElement ) => void;
+    [key: string]: HTMLElement;
+}
+
 // Component
 export interface Component {
     model: Model;
     dispatch: Function;
+    ref: Ref;
     props: { [key: string]: any};
     h: Function;
     actions?: {
         [key: string]: ( event?: unknown ) => void;
     };
-    ref?: ( path: string ) => ( el: HTMLElement ) => void;
     _init?: Promise<Model>;
 }
 

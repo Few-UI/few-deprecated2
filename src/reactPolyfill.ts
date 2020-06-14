@@ -1,5 +1,6 @@
 import {
     App,
+    Ref,
     Model,
     Component,
     ComponentDef,
@@ -86,7 +87,9 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         const component: Component = {
             model: vm.model,
             dispatch,
-            ref: path => el => void lodashSet( vm.model, path, el ),
+            ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
+                component.ref[path || 'el'] = el;
+            } ) as Ref,
             props,
             h: polyfill.createElement
         };
