@@ -1,7 +1,6 @@
 import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
-import DomComponentExample from './DomComponentExample';
 // import DispatchInitExample from './DispatchInitExample';
 
 export default {
@@ -14,9 +13,6 @@ export default {
             {/*
             // @ts-ignore */}
             <ViewExample />
-            {/*
-            // @ts-ignore */}
-            <DomComponentExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef;

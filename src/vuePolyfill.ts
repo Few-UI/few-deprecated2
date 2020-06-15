@@ -21,8 +21,7 @@ import {
     createApp as createVueApp,
     reactive,
     onMounted,
-    onUpdated,
-    ref
+    onUpdated
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -93,10 +92,30 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
     setup: ( _: never, context: Vue.SetupContext ): object => {
         const model = componentDef.init();
 
+        const watching = {
+            current: [] as any[]
+        };
+
+        const updateWatchers = ( component: Component ): void => {
+            if ( componentDef.watchers ) {
+                const watcherRes = componentDef.watchers( component );
+                const lastRes = watching.current;
+                watching.current = watcherRes;
+                watcherRes.forEach( ( curr, idx ) => {
+                    const isDefined = lastRes.length > 0;
+                    const last = lastRes.length > idx ? lastRes[idx] : undefined;
+                    if ( !isDefined || last.watch !== curr.watch ) {
+                        curr.action();
+                    }
+                } );
+            }
+        };
+
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
+                updateWatchers( component );
             },
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
                 component.ref[path || 'el'] = el;
@@ -105,31 +124,12 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             h: polyfill.createElement
         };
 
-
         if ( componentDef.actions ) {
             component.actions = {};
             Object.entries( componentDef.actions ).forEach( ( [ key, value ] ) => {
                 component.actions[key] = value.bind( null, component );
             } );
         }
-
-        const watching = {
-            current: [] as any[]
-        };
-        const updateWatchers = (): void => {
-            if ( componentDef.watchers ) {
-                const watcherRes = componentDef.watchers( component );
-                const lastRes = watching.current;
-                watcherRes.forEach( ( curr, idx ) => {
-                    const isDefined = lastRes.length > 0;
-                    const last = lastRes.length > idx ? lastRes[idx] : undefined;
-                    if ( !isDefined || last.watch !== curr.watch ) {
-                        curr.action();
-                    }
-                } );
-                watching.current = watcherRes;
-            }
-        };
 
         onMounted( () => {
             if( isPromise( model ) ) {
@@ -138,11 +138,11 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
                 } );
             }
 
-            updateWatchers();
+            updateWatchers( component );
         } );
 
         onUpdated( () => {
-            updateWatchers();
+            updateWatchers( component );
         } );
 
         const renderFn = componentDef.view( polyfill.createElement );
