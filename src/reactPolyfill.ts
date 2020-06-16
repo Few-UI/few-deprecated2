@@ -11,11 +11,10 @@ import {
     createElement,
     useEffect,
     useRef,
-    useState,
-    memo
+    useState
 } from 'react';
 
-import ReactDOM, { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import lodashSet from 'lodash/set';
 
@@ -23,7 +22,6 @@ import {
     isPromise,
     isComponentDef
 } from './utils';
-import { watch } from 'fs';
 
 // resolve cross reference
 const polyfill: {
@@ -145,7 +143,6 @@ export const createApp: CreateAppFunction = componentDef => {
     };
     return app;
 };
-
 
 polyfill.createComponent = createComponent;
 polyfill.createElement = h;

@@ -5,10 +5,39 @@ import {
     setupComponentTest
 } from './utils';
 
-import { useEffect, useState, createElement as h } from 'react';
+import {
+    useEffect,
+    useState,
+    createElement as h,
+    memo
+} from 'react';
 import { render } from 'react-dom';
 
 const printStack = [] as string[];
+
+////////////////////////////////
+// No Property Widget
+////////////////////////////////
+const NoPropWidget = ( props: unknown ): JSX.Element => {
+    useEffect( () => {
+        printStack.push( 'NoPropWidget:prop changed' );
+    }, [ props ] );
+
+    return <div>No Prop Widget</div>;
+};
+NoPropWidget.displayName = 'NoPropWidget';
+
+const NoPropContainer = (): JSX.Element => {
+    const setState = useState( {} )[1];
+
+    return (
+        <div>
+            <NoPropWidget />
+            <button id='button1' onClick={() => void setState( {} )}>button1</button>
+        </div>
+    );
+};
+NoPropContainer.displayName = 'NoPropContainer';
 
 ////////////////////////////////
 // Constant Property Widget
@@ -103,6 +132,49 @@ const ChangeContainer = (): JSX.Element => {
 };
 ChangeContainer.displayName = 'ChangeContainer';
 
+////////////////////////////////
+// Memo Widget
+////////////////////////////////
+const MemoWidget = memo( ( props: { value: string; obj: { [key: string]: string } } ): JSX.Element => {
+    useEffect( () => {
+        printStack.push( 'MemoWidget:prop changed' );
+    }, [ props ] );
+
+    useEffect( () => {
+        printStack.push( 'MemoWidget:prop.value changed' );
+    }, [ props.value ] );
+
+    useEffect( () => {
+        printStack.push( 'MemoWidget:prop.obj.value changed' );
+    }, [ props.obj.value ] );
+
+    return <div>{props.value as string}</div>;
+} );
+MemoWidget.displayName = 'MemoWidget';
+
+const MemoContainer = (): JSX.Element => {
+    const [ state, setState ] = useState( {
+        value: 'value',
+        obj: {
+            value: 'obj.value'
+        }
+    } );
+
+    return (
+        <div>
+            <MemoWidget value={state.value} obj={state.obj} />
+            <button id='changeValue' onClick={(): void => {
+                setState( { ...state, value: 'value1' } );
+            }}>changeValue</button>
+            <button id='objectMutation' onClick={(): void => {
+                state.obj.value = 'obj.value2';
+                setState( { ...state } );
+            }}>objectMutation</button>
+        </div>
+    );
+};
+MemoContainer.displayName = 'MemoContainer';
+
 describe( 'react features', () => {
     const fixture = setupComponentTest();
 
@@ -110,7 +182,27 @@ describe( 'react features', () => {
         printStack.splice( 0, printStack.length );
     } );
 
-    it( 'Test useEffect on constant prop', async() => {
+    it( 'Test useEffect on no prop widget', async() => {
+        render( <NoPropContainer />, fixture.container );
+
+        // init
+        await wait();
+        expect( printStack ).toEqual( [
+            'NoPropWidget:prop changed'
+        ] );
+        printStack.splice( 0, printStack.length );
+
+        // click
+        const button = document.getElementById( 'button1' );
+        button.click();
+        await wait();
+
+        expect( printStack ).toEqual( [
+            'NoPropWidget:prop changed'
+        ] );
+    } );
+
+    it( 'Test useEffect on constant prop widget', async() => {
         render( <ConstantContainer />, fixture.container );
 
         // init
@@ -244,6 +336,35 @@ describe( 'react features', () => {
         button.click();
         await wait();
 
+        expect( printStack ).toEqual( [
+        ] );
+    } );
+
+    it( 'Test React.memo behavior', async() => {
+        render( <MemoContainer />, fixture.container );
+
+        // init
+        await wait();
+        expect( printStack ).toEqual( [
+            'MemoWidget:prop changed',
+            'MemoWidget:prop.value changed',
+            'MemoWidget:prop.obj.value changed'
+        ] );
+        printStack.splice( 0, printStack.length );
+
+        // change value
+        const button1 = document.getElementById( 'changeValue' );
+        button1.click();
+        await wait();
+        expect( printStack ).toEqual( [
+            'MemoWidget:prop changed',
+            'MemoWidget:prop.value changed'
+        ] );
+        printStack.splice( 0, printStack.length );
+
+        // object mutation
+        const button2 = document.getElementById( 'objectMutation' );
+        button2.click();
         expect( printStack ).toEqual( [
         ] );
     } );
