@@ -15,10 +15,12 @@ const PropSubscriptionWidget = {
     init: () => ( {
         address: 'undefined'
     } ),
-    watchers: ( { props, actions } ) => [ {
+    watchers: ( { props, actions } ) => {
+        return [ {
         watch: props.lastName,
         action: actions.getAddress
-    } ],
+    } ];
+},
     actions: {
         getAddress: async( { props: { lastName }, dispatch } ): Promise<void> => {
             dispatch( 'address', 'loading...' );

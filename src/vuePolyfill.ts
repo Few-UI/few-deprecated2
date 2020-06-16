@@ -21,7 +21,8 @@ import {
     createApp as createVueApp,
     reactive,
     onMounted,
-    onUpdated
+    onUpdated,
+    watch
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -115,7 +116,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: ( path: string, value: unknown ): void => {
                 lodashSet( component.model, path, value );
-                updateWatchers( component );
+                // updateWatchers( component );
             },
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
                 component.ref[path || 'el'] = el;
@@ -138,11 +139,26 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
                 } );
             }
 
+            // for onmount/init
             updateWatchers( component );
         } );
 
+        // for model change to trigger digest or parent attr direct change
         onUpdated( () => {
             updateWatchers( component );
+        } );
+
+        // for model change not triggert digest or change inside parent attr
+        watch( () => {
+            /*
+            if( component.props.prop && component.props.prop.color ) {
+                return component.props.prop.color;
+            }
+            */
+            return componentDef.watchers && componentDef.watchers( component );
+        }, ( /*oldVal, newVal*/ ) => {
+            updateWatchers( component );
+            // console.log( `${oldVal} => ${newVal}` );
         } );
 
         const renderFn = componentDef.view( polyfill.createElement );

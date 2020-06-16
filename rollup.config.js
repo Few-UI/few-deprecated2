@@ -74,6 +74,7 @@ export default {
             namedExports: {
                 'node_modules/react/index.js': [
                     'createElement',
+                    'memo',
                     // basic hook
                     'useState',
                     'useEffect',

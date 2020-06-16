@@ -1,7 +1,7 @@
 import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
-// import DispatchInitExample from './DispatchInitExample';
+// import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default {
     name: 'EntryComponent',

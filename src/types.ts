@@ -10,7 +10,7 @@
 
 // Model
 export interface Model {
-    [key: string]: object | string | number | boolean | HTMLElement;
+    [key: string]: object | string | number | boolean | HTMLElement | Model;
 }
 
 // Ref

@@ -11,7 +11,8 @@ import {
     createElement,
     useEffect,
     useRef,
-    useState
+    useState,
+    memo
 } from 'react';
 
 import ReactDOM, { render } from 'react-dom';
@@ -63,7 +64,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
     // we can do better bindings later
     const renderFn = componentDef.view( polyfill.createElement );
 
-    const RenderFn = ( props: React.Attributes ): JSX.Element => {
+    const RenderFn = /*memo(*/ ( props: React.Attributes ): JSX.Element => {
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {

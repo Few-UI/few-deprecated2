@@ -6,20 +6,20 @@ import {
 } from './utils';
 
 import { useEffect, useState, createElement as h } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from 'react-dom';
 
-const printStatck = [] as string[];
+const printStack = [] as string[];
 
 ////////////////////////////////
 // Constant Property Widget
 ////////////////////////////////
 const ConstantWidget = ( props: { value: string } ): JSX.Element => {
     useEffect( () => {
-        printStatck.push( 'ConstantWidget:prop changed' );
+        printStack.push( 'ConstantWidget:prop changed' );
     }, [ props ] );
 
     useEffect( () => {
-        printStatck.push( 'ConstantWidget:prop.value changed' );
+        printStack.push( 'ConstantWidget:prop.value changed' );
     }, [ props.value ] );
 
     return <div>{props.value as string}</div>;
@@ -43,19 +43,19 @@ ConstantContainer.displayName = 'ConstantContainer';
 ////////////////////////////////
 const ChangeWidget = ( props: { scope: { subScope: { value: string } } } ): JSX.Element => {
     useEffect( () => {
-        printStatck.push( 'ChangeWidget:prop changed' );
+        printStack.push( 'ChangeWidget:prop changed' );
     }, [ props ] );
 
     useEffect( () => {
-        printStatck.push( 'ChangeWidget:prop.scope changed' );
+        printStack.push( 'ChangeWidget:prop.scope changed' );
     }, [ props.scope ] );
 
     useEffect( () => {
-        printStatck.push( 'ChangeWidget:prop.scope.subScope changed' );
+        printStack.push( 'ChangeWidget:prop.scope.subScope changed' );
     }, [ props.scope.subScope ] );
 
     useEffect( () => {
-        printStatck.push( 'ChangeWidget:prop.scope.subScope.value changed' );
+        printStack.push( 'ChangeWidget:prop.scope.subScope.value changed' );
     }, [ props.scope.subScope.value ] );
 
     const [ state, setState ] = useState( {} );
@@ -107,7 +107,7 @@ describe( 'react features', () => {
     const fixture = setupComponentTest();
 
     afterEach( () => {
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
     } );
 
     it( 'Test useEffect on constant prop', async() => {
@@ -115,18 +115,18 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ConstantWidget:prop changed',
             'ConstantWidget:prop.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'button1' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ConstantWidget:prop changed'
         ] );
     } );
@@ -136,20 +136,20 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed',
             'ChangeWidget:prop.scope.subScope changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'changeState' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed'
         ] );
     } );
@@ -159,20 +159,20 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed',
             'ChangeWidget:prop.scope.subScope changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'changeScope' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed'
         ] );
@@ -183,20 +183,20 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed',
             'ChangeWidget:prop.scope.subScope changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'changeSubScope' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope.subScope changed'
         ] );
@@ -207,20 +207,20 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed',
             'ChangeWidget:prop.scope.subScope changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'changeValue' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
@@ -231,20 +231,20 @@ describe( 'react features', () => {
 
         // init
         await wait();
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
             'ChangeWidget:prop changed',
             'ChangeWidget:prop.scope changed',
             'ChangeWidget:prop.scope.subScope changed',
             'ChangeWidget:prop.scope.subScope.value changed'
         ] );
-        printStatck.splice( 0, printStatck.length );
+        printStack.splice( 0, printStack.length );
 
         // click
         const button = document.getElementById( 'changeWidget' );
         button.click();
         await wait();
 
-        expect( printStatck ).toEqual( [
+        expect( printStack ).toEqual( [
         ] );
     } );
 } );
