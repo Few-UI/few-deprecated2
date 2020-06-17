@@ -3,6 +3,7 @@
  * For typescript compile, there are 2 different approach
  * - All in babel, which means:
  *   - no tsc and tslib at all
+ *     - u can still use tsc --noEmit as 'tslint'
  *   - use @babel/preset-typescript to transpile typescript
  *   - More flexibility in babel feature
  *   - Loosing some typescript feature and type check
@@ -48,8 +49,8 @@
 
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
 import replace from '@rollup/plugin-replace';
+import babel from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
 
@@ -65,8 +66,29 @@ export default {
         sourcemap: true
     },
     plugins: [
-        typescript(),
-        resolve(), // tells Rollup how to find date-fns in node_modules
+        resolve( {
+            mainFields: [ 'module', 'main', 'jsnext:main', 'browser' ],
+            extensions: [ '.js', '.jsx', '.ts', '.tsx' ]
+        } ), // tells Rollup how to find date-fns in node_modules
+        babel( {
+            exclude: 'node_modules/**',
+            extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+            presets: [
+                [ '@babel/preset-env', {
+                    targets: {
+                        // browsers: [ 'last 2 versions', 'ie >= 11' ]
+                        browsers: [ 'last 1 chrome versions' ]
+                    }
+                } ],
+                [ '@babel/preset-react', {
+                    // pragma: 'this.$createElement'
+                    // align with vue
+                    pragma: 'h'
+                } ],
+                '@babel/preset-typescript'
+            ],
+            babelHelpers: 'bundled'
+        } ),
         commonjs( { // converts date-fns to ES modules
             // special setup for react
             // https://zh4ui.net/post/2018-12-23-rollup-typescript-react/
