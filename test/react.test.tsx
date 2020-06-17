@@ -87,7 +87,7 @@ const ChangeWidget = ( props: { scope: { subScope: { value: string } } } ): JSX.
         printStack.push( 'ChangeWidget:prop.scope.subScope.value changed' );
     }, [ props.scope.subScope.value ] );
 
-    const [ state, setState ] = useState( {} );
+    const [ _, setState ] = useState( {} );
 
     return (
         <div>

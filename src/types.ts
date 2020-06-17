@@ -8,9 +8,13 @@
  * // for now just sit on react
  */
 
+export interface Props {
+    [key: string]: any;
+}
+
 // Model
 export interface Model {
-    [key: string]: object | string | number | boolean | HTMLElement | Model;
+    [key: string]: object | string | number | boolean | Model;
 }
 
 // Ref
@@ -24,7 +28,7 @@ export interface Component {
     model: Model;
     dispatch: Function;
     ref: Ref;
-    props: { [key: string]: any};
+    props: Props;
     h: Function;
     actions?: {
         [key: string]: ( event?: unknown ) => void;
@@ -48,7 +52,7 @@ export interface ComponentDef {
     view: View;
     watchers?: WatchersDef;
     _compiled?: {
-        [platform: string]: any;
+        [platform: string]: () => JSX.Element;
     };
 }
 

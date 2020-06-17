@@ -3,11 +3,14 @@
 import Vue from 'vue/dist/vue';
 
 import {
+    Model
+} from '../src/types';
+
+import {
     wait,
     setupComponentTest,
     getSupportedFrameworks
 } from './utils';
-
 
 import SyncActionExample from './components/SyncActionExample';
 
@@ -49,14 +52,14 @@ describe( 'vue3 features', () => {
             name: 'Widget',
             inheritAttrs: false,
             setup: ( _: never, context: Vue.SetupContext ): { (): JSX.Element } => {
-                const attrs = context.attrs as { [key: string]: any};
+                const attrs = context.attrs as { [key: string]: Model};
 
                 // watch attrs.literal
                 watch( () => attrs.literal,
                     () => ctx.printStack.push( 'literal updated' ) );
 
                 // watch attrs.obj.value
-                watch( (): any => attrs.obj.value,
+                watch( (): string => attrs.obj.value as string,
                 () => ctx.printStack.push( 'obj.value updated' ) );
 
                 onUpdated( () => ctx.printStack.push( 'onUpdated triggered' ) );

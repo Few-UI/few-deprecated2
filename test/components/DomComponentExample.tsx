@@ -2,7 +2,7 @@ import { ComponentDef } from '../../src/types';
 
 export default {
     name: 'DomComponentExample',
-    view: h => ( { ref, actions, model } ): JSX.Element =>
+    view: h => ( { ref, actions } ): JSX.Element =>
         <div>
             <div ref={ref( 'el' )}></div>
             <button id='switchColor' onClick={actions.switchColor}>Switch Color</button>

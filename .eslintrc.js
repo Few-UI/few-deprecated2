@@ -131,7 +131,7 @@ module.exports = {
         'no-unneeded-ternary': 2,
         'no-unused-vars': "off",
         '@typescript-eslint/no-unused-vars': [ 'warn', {
-            'varsIgnorePattern': '^h$',
+            'varsIgnorePattern': '^(h|_.*)$',
             'argsIgnorePattern': '^(h|_.*)$'
         } ],
         'no-useless-escape': 1,

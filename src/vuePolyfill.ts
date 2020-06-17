@@ -12,6 +12,7 @@ import {
     App,
     Ref,
     Component,
+    Watcher,
     ComponentDef,
     CreateAppFunction
 } from './types';
@@ -94,7 +95,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         const model = componentDef.init();
 
         const watching = {
-            current: [] as any[]
+            current: [] as Watcher[]
         };
 
         const updateWatchers = ( component: Component ): void => {

@@ -1,7 +1,7 @@
 import {
     App,
     Ref,
-    Model,
+    Props,
     Component,
     ComponentDef,
     CreateAppFunction
@@ -58,11 +58,11 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
  * @param componentDef few component
  * @returns platform specific component
  */
-export function createComponent( componentDef: ComponentDef ): { ( props: React.Attributes ): JSX.Element } {
+export function createComponent( componentDef: ComponentDef ): { ( props: Props ): JSX.Element } {
     // we can do better bindings later
     const renderFn = componentDef.view( polyfill.createElement );
 
-    const RenderFn = /*memo(*/ ( props: React.Attributes ): JSX.Element => {
+    const RenderFn = ( props: Props ): JSX.Element => {
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {
@@ -104,10 +104,9 @@ export function createComponent( componentDef: ComponentDef ): { ( props: React.
         useEffect( () => {
             if ( initPromise.current ) {
                 // all API be consistent
-                Promise.resolve( initPromise.current ).then( model => {
-                    vm.model = model as Model;
-                    setState( { ...vm } );
-                } );
+                Promise.resolve( initPromise.current ).then( model =>
+                    setState( v => ( ( v.model = model, { ...v } ) ) )
+                );
             }
         }, [] );
 

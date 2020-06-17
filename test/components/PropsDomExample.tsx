@@ -1,4 +1,4 @@
-import { ComponentDef, Model } from '../../src/types';
+import { ComponentDef } from '../../src/types';
 
 const PropsDomWidget = {
     name: 'PropsDomWidget',
