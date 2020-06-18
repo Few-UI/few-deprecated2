@@ -1,4 +1,4 @@
-import { ComponentDef } from '../types';
+import { ComponentDef } from '../../src/types';
 
 export default {
     name: 'ViewExample',
