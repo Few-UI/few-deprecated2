@@ -11,7 +11,8 @@ import {
     createElement,
     useEffect,
     useRef,
-    useState
+    useState,
+    Fragment
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -52,6 +53,8 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
     }
     return createElement( type, props, ...children );
 };
+
+h.Fragment = Fragment;
 
 /**
  * create platform specific component from few component

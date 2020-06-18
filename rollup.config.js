@@ -46,7 +46,6 @@
  *         presets: [ '@babel/preset-react' ]
  *     } ),
  */
-
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
@@ -58,6 +57,8 @@ import { terser } from 'rollup-plugin-terser';
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
 
+const extensions = [ '.js', '.jsx', '.ts', '.tsx' ];
+
 export default {
     input: 'src/main.ts',
     output: {
@@ -68,11 +69,10 @@ export default {
     plugins: [
         resolve( {
             mainFields: [ 'module', 'main', 'jsnext:main', 'browser' ],
-            extensions: [ '.js', '.jsx', '.ts', '.tsx' ]
+            extensions
         } ), // tells Rollup how to find date-fns in node_modules
         babel( {
             exclude: 'node_modules/**',
-            extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
             presets: [
                 [ '@babel/preset-env', {
                     targets: {
@@ -80,14 +80,20 @@ export default {
                         browsers: [ 'last 1 chrome versions' ]
                     }
                 } ],
+                // https://github.com/facebook/create-react-app/blob/f5c3bdb65480f93b2d4a4c2f3214fc50753de434/packages/babel-preset-react-app/create.js
                 [ '@babel/preset-react', {
                     // pragma: 'this.$createElement'
                     // align with vue
-                    pragma: 'h'
+                    pragma: 'h',
+                    pragmaFrag: 'h.Fragment',
+                    // has side effect in non-react practice like vue
+                    // development: !production
+                    useBuiltIns: true
                 } ],
                 '@babel/preset-typescript'
             ],
-            babelHelpers: 'bundled'
+            babelHelpers: 'bundled',
+            extensions
         } ),
         commonjs( { // converts date-fns to ES modules
             // special setup for react
@@ -95,6 +101,7 @@ export default {
             // https://github.com/rollup/rollup-plugin-commonjs/issues/211
             namedExports: {
                 'node_modules/react/index.js': [
+                    'Fragment',
                     'createElement',
                     'memo',
                     // basic hook
@@ -114,6 +121,7 @@ export default {
                     'render'
                 ],
                 'node_modules/vue/index.js': [
+                    'Fragment',
                     'createApp',
                     'defineComponent',
                     'reactive',
@@ -132,5 +140,19 @@ export default {
             host: '0.0.0.0',
             port: 8080
         } )
-    ]
+    ],
+    // https://github.com/Upstatement/react-router-guards/pull/14
+    context: 'null',
+    moduleContext: 'null'
+    /*
+    onwarn:  warning => {
+       // Skip certain warnings
+
+       // should intercept ... but doesn't in some rollup versions
+       if ( warning.code === 'THIS_IS_UNDEFINED' ) { return; }
+
+        // console.warn everything else
+        console.warn( warning.message );
+    }
+    */
 };

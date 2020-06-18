@@ -58,9 +58,9 @@ export const hyphenToCamelCase = ( str: string ): string => {
  */
 export const parseView = ( input: string ): Node => {
     const parser = new DOMParser();
-    const fragement = document.createDocumentFragment();
-    fragement.appendChild( parser.parseFromString( `<div>${input}</div>`, 'text/html' ).body.firstChild || document.createElement( 'div' ) );
-    return fragement.firstChild || document.createElement( 'div' );
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild( parser.parseFromString( `<div>${input}</div>`, 'text/html' ).body.firstChild || document.createElement( 'div' ) );
+    return fragment.firstChild || document.createElement( 'div' );
 };
 
 /**

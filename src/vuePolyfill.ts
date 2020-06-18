@@ -23,7 +23,8 @@ import {
     reactive,
     onMounted,
     onUpdated,
-    watch
+    watch,
+    Fragment
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -68,6 +69,7 @@ const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...child
     }
     return createElement( type, props, children );
 };
+h.Fragment = Fragment;
 
 /**
  * create platform specific component from few component

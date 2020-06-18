@@ -1,6 +1,7 @@
 import { ComponentDef } from '../types';
 
 import ViewExample from './ViewExample';
+import FragmentExample from './FragmentExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default {
@@ -13,6 +14,9 @@ export default {
             {/*
             // @ts-ignore */}
             <ViewExample />
+            {/*
+            // @ts-ignore */}
+            <FragmentExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef;
