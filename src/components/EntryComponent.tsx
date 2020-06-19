@@ -17,6 +17,7 @@ export default {
     init: () => ( {} )
 } as ComponentDef;
 
+
 /*
 const h = '3';
 const Test = ( props: object ) => ( {
