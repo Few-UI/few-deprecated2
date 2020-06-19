@@ -279,3 +279,17 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
         resolve( null );
     }, elapsed ) );
 };
+
+// magical type script overload.....
+export function defineComponent(
+  componentDef: ComponentDef
+): ( props: any ) => JSX.Element
+
+/**
+ * Wrapper function for JSX
+ * @param componentDef componentDef
+ * @returns componentDef
+ */
+export function defineComponent( componentDef: unknown ): unknown {
+  return componentDef;
+}

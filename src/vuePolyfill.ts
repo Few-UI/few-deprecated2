@@ -1,8 +1,7 @@
 // vue
 // https://github.com/vuejs/vue-cli/issues/1198
 // https://learnvue.co/2020/03/how-to-use-lifecycle-hooks-in-vue3/
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
+
 /*
 import App from './App.vue';
 */

@@ -1,6 +1,7 @@
 import { ComponentDef, Model } from '../../src/types';
+import { defineComponent } from '../../src/utils';
 
-const PropsDomWidget = {
+const PropsDomWidget = defineComponent( {
     name: 'PropsDomWidget',
     view: h => ( { ref } ): JSX.Element =>
         <div ref={ref( 'el' )}></div>,
@@ -20,14 +21,12 @@ const PropsDomWidget = {
             ref.el.style.color = props.prop.color as string;
         }
     }
-} as ComponentDef;
+} as ComponentDef );
 
 export default {
     name: 'PropsDomExample',
     view: h => ( { model, actions } ): JSX.Element =>
         <div>
-            {/*
-            // @ts-ignore */}
             <PropsDomWidget prop={model.prop} />
             <button id='switchColor' onClick={actions.switchColor}>Switch Color</button>
         </div>,
