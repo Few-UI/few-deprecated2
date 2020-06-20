@@ -1,9 +1,9 @@
 import { ComponentDef } from '../types';
-// import { defineComponent } from '../utils';
+import { defineComponent } from '../utils';
 import ViewExample from './ViewExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
-export default /*defineComponent(*/ {
+export default defineComponent( {
     name: 'EntryComponent',
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
@@ -13,7 +13,7 @@ export default /*defineComponent(*/ {
             <ViewExample />
         </div>,
     init: () => ( {} )
-} as ComponentDef;
+} as ComponentDef );
 
 
 /*
