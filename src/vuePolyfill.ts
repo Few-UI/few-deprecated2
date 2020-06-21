@@ -6,7 +6,6 @@
 import App from './App.vue';
 */
 
-import Vue from 'vue/dist/vue';
 import {
     App,
     Ref,
@@ -23,7 +22,14 @@ import {
     onMounted,
     onUpdated,
     watch,
-    Fragment
+    Fragment,
+
+    // types
+    VNodeProps,
+    VNodeArrayChildren,
+    VNode,
+    Component as VueComponent,
+    SetupContext
 } from 'vue';
 
 import lodashSet from 'lodash/set';
@@ -50,7 +56,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: Vue.VNodeProps | null, ...children: Vue.VNodeArrayChildren ): Vue.VNode => {
+const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children: VNodeArrayChildren ): VNode => {
     // align on input behavior with react
     if( type === 'input' && props.onChange ) {
         props.onInput = props.onChange;
@@ -75,7 +81,7 @@ h.Fragment = Fragment;
  * @param componentDef few component
  * @returns platform specific component
  */
-export const createComponent = ( componentDef: ComponentDef ): Vue.Component => ( {
+export const createComponent = ( componentDef: ComponentDef ): VueComponent => ( {
     name: componentDef.name,
     inheritAttrs: false,
     // in Vue render is deined as loose as 'Function'
@@ -92,7 +98,7 @@ export const createComponent = ( componentDef: ComponentDef ): Vue.Component => 
         firstName: String
     },
     */
-    setup: ( _: never, context: Vue.SetupContext ): object => {
+    setup: ( _: never, context: SetupContext ): object => {
         const model = componentDef.init();
 
         const watching = {

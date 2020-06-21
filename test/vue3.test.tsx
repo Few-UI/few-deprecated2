@@ -1,7 +1,5 @@
 /* eslint-env jest */
 
-import Vue from 'vue/dist/vue';
-
 import {
     Model
 } from '../src/types';
@@ -19,7 +17,8 @@ import {
     createApp as createVueApp,
     reactive,
     onUpdated,
-    watch
+    watch,
+    SetupContext
 } from 'vue';
 
 const createApp = getSupportedFrameworks().vue3;
@@ -51,7 +50,7 @@ describe( 'vue3 features', () => {
         const Child = {
             name: 'Widget',
             inheritAttrs: false,
-            setup: ( _: never, context: Vue.SetupContext ): { (): JSX.Element } => {
+            setup: ( _: never, context: SetupContext ): { (): JSX.Element } => {
                 const attrs = context.attrs as { [key: string]: Model};
 
                 // watch attrs.literal
