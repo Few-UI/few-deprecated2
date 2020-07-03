@@ -99,36 +99,7 @@ export default {
             // special setup for react
             // https://zh4ui.net/post/2018-12-23-rollup-typescript-react/
             // https://github.com/rollup/rollup-plugin-commonjs/issues/211
-            namedExports: {
-                'node_modules/react/index.js': [
-                    'Fragment',
-                    'createElement',
-                    'memo',
-                    // basic hook
-                    'useState',
-                    'useEffect',
-                    'useContext',
-                    // advance hook
-                    'useReducer',
-                    'useCallback',
-                    'useMemo',
-                    'useRef',
-                    'useImperativeHandle',
-                    'useLayoutEffect',
-                    'useDebugValue'
-                ],
-                'node_modules/react-dom/index.js': [
-                    'render'
-                ],
-                'node_modules/vue/index.js': [
-                    'Fragment',
-                    'createApp',
-                    'defineComponent',
-                    'reactive',
-                    'ref',
-                    'h'
-                ]
-            }
+            // above is not required after @rollup/commonjs@13
         } ),
         // https://github.com/rollup/rollup/issues/487
         replace( {
