@@ -102,6 +102,7 @@ export default {
             // above is not required after @rollup/commonjs@13
         } ),
         // https://github.com/rollup/rollup/issues/487
+        // esirnt
         replace( {
             'process.env.NODE_ENV': JSON.stringify( production ? 'production' : 'development' )
         } ),
