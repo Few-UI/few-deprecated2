@@ -21,6 +21,7 @@ import {
     reactive,
     onMounted,
     onUpdated,
+    onBeforeUnmount,
     watch,
     Fragment,
 
@@ -150,6 +151,8 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
             // for onmount/init
             updateWatchers( component );
         } );
+
+        onBeforeUnmount( () => componentDef.unmount && componentDef.unmount( component ) );
 
         // for model change to trigger digest or parent attr direct change
         onUpdated( () => {

@@ -111,6 +111,8 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
                     setState( v => ( ( v.model = model, { ...v } ) ) )
                 );
             }
+
+            return (): void => componentDef.unmount && componentDef.unmount( component );
         }, [] );
 
 

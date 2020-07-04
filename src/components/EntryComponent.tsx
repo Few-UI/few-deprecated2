@@ -1,6 +1,7 @@
 import { ComponentDef } from '../types';
 import { defineComponent } from '../utils';
 import ViewExample from './ViewExample';
+import ExternalResExample from './ExternResExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {
@@ -11,6 +12,7 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
+            <ExternalResExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef );

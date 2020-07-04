@@ -54,6 +54,7 @@ export interface ComponentDef {
     _compiled?: {
         [platform: string]: () => JSX.Element;
     };
+    unmount?: ActionDef;
 }
 
 
