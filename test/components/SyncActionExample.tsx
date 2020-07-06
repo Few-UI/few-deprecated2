@@ -7,7 +7,7 @@ export default {
     } ),
     // elm style of upedate
     actions: {
-        plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 )
+        plusOne: ( { model, dispatch } ) => void dispatch( { path: 'value', value: model.value as number + 1 } )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         <div>

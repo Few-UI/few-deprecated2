@@ -5,9 +5,9 @@ export default defineComponent( {
     name: 'AsyncActionExample',
     init: () => ( {} ),
     actions: {
-        setValue1: ( { dispatch } ) => void dispatch( 'value1', 'value1' ),
-        setValue2: ( { dispatch } ) => void dispatch( 'value2', 'value2' ),
-        setValue3: ( { dispatch } ) => void setTimeout( () => dispatch( 'value3', 'value3' ), 3000 )
+        setValue1: ( { dispatch } ) => void dispatch( { path: 'value1', value: 'value1' } ),
+        setValue2: ( { dispatch } ) => void dispatch( { path: 'value2', value: 'value2' } ),
+        setValue3: ( { dispatch } ) => void setTimeout( () => dispatch( { path: 'value3', value: 'value3' } ), 3000 )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         <div>

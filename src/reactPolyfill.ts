@@ -4,6 +4,7 @@ import {
     Props,
     Component,
     ComponentDef,
+    DispatchInput,
     CreateAppFunction
 } from './types';
 
@@ -81,7 +82,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             };
         } );
 
-        const dispatch = ( path: string, value: unknown ): void => {
+        const dispatch = ( { path, value }: DispatchInput ): void => {
             lodashSet( vm.model, path, value );
             setState( { ...vm } );
         };

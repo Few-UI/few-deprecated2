@@ -12,7 +12,7 @@ export default {
     } ),
     actions: {
         updateName: ( { dispatch }, e ): void => {
-            dispatch( 'name', e.target.value );
+            dispatch( { path: 'name', value: e.target.value } );
         }
     }
 } as ComponentDef;

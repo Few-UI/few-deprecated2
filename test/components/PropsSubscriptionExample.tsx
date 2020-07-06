@@ -23,12 +23,12 @@ const PropSubscriptionWidget = {
 },
     actions: {
         getAddress: async( { props: { lastName }, dispatch } ): Promise<void> => {
-            dispatch( 'address', 'loading...' );
+            dispatch( { path: 'address', value: 'loading...' } );
             await wait( 1000 );
             if ( lastName === 'Stark' ) {
-                dispatch( 'address', 'winter fall' );
+                dispatch( { path: 'address', value: 'winter fall' } );
             } else if ( lastName === 'Tully' ) {
-                dispatch( 'address', 'river run' );
+                dispatch( { path: 'address', value: 'river run' } );
             }
         }
     }
@@ -42,7 +42,7 @@ export default {
     // elm style of upedate
     actions: {
         changeFamily: ( { model, dispatch } ) => void
-            dispatch( 'lastName', model.lastName === 'Stark' ? 'Tully' : 'Stark' )
+            dispatch( { path: 'lastName', value: model.lastName === 'Stark' ? 'Tully' : 'Stark' } )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         h( 'div', null,

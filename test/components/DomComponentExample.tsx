@@ -25,7 +25,7 @@ export default {
             ref.el.innerHTML = '<code>This is a DOM component</code>';
         },
         switchColor: ( { model, dispatch } ): void => {
-            dispatch( 'color', model.color === 'blue' ? 'black' : 'blue' );
+            dispatch( { path: 'color', value: model.color === 'blue' ? 'black' : 'blue' } );
         },
         updateColor: ( { ref, model: { color } } ): void => {
             ref.el.style.color = color as string;

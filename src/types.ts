@@ -59,7 +59,7 @@ export interface ComponentDef {
 }
 
 
-// Action
+// Action Def
 export type ActionDef = ( vm: Component, ...args: any[] ) => void
 
 // Watch
@@ -70,6 +70,12 @@ export interface Watcher {
 }
 
 export type WatchersDef = ( vm: Component, ...args: any[] ) => Watcher[]
+
+// dispatch input
+export interface DispatchInput {
+    path: string;
+    value: unknown;
+}
 
 
 // Route

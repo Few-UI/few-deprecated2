@@ -12,6 +12,7 @@ import {
     Component,
     Watcher,
     ComponentDef,
+    DispatchInput,
     CreateAppFunction
 } from './types';
 
@@ -123,7 +124,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
-            dispatch: ( path: string, value: unknown ): void => {
+            dispatch: ( { path, value }: DispatchInput ): void => {
                 lodashSet( component.model, path, value );
                 // updateWatchers( component );
             },

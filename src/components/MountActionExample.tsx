@@ -19,7 +19,7 @@ export default defineComponent( {
     } ),
     mount: async( { dispatch } ) => {
         await wait( 1000 );
-        dispatch( 'mountVal', 'mountVal' );
+        dispatch( { path: 'mountVal', value: 'mountVal' } );
     },
     /*
     unmount: ( { model: { id } } ) => {

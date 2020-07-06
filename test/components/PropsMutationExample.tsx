@@ -39,7 +39,7 @@ export default {
     actions: {
         switchColor: ( { model, dispatch } ): void => {
             const prop = model.prop as Model;
-            dispatch( 'prop.color', prop.color === 'green' ? 'black' : 'green' );
+            dispatch( { path: 'prop.color',  value: prop.color === 'green' ? 'black' : 'green' } );
             /*
             Blow is working too bu a different effect
             dispatch( 'prop', {

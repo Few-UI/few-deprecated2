@@ -1,5 +1,8 @@
 // NOTE: this example is in incomplete status
-import { ComponentDef } from '../types';
+import {
+    ComponentDef,
+    DispatchInput
+} from '../types';
 import { defineComponent } from '../utils';
 
 /**
@@ -17,12 +20,12 @@ export default defineComponent( {
     name: 'DispatchInitExample',
     // elm returns model and cmd ( call back which will launch dispatch )
     init: () => {
-        const dispatch = ( name: string, value: string ): void =>
+        const dispatch = ( { path, value }: DispatchInput ): void =>
             console.log( `${name}:${value}` );
 
         // actions.loadMockData??
         wait( 2000 ).then( () => {
-            dispatch( 'asyncPath', 'asyncValue' );
+            dispatch( { path: 'asyncPath', value: 'asyncValue' } );
         } );
 
         // sync return
@@ -32,9 +35,9 @@ export default defineComponent( {
     },
     // elm style of upedate
     actions: {
-        plusOne: ( { model, dispatch } ) => void dispatch( 'value', model.value as number + 1 ),
+        plusOne: ( { model, dispatch } ) => void dispatch( { path: 'value', value: model.value as number + 1 } ),
         loadMockData: ( { dispatch } ) => void
-            setTimeout( () => dispatch( 'asyncPath', 'asyncPath' ), 1000 )
+            setTimeout( () => dispatch( { path: 'asyncPath', value: 'asyncPath' } ), 1000 )
     },
     view: h => ( { model } ): JSX.Element =>
         <pre>

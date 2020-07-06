@@ -11,7 +11,7 @@ export default {
                 '!'
             ),
             h( 'button', {
-                onClick: () => dispatch( 'name', 'Monster Hunter' )
+                onClick: () => dispatch( { path: 'name', value: 'Monster Hunter' } )
             },
                 'set name'
             )

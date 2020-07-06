@@ -35,7 +35,7 @@ export default {
     } ),
     actions: {
         switchColor: ( { model, dispatch } ): void => {
-            dispatch( 'color', model.color === 'green' ? 'black' : 'green' );
+            dispatch( { path: 'color', value: model.color === 'green' ? 'black' : 'green' } );
         }
     }
 } as ComponentDef;
