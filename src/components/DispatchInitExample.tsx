@@ -1,3 +1,4 @@
+// NOTE: this example is in incomplete status
 import { ComponentDef } from '../types';
 import { defineComponent } from '../utils';
 

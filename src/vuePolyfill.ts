@@ -143,9 +143,13 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         onMounted( () => {
             if( isPromise( model ) ) {
-                Promise.resolve( model ).then( model =>{
+                Promise.resolve( model ).then( model => {
                     Object.assign( component.model, model );
+                } ).then( () => {
+                    componentDef.mount && componentDef.mount( component );
                 } );
+            } else {
+                componentDef.mount && componentDef.mount( component );
             }
 
             // for onmount/init

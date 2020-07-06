@@ -104,12 +104,18 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
         }
 
         // async init
+        // https://stackoverflow.com/questions/49906437/how-to-cancel-a-fetch-on-componentwillunmount
         useEffect( () => {
             if ( initPromise.current ) {
                 // all API be consistent
                 Promise.resolve( initPromise.current ).then( model =>
-                    setState( v => ( ( v.model = model, { ...v } ) ) )
-                );
+                    setState( v => ( { ...v, model } ) )
+                // mount after async init
+                ).then( ()=> {
+                    componentDef.mount && componentDef.mount( component );
+                } );
+            } else {
+                componentDef.mount && componentDef.mount( component );
             }
 
             return (): void => componentDef.unmount && componentDef.unmount( component );
