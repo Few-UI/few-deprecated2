@@ -67,7 +67,9 @@ const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children:
         delete props.onChange;
     }
 
-    if ( isComponentDef( type ) ) {
+    if ( !type ) {
+        return createElement( Fragment, props, children );
+    } else if ( isComponentDef( type ) ) {
         if( !type._compiled || !type._compiled.vue ) {
             type._compiled = {
                 ...type._compiled,
@@ -76,7 +78,7 @@ const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children:
         }
         return createElement( type._compiled.vue, props, children );
     }
-    return createElement( type, props, children );
+    return  createElement( type, props, children );
 };
 h.Fragment = Fragment;
 

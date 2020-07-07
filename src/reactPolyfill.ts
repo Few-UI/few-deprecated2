@@ -45,7 +45,9 @@ const polyfill: {
  * @returns virtual DOM component
  */
 const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
-    if ( isComponentDef( type ) ) {
+    if ( !type ) {
+        return createElement( Fragment, props, ...children );
+    } else if ( isComponentDef( type ) ) {
         if ( !type._compiled || !type._compiled.react ) {
             type._compiled = {
                 ...type._compiled,
