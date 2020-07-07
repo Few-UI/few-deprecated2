@@ -41,6 +41,8 @@ import {
     isComponentDef
 } from './utils';
 
+import store from './store';
+
 // resolve cross reference
 const polyfill: {
     createComponent?: Function;
@@ -124,10 +126,9 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         const component: Component = {
             model: reactive( isPromise( model ) ? {} : model ),
-            dispatch: ( { path, value }: DispatchInput ): void => {
+            dispatch: store.createDispatch( ( { path, value }: DispatchInput ): void => {
                 lodashSet( component.model, path, value );
-                // updateWatchers( component );
-            },
+            } ),
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
                 component.ref[path || 'el'] = el;
             } ) as Ref,

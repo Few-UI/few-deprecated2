@@ -16,6 +16,8 @@ import {
     Fragment
 } from 'react';
 
+import store from './store';
+
 import ReactDOM from 'react-dom';
 
 import lodashSet from 'lodash/set';
@@ -82,10 +84,10 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             };
         } );
 
-        const dispatch = ( { path, value }: DispatchInput ): void => {
+        const dispatch = store.createDispatch( ( { path, value }: DispatchInput ): void => {
             lodashSet( vm.model, path, value );
             setState( { ...vm } );
-        };
+        } );
 
         const component: Component = {
             model: vm.model,

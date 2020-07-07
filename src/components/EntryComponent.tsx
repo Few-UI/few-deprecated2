@@ -2,7 +2,7 @@ import { ComponentDef } from '../types';
 import { defineComponent } from '../utils';
 import ViewExample from './ViewExample';
 import ExternalResExample from './ExternResExample';
-import MountActionExample from './MountActionExample';
+import MountActionExample from '../../test/components/MountActionExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {

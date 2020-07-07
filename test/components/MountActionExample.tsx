@@ -1,4 +1,4 @@
-import { defineComponent } from '../utils';
+import { defineComponent } from '../../src/utils';
 
 /**
  * wait for elapsed time and return a promise
@@ -14,11 +14,13 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
 export default defineComponent( {
     name: 'MountActionExample',
     // elm returns model and cmd ( call back which will launch dispatch )
-    init: () => (  {
-        mountVal: 'loading...'
+    init: () => wait( 500 ).then( () => {
+        return {
+            mountVal: 'initVal'
+        };
     } ),
     mount: async( { dispatch } ) => {
-        await wait( 1000 );
+        await wait( 500 );
         dispatch( { path: 'mountVal', value: 'mountVal' } );
     },
     /*
