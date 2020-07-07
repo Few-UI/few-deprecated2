@@ -7,6 +7,7 @@ module.exports = {
         'block-spacing': [ 'error', 'always' ],
         'brace-style': [ 'warn', '1tbs', { "allowSingleLine": true } ],
         'camelcase': 0,
+        '@typescript-eslint/camelcase': [ 'off' ],
         'capitalized-comments': 0,
         'class-methods-use-this': 2,
         'comma-dangle': [ 'error', 'never' ],

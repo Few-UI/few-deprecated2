@@ -1,8 +1,7 @@
 import { ComponentDef } from '../types';
 import { defineComponent } from '../utils';
 import ViewExample from './ViewExample';
-import ExternalResExample from './ExternResExample';
-import MountActionExample from '../../test/components/MountActionExample';
+import ExternalResExample from '../../test/components/UnmountActionExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {
@@ -14,7 +13,6 @@ export default defineComponent( {
         <div>
             <ViewExample />
             <ExternalResExample />
-            <MountActionExample />
         </div>,
     init: () => ( {} )
 } as ComponentDef );

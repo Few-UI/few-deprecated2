@@ -1,4 +1,4 @@
-import { defineComponent } from '../utils';
+import { defineComponent } from '../../src/utils';
 
 /**
  * wait for elapsed time and return a promise
@@ -22,8 +22,8 @@ export const mockServer = {
     unregister: ( id: string ): void => void delete mockServer._server[id]
 };
 
-export default defineComponent( {
-    name: 'ExternResExample',
+const UnmountActionComponent = defineComponent( {
+    name: 'UnmountActionComponent',
     // elm returns model and cmd ( call back which will launch dispatch )
     init: async() =>  ( {
         id: await mockServer.register( 'john' )
@@ -39,3 +39,20 @@ export default defineComponent( {
             {JSON.stringify( model )}
         </pre>
 } );
+
+export default defineComponent( {
+    name: 'UnmountActionExample',
+    init: () => ( {
+        enabled: true
+    } ),
+    actions: {
+        toggle: ( { model, dispatch } ) => void dispatch( { path: 'enabled', value: !model.enabled } )
+    },
+    view: h => ( { model, actions } ): JSX.Element =>
+        <>
+            { model.enabled ? <UnmountActionComponent /> : '' }
+            <button id='toggleButton' onClick={actions.toggle}>toggle</button>
+        </>
+} );
+
+

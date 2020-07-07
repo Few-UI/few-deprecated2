@@ -112,16 +112,24 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             if ( initPromise.current ) {
                 // all API be consistent
                 Promise.resolve( initPromise.current ).then( model =>
-                    setState( v => ( { ...v, model } ) )
+                    setState( v => ( ( v.model = model, { ...v } ) ) )
                 // mount after async init
                 ).then( ()=> {
+                    // TODO: quick fix for data inconsistensy
+                    component.model = vm.model;
                     componentDef.mount && componentDef.mount( component );
                 } );
             } else {
+                // TODO: quick fix for data inconsistensy
+                component.model = vm.model;
                 componentDef.mount && componentDef.mount( component );
             }
 
-            return (): void => componentDef.unmount && componentDef.unmount( component );
+            return (): void => {
+                // TODO: quick fix for data inconsistensy
+                component.model = vm.model;
+                componentDef.unmount && componentDef.unmount( component );
+            };
         }, [] );
 
 
