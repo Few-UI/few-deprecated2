@@ -1,5 +1,3 @@
-import { ComponentDef } from '../types';
-
 import { defineComponent } from '../utils';
 
 interface Position {
@@ -7,16 +5,16 @@ interface Position {
     y: number;
 }
 
-const StatelessCarComponent = {
+const StatelessCarComponent = defineComponent( {
     name: 'StatelessCarComponent',
     init: () => ( {} ),
-    view: h => ( { props, actions } ): JSX.Element =>
+    view: h => ( { props } ): JSX.Element =>
         <>
             <div>X: {props.position.x}, Y: {props.position.y}</div>
         </>
-} as ComponentDef;
+} );
 
-const StatefulCarComponent = {
+const StatefulCarComponent = defineComponent( {
     name: 'StatefulCarComponent',
     init: ( { props } ) => ( {
         ...props
@@ -28,9 +26,9 @@ const StatefulCarComponent = {
     view: h => ( { model, actions } ): JSX.Element =>
         <>
             <div>X: {( model.position as Position ).x}, Y: {( model.position as Position ).y}</div>
-            <button onClick={actions.moveForward}>+1</button>
+            <button onClick={actions.moveForward}>+1 in Stateful Component</button>
         </>
-} as ComponentDef;
+} );
 
 export default defineComponent( {
     name: 'ObjPropExample',
@@ -48,18 +46,10 @@ export default defineComponent( {
         }
     },
     view: h => ( { model, actions } ): JSX.Element =>
-        h( '', null,
-            h( StatelessCarComponent, {
-                position: model.position
-            } ),
-            h( 'button', {
-                onClick: actions.moveForward
-            },
-            'Move Forward'
-            ),
-            h( StatefulCarComponent, {
-                position: model.position
-            } )
-        )
+        <>
+            <StatelessCarComponent position={model.position} />
+            <button onClick={actions.moveForward}>+1 in parent</button>
+            <StatefulCarComponent position={model.position} />
+        </>
 } );
 

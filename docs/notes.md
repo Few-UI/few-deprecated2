@@ -123,3 +123,4 @@ bject.getOwnPropertyDescriptor(book, 'x') ==>
 ```
 https://stackoverflow.com/questions/59187284/is-there-a-reason-why-this-proxy-always-throws-set-on-proxy-trap-returned-fal
 ```
+- But vue is based on getter/setter approach, and the dispatch on child will trigger parent update too.
