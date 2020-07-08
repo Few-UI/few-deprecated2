@@ -17,10 +17,10 @@ const PropSubscriptionWidget = {
     } ),
     watchers: ( { props, actions } ) => {
         return [ {
-        watch: props.lastName,
-        action: actions.getAddress
-    } ];
-},
+            watch: props.lastName,
+            action: actions.getAddress
+        } ];
+    },
     actions: {
         getAddress: async( { props: { lastName }, dispatch } ): Promise<void> => {
             dispatch( { path: 'address', value: 'loading...' } );
