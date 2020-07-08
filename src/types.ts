@@ -44,7 +44,7 @@ export type View = ( h: Function ) => RenderFn;
 // export interface ComponentDef {
 export interface ComponentDef {
     name: string;
-    init: () => Model | Promise<Model>;
+    init: ( _: { props: Props } ) => Model | Promise<Model>;
     update?: Function;
     actions?: {
         [key: string]: ActionDef;

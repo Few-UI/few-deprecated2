@@ -74,7 +74,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {
-            const model = componentDef.init();
+            const model = componentDef.init( { props } );
             if ( isPromise( model ) ) {
                 initPromise.current = model;
                 return {

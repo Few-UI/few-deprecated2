@@ -105,7 +105,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
     },
     */
     setup: ( _: never, context: SetupContext ): object => {
-        const model = componentDef.init();
+        const model = componentDef.init( { props: context.attrs } );
 
         const watching = {
             current: [] as Watcher[]
