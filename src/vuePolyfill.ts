@@ -62,7 +62,7 @@ const polyfill: {
  */
 const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children: VNodeArrayChildren ): VNode => {
     // align on input behavior with react
-    if( type === 'input' && props.onChange ) {
+    if ( type === 'input' && props.onChange ) {
         props.onInput = props.onChange;
         delete props.onChange;
     }
@@ -70,7 +70,7 @@ const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children:
     if ( !type ) {
         return createElement( Fragment, props, children );
     } else if ( isComponentDef( type ) ) {
-        if( !type._compiled || !type._compiled.vue ) {
+        if ( !type._compiled || !type._compiled.vue ) {
             type._compiled = {
                 ...type._compiled,
                 vue: polyfill.createComponent( type )
@@ -78,7 +78,7 @@ const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children:
         }
         return createElement( type._compiled.vue, props, children );
     }
-    return  createElement( type, props, children );
+    return createElement( type, props, children );
 };
 h.Fragment = Fragment;
 
@@ -105,7 +105,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
     },
     */
     setup: ( _: never, context: SetupContext ): object => {
-        const model = componentDef.init( { props: context.attrs } );
+        const model = componentDef.init ? componentDef.init( { props: context.attrs } ) : {};
 
         const watching = {
             current: [] as Watcher[]
@@ -146,7 +146,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
         }
 
         onMounted( () => {
-            if( isPromise( model ) ) {
+            if ( isPromise( model ) ) {
                 Promise.resolve( model ).then( model => {
                     Object.assign( component.model, model );
                 } ).then( () => {

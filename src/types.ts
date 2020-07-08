@@ -44,12 +44,11 @@ export type View = ( h: Function ) => RenderFn;
 // export interface ComponentDef {
 export interface ComponentDef {
     name: string;
-    init: ( _: { props: Props } ) => Model | Promise<Model>;
-    update?: Function;
+    view: View;
+    init?: ( _: { props: Props } ) => Model | Promise<Model>;
     actions?: {
         [key: string]: ActionDef;
     };
-    view: View;
     watchers?: WatchersDef;
     _compiled?: {
         [platform: string]: () => JSX.Element;

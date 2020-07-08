@@ -74,7 +74,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
         const initPromise = useRef( null );
 
         const [ vm, setState ] = useState( () => {
-            const model = componentDef.init( { props } );
+            const model = componentDef.init ? componentDef.init( { props } ) : {};
             if ( isPromise( model ) ) {
                 initPromise.current = model;
                 return {
@@ -116,8 +116,8 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
                 Promise.resolve( initPromise.current ).then( model =>
                     // do Object.assign for mutation
                     setState( v => ( ( Object.assign( v.model, model ), { ...v } ) ) )
-                // mount after async init
-                ).then( ()=> {
+                    // mount after async init
+                ).then( () => {
                     componentDef.mount && componentDef.mount( component );
                 } );
             } else {
@@ -147,7 +147,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             }
         } );
 
-        return  renderFn( component );
+        return renderFn( component );
     };
     RenderFn.displayName = componentDef.name;
     return RenderFn;

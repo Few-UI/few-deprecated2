@@ -107,7 +107,7 @@ Object.defineProperties( book, {
     y: { writable: false }
 } );
 /*
-bject.getOwnPropertyDescriptor(book, 'x') ==>
+Object.getOwnPropertyDescriptor(book, 'x') ==>
 {
     configurable: true
     enumerable: true
@@ -124,3 +124,13 @@ bject.getOwnPropertyDescriptor(book, 'x') ==>
 https://stackoverflow.com/questions/59187284/is-there-a-reason-why-this-proxy-always-throws-set-on-proxy-trap-returned-fal
 ```
 - But vue is based on getter/setter approach, and the dispatch on child will trigger parent update too.
+
+- vue has a very clear desciption to the practice:
+https://vuejs.org/v2/guide/components-props.html#One-Way-Data-Flow
+
+### What if the value is literal not object
+It will not have the 'binding effect'
+
+## Best Practice
+- Better to only pass literal, don't use `pass-by-ref` feature at all.
+- When `pass-by-ref` requirement exist, try not to do mutation?

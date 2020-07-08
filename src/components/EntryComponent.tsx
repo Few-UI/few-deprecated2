@@ -1,7 +1,7 @@
 import { ComponentDef } from '../types';
 import { defineComponent } from '../utils';
 import ViewExample from './ViewExample';
-import ObjPropExample from './ObjPropExample';
+import ObjPropExample from './PropByRefExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {

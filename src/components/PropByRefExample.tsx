@@ -5,22 +5,22 @@ interface Position {
     y: number;
 }
 
-const StatelessCarComponent = defineComponent( {
-    name: 'StatelessCarComponent',
-    init: () => ( {} ),
+const StatelessComponent = defineComponent( {
+    name: 'StatelessComponent',
     view: h => ( { props } ): JSX.Element =>
         <>
             <div>X: {props.position.x}, Y: {props.position.y}</div>
+            <button onClick={props.action}>+1 in Stateless Component</button>
         </>
 } );
 
-const StatefulCarComponent = defineComponent( {
-    name: 'StatefulCarComponent',
+const StatefulComponent = defineComponent( {
+    name: 'StatefulComponent',
     init: ( { props } ) => ( {
         ...props
     } ),
     actions: {
-        moveForward: ( { model, dispatch } ): void => void
+        moveForward: ( { model, dispatch } ): void =>
             dispatch( { path: 'position.x', value: ( model.position as Position ).x + 1 } )
     },
     view: h => ( { model, actions } ): JSX.Element =>
@@ -31,25 +31,21 @@ const StatefulCarComponent = defineComponent( {
 } );
 
 export default defineComponent( {
-    name: 'ObjPropExample',
+    name: 'PropByRefExample',
     init: () => ( {
         position: {
             x: 0,
             y: 0
         }
     } ),
-    // elm style of upedate
     actions: {
-        moveForward: ( { model, dispatch } ): void => {
-            const position = model.position as Position;
-            dispatch( { path: 'position.x', value: position.x + 1 } );
-        }
+        moveForward: ( { model, dispatch } ): void =>
+            dispatch( { path: 'position.x', value: ( model.position as Position ).x + 1 } )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         <>
-            <StatelessCarComponent position={model.position} />
-            <button onClick={actions.moveForward}>+1 in parent</button>
-            <StatefulCarComponent position={model.position} />
+            <StatefulComponent  position={model.position} />
+            <StatelessComponent position={model.position} action={actions.moveForward} />
         </>
 } );
 
