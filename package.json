@@ -53,6 +53,7 @@
     },
     "scripts": {
         "c": "git add -A && git-cz",
+        "d": "npm start",
         "lint": "npm run eslint && npm run tslint",
         "build": "rollup -c",
         "start": "rollup -c -w",

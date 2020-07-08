@@ -117,3 +117,9 @@ bject.getOwnPropertyDescriptor(book, 'x') ==>
 }
 */
 ```
+
+## Vue
+- vue is similar like react but with a different  error:
+```
+https://stackoverflow.com/questions/59187284/is-there-a-reason-why-this-proxy-always-throws-set-on-proxy-trap-returned-fal
+```
