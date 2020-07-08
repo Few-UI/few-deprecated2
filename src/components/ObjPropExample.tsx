@@ -7,15 +7,28 @@ interface Position {
     y: number;
 }
 
-const CarComponent = {
-    name: 'CarComponent',
+const StatelessCarComponent = {
+    name: 'StatelessCarComponent',
     init: () => ( {} ),
-    actions: {
-        plusOne: ( { model, dispatch } ) => void dispatch( { path: 'value', value: model.value as number + 1 } )
-    },
     view: h => ( { props, actions } ): JSX.Element =>
         <>
             <div>X: {props.position.x}, Y: {props.position.y}</div>
+        </>
+} as ComponentDef;
+
+const StatefulCarComponent = {
+    name: 'StatefulCarComponent',
+    init: ( { props } ) => ( {
+        ...props
+    } ),
+    actions: {
+        moveForward: ( { model, dispatch } ): void => void
+            dispatch( { path: 'position.x', value: ( model.position as Position ).x + 1 } )
+    },
+    view: h => ( { model, actions } ): JSX.Element =>
+        <>
+            <div>X: {( model.position as Position ).x}, Y: {( model.position as Position ).y}</div>
+            <button onClick={actions.moveForward}>+1</button>
         </>
 } as ComponentDef;
 
@@ -36,14 +49,17 @@ export default defineComponent( {
     },
     view: h => ( { model, actions } ): JSX.Element =>
         h( '', null,
-            h( CarComponent, {
+            h( StatelessCarComponent, {
                 position: model.position
             } ),
             h( 'button', {
                 onClick: actions.moveForward
             },
             'Move Forward'
-            )
+            ),
+            h( StatefulCarComponent, {
+                position: model.position
+            } )
         )
 } );
 

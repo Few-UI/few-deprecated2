@@ -86,3 +86,34 @@ const ProductDisplay = () => {
 };
 ```
 
+# Props as Ref
+## AngularJS
+- AngularJS will put all props under $scope as direct children
+- When u modify `$scope.myProp1.a`, because AngularJS implicit `$scope.$apply`, it will update all the view which refers to that data.
+
+## React
+- React's props object by default is read-only for all direct children.
+  https://stackoverflow.com/questions/27519836/uncaught-typeerror-cannot-assign-to-read-only-property
+- but if u pass the prop to other structure, there is no block to do mutation.
+### How to make the prop read only and still support JSON spread
+- Roughly practice like below:
+```javascript
+const book = {
+    x: 3,
+    y: 5
+};
+Object.defineProperties( book, {
+    x: { writable: false },
+    y: { writable: false }
+} );
+/*
+bject.getOwnPropertyDescriptor(book, 'x') ==>
+{
+    configurable: true
+    enumerable: true
+    value: 3
+    writable: false
+    __proto__: Object
+}
+*/
+```
