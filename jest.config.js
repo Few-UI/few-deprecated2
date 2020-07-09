@@ -2,12 +2,10 @@
 module.exports = {
     // roots: [ '<rootDir>' ],
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
-        /*
+        // '^.+\\.tsx?$': 'ts-jest'
         // TODO: switch to babel-jest later
-        [ 'babel-jest', {
+        '^.+\\.tsx?$': [ 'babel-jest', {
                 exclude: 'node_modules/**',
-
                 presets: [
                     [ '@babel/preset-env', {
                         // modules: 'commonjs'
@@ -16,7 +14,6 @@ module.exports = {
                             browsers: [ 'last 1 chrome versions' ]
                         }
                     } ],
-                    '@babel/preset-typescript',
                     // https://github.com/facebook/create-react-app/blob/f5c3bdb65480f93b2d4a4c2f3214fc50753de434/packages/babel-preset-react-app/create.js
                     [ '@babel/preset-react', {
                         // pragma: 'this.$createElement'
@@ -25,11 +22,12 @@ module.exports = {
                         pragmaFrag: 'h.Fragment',
                         // development: true,
                         useBuiltIns: true
-                    } ]
+                    } ],
+                    '@babel/preset-typescript'
                 ]
+                // babelHelpers: 'bundled',
                 // extensions: [ '.js', '.jsx', '.ts', '.tsx' ]
         } ]
-        */
     },
     // testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
     testMatch: [
@@ -40,6 +38,7 @@ module.exports = {
         'src/**/*.{js,jsx,ts,tsx}'
     ],
     moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx', 'json', 'node' ],
+    /*
     globals: {
         'ts-jest': {
             babelConfig: {
@@ -67,6 +66,7 @@ module.exports = {
             }
         }
     },
+    */
     // this is needed even ts-jest is there
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1'
