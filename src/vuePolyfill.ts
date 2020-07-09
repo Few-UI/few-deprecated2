@@ -66,6 +66,10 @@ const h = ( type: string | ComponentDef, props?: { [key: string]: any } | null, 
         delete props.onChange;
     }
 
+    // [Vue warn]: Non-function value encountered for default slot. Prefer function slots for better performance.
+    // set children to null if children === []
+    children =  children.length > 0  ? children : null;
+
     if ( !type ) {
         return createElement( Fragment, props, children );
     } else if ( isComponentDef( type ) ) {
