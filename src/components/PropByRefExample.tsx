@@ -7,6 +7,7 @@ interface Position {
 
 const StatelessComponent = defineComponent( {
     name: 'StatelessComponent',
+    // init: () => ( {} ),
     view: h => ( { props } ): JSX.Element =>
         <>
             <div>X: {props.position.x}, Y: {props.position.y}</div>
