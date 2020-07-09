@@ -47,7 +47,6 @@ export type RenderFn = ( component: Component ) => JSX.Element;
 export type View = ( h: Function ) => RenderFn;
 
 // ComponentDef
-// export interface ComponentDef {
 export interface ComponentDef {
     name: string;
     view: View;
@@ -62,7 +61,6 @@ export interface ComponentDef {
     mount?: ActionDef;
     unmount?: ActionDef;
 }
-
 
 // Action Def
 export type ActionDef = ( vm: Component, ...args: any[] ) => void
@@ -81,7 +79,6 @@ export interface DispatchInput {
     path: string;
     value: unknown;
 }
-
 
 // Route
 export interface RouteState {
