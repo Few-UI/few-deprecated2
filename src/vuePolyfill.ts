@@ -187,14 +187,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         // return component;
         return (): JSX.Element => {
-            Object.defineProperty( component, 'children', {
-                get: () => {
-                    if( context.slots.default ) {
-                        const val = context.slots.default();
-                        return createElement( () => val );
-                    }
-                }
-            } );
+            component.children = context.slots.default();
             return renderFn( component );
         };
     }
