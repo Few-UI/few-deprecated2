@@ -55,10 +55,6 @@ import alias from '@rollup/plugin-alias';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
 
-const customResolver = resolve( {
-    extensions: [ '.mjs', '.js', '.jsx', 'ts', 'tsx', '.json', '.sass', '.scss' ]
-} );
-
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
 const production = !process.env.ROLLUP_WATCH;
