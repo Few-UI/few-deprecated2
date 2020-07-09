@@ -3,7 +3,7 @@
 import {
     wait,
     setupComponentTest
-} from './utils';
+} from '../utils';
 
 import {
     useEffect,

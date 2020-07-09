@@ -2,15 +2,15 @@
 
 import {
     Model
-} from '../src/types';
+} from '@/types';
 
 import {
     wait,
     setupComponentTest,
     getSupportedFrameworks
-} from './utils';
+} from '../utils';
 
-import SyncActionExample from './components/SyncActionExample';
+import SyncActionExample from '../components/SyncActionExample';
 
 import {
     h,

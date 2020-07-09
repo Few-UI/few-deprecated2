@@ -67,6 +67,10 @@ module.exports = {
             }
         }
     },
+    // this is needed even ts-jest is there
+    moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1'
+    },
     setupFiles: [
         // '<rootDir>/node_modules/babel-polyfill/dist/polyfill.js'
     ],

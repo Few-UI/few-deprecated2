@@ -4,10 +4,10 @@
 import {
     App,
     CreateAppFunction
-} from '../src/types';
+} from '@/types';
 
-import { createApp as createReactApp } from '../src/reactPolyfill';
-import { createApp as createVueApp } from '../src/vuePolyfill';
+import { createApp as createReactApp } from '@/reactPolyfill';
+import { createApp as createVueApp } from '@/vuePolyfill';
 
 import { act } from 'react-dom/test-utils';
 

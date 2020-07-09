@@ -1,7 +1,6 @@
 /* eslint-env jest */
 
 import {
-    wait,
     setupComponentTest,
     getSupportedFrameworks
 } from './utils';

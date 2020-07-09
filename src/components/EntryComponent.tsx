@@ -1,5 +1,5 @@
-import { ComponentDef } from '../types';
-import { defineComponent } from '../utils';
+import { ComponentDef } from '@/types';
+import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
 import PropByRefExample from './PropByRefExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';

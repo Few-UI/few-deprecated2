@@ -22,10 +22,14 @@
         "skipLibCheck": true,
         "jsx": "preserve",
         "jsxFactory": "h",
-        "noImplicitAny": true
+        "noImplicitAny": true,
         // below is not required when use babel/buble
         //"sourceMap": true,
-        // "inlineSourceMap": true
+        // "inlineSourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
 
     },
     "include": [
