@@ -1,4 +1,4 @@
-import { defineComponent } from '../utils';
+import { defineComponent } from '@/utils';
 
 interface Position {
     x: number;
@@ -11,7 +11,7 @@ const StatelessComponent = defineComponent( {
     view: h => ( { props } ): JSX.Element =>
         <>
             <div>X: {props.position.x}, Y: {props.position.y}</div>
-            <button onClick={props.action}>+1 in Stateless Component</button>
+            <button id='clickOnParent' onClick={props.action}>+1 in Stateless Component</button>
         </>
 } );
 
@@ -27,7 +27,7 @@ const StatefulComponent = defineComponent( {
     view: h => ( { model, actions } ): JSX.Element =>
         <>
             <div>X: {( model.position as Position ).x}, Y: {( model.position as Position ).y}</div>
-            <button onClick={actions.moveForward}>+1 in Stateful Component</button>
+            <button id='clickOnSub' onClick={actions.moveForward}>+1 in Stateful Component</button>
         </>
 } );
 

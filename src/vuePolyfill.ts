@@ -27,7 +27,6 @@ import {
     Fragment,
 
     // types
-    VNodeProps,
     VNodeArrayChildren,
     VNode,
     Component as VueComponent,
@@ -60,7 +59,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: VNodeProps | null, ...children: VNodeArrayChildren ): VNode => {
+const h = ( type: string | ComponentDef, props?: { [key: string]: any } | null, ...children: VNodeArrayChildren ): VNode => {
     // align on input behavior with react
     if ( type === 'input' && props.onChange ) {
         props.onInput = props.onChange;
