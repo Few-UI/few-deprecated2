@@ -34,6 +34,7 @@ export interface Component {
         [key: string]: ( event?: unknown ) => void;
     };
     _init?: Promise<Model>;
+    children?: any;
 }
 
 // View

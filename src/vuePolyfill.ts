@@ -186,7 +186,17 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
         const renderFn = componentDef.view( polyfill.createElement );
 
         // return component;
-        return (): JSX.Element => renderFn( component );
+        return (): JSX.Element => {
+            Object.defineProperty( component, 'children', {
+                get: () => {
+                    if( context.slots.default ) {
+                        const val = context.slots.default();
+                        return createElement( () => val );
+                    }
+                }
+            } );
+            return renderFn( component );
+        };
     }
 } );
 
