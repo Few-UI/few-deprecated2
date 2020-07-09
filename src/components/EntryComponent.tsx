@@ -1,6 +1,6 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
-import SlotExample from './SlotExample';
+import SlotExample from '../../test/components/SlotExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {
