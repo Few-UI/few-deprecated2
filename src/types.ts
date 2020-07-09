@@ -25,15 +25,20 @@ export interface Ref {
 
 // Component
 export interface Component {
+    // props
+    props: Props;
+
+    // local store
     model: Model;
     dispatch: Function;
-    ref: Ref;
-    props: Props;
-    h: Function;
+
+    // action
     actions?: {
         [key: string]: ( event?: unknown ) => void;
     };
-    _init?: Promise<Model>;
+
+    // JSX
+    ref: Ref;
     children?: any;
 }
 

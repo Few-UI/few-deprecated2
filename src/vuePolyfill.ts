@@ -137,8 +137,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
                 component.ref[path || 'el'] = el;
             } ) as Ref,
-            props: context.attrs,
-            h: polyfill.createElement
+            props: context.attrs
         };
 
         if ( componentDef.actions ) {

@@ -98,7 +98,6 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
                 component.ref[path || 'el'] = el;
             } ) as Ref,
             props,
-            h: polyfill.createElement,
             children: props && props.children
         };
 
