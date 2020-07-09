@@ -187,7 +187,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         // return component;
         return (): JSX.Element => {
-            component.children = context.slots.default();
+            component.children = context.slots.default && context.slots.default();
             return renderFn( component );
         };
     }
