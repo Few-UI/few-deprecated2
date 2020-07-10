@@ -1,6 +1,5 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
-import SlotExample from '../../test/components/SlotExample';
 // import PropsSubscriptionExample from '../../test/components/PropsSubscriptionExample';
 
 export default defineComponent( {
@@ -11,7 +10,6 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
-            <SlotExample />
         </div>,
     init: () => ( {} )
 } );
