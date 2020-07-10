@@ -138,3 +138,5 @@ It will not have the 'binding effect'
 # Data Store and State Mgmt
 - There is no Multiple Store in ELM design, like redux it has only one model
 - For Multi-store
+- The typical way in HTML that child talk with parent is DOM event, not call back
+- Pass 'callback' and pass 'action' is different - action has more binding.
