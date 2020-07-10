@@ -15,9 +15,6 @@ import { render } from 'react-dom';
 
 const printStack = [] as string[];
 
-// side effect in @babel/preset-typescript, if h is not mentioned the as will be truncated
-h;
-
 ////////////////////////////////
 // No Property Widget
 ////////////////////////////////

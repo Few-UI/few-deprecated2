@@ -1,5 +1,4 @@
-import { ComponentDef } from '../types';
-import { defineComponent } from '../utils';
+import { defineComponent } from '@/utils';
 
 export default defineComponent( {
     name: 'ViewExample',
@@ -7,4 +6,4 @@ export default defineComponent( {
     init: () => ( {
         name: 'Monster Hunter'
     } )
-} as ComponentDef );
+} );

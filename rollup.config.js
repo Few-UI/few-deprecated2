@@ -98,7 +98,8 @@ export default {
                     // development: !production
                     useBuiltIns: true
                 } ],
-                '@babel/preset-typescript'
+                // https://github.com/babel/babel/issues/11851#issuecomment-661834064
+                [ '@babel/preset-typescript', { onlyRemoveTypeImports: true } ]
             ],
             babelHelpers: 'bundled',
             extensions

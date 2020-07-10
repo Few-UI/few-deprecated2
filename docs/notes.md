@@ -134,3 +134,7 @@ It will not have the 'binding effect'
 ## Best Practice
 - Better to only pass literal, don't use `pass-by-ref` feature at all.
 - When `pass-by-ref` requirement exist, try not to do mutation?
+
+# Data Store and State Mgmt
+- There is no Multiple Store in ELM design, like redux it has only one model
+- For Multi-store

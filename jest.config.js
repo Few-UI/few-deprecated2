@@ -23,7 +23,7 @@ module.exports = {
                         // development: true,
                         useBuiltIns: true
                     } ],
-                    '@babel/preset-typescript'
+                    [ '@babel/preset-typescript', { onlyRemoveTypeImports: true } ]
                 ]
                 // babelHelpers: 'bundled',
                 // extensions: [ '.js', '.jsx', '.ts', '.tsx' ]
