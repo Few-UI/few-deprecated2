@@ -11,9 +11,7 @@ interface Fields {
 
 const Field = defineComponent( {
     name: 'Field',
-    init: () => ( {
-        value: ''
-    } ),
+    init: () => ( {} ),
     view: h => ( { props: { id, field }, dispatch, model } ): JSX.Element =>
         <div>
             <label htmlFor={id}>{field.name}:</label>
@@ -54,12 +52,12 @@ export default defineComponent( {
             name: {
                 name: 'name',
                 type: 'text',
-                check: ( v ): string => v ? '' : 'cannot be null'
+                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
             },
             desc: {
                 name: 'desc',
                 type: 'text',
-                check: ( v ): string => v ? '' : 'cannot be null'
+                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
             }
         } as Fields
     } ),
