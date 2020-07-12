@@ -18,8 +18,6 @@ const _testSuite = ( name: string, createApp: Function ): void =>
     describe( `${Component.name} test on ${name}`, () => {
         const fixture = setupComponentTest();
 
-        // https://github.com/jsdom/jsdom/commit/ea6a2e4143cf67e30b528eb32d7b6c0b88595846
-        // inputElem.value = 'a' will not change DOM but brower will interpret it correclty
         // debug: enable this line
         // it( 'debug specific test', async() => {
         it( `${Component.name} test on ${name}`, async() => {

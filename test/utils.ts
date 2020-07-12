@@ -87,7 +87,11 @@ export const trimHtmlComments = ( str: string ): string =>
 
 /**
  * Set value to input tag
+ * https://github.com/jsdom/jsdom/commit/ea6a2e4143cf67e30b528eb32d7b6c0b88595846
+ * inputElem.value = 'a' will not change DOM but brower will interpret it correclty
+ * Use approach below works fine:
  * https://github.com/testing-library/dom-testing-library/blob/b31c0b9907acab6f1ea2b4f01c6e99f28db19bd6/src/events.js#L83
+ *
  * @param element Input Element
  * @param value string
  */
