@@ -52,7 +52,7 @@ export const setupComponentTest = ( skipMockTimer?: boolean ): {
         fixture.container = null;
     } );
 
-    if( !skipMockTimer ) {
+    if ( !skipMockTimer ) {
         enableMockTimer();
     }
 
@@ -91,7 +91,7 @@ export const trimHtmlComments = ( str: string ): string =>
  * @param element Input Element
  * @param value string
  */
-export const setValueToInputElement = ( element: HTMLInputElement, value: string ): void => {
+const setValueToInputElement = ( element: HTMLInputElement, value: string ): void => {
     const {
         set: valueSetter
     } = Object.getOwnPropertyDescriptor( element, 'value' ) || {};
@@ -108,4 +108,36 @@ export const setValueToInputElement = ( element: HTMLInputElement, value: string
     } else {
         throw new Error( 'The given element does not have a value setter' );
     }
+};
+
+export const typeToInputElement = ( element: HTMLInputElement, value: string ): void => {
+    setValueToInputElement( element, element.value + value );
+
+    element.dispatchEvent( new InputEvent( 'input', {
+        bubbles: true,
+        cancelable: false,
+        inputType: 'insertText',
+        data: value
+    } ) );
+
+    /*
+    // change event is OK on react, but not vue
+    textElem.dispatchEvent( new Event( 'change', {
+        bubbles: true,
+        cancelable: false,
+        composed: false
+    } ) );
+    */
+};
+
+// https://github.com/w3c/input-events/issues/30
+export const cleanInputElement = ( element: HTMLInputElement ): void => {
+    setValueToInputElement( element, '' );
+
+    element.dispatchEvent( new InputEvent( 'input', {
+        bubbles: true,
+        cancelable: false,
+        inputType: 'deleteContent',
+        data: ''
+    } ) );
 };

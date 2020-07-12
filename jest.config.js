@@ -40,6 +40,8 @@ module.exports = {
     moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx', 'json', 'node' ],
     // this is needed even ts-jest is there
     moduleNameMapper: {
+        // https://github.com/facebook/jest/issues/3094
+        '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css',
         '^@/(.*)$': '<rootDir>/src/$1'
     },
     setupFiles: [

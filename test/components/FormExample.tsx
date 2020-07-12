@@ -56,7 +56,7 @@ const Field = defineComponent( {
     name: 'Field',
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>
-            <label htmlFor={id}>{field.name}{field.required ? '*' : ''}:</label>
+            <label htmlFor={id}>{field.name}{field.required ? '*' : ''}: </label>
             <input id={id} name={id} type={convertType( field.type )} onChange={e => void dispatch( {
                 path: 'value',
                 value: getInputValue( e.target )
@@ -77,7 +77,7 @@ const Form = defineComponent( {
             {Object.entries( props.fields as Fields ).map(
                 ( [ key, field ] ) => <Field key={key} id={key} field={field} />
             )}
-            <button type='submit'>submit</button>
+            <button id='submit' type='submit'>submit</button>
         </form>
 } );
 
@@ -87,7 +87,7 @@ export default defineComponent( {
     view: h => ( { model, actions } ): JSX.Element =>
         <>
             <Form fields={model.fields} action={actions.updateResult} />
-            <pre>Form Request: {model.result}</pre>
+            <pre id='form-request'>Form Request: {model.result}</pre>
         </>,
     init: () => ( {
         fields: {

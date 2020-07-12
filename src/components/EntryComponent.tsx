@@ -1,6 +1,6 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
-import FormExample from './FormExample';
+import FormExample from '../../test/components/FormExample';
 
 export default defineComponent( {
     name: 'EntryComponent',

@@ -3,7 +3,7 @@
 import {
     wait,
     setupComponentTest,
-    setValueToInputElement,
+    typeToInputElement,
     getSupportedFrameworks
 } from './utils';
 import Component from './components/TextboxExample';
@@ -35,23 +35,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
             expect( textElem.value ).toEqual( 'Monster Hunter' );
             expect( resultElem.innerHTML ).toEqual( 'Monster Hunter' );
 
-            setValueToInputElement( textElem, textElem.value + 'b' );
-
-            textElem.dispatchEvent( new InputEvent( 'input', {
-                bubbles: true,
-                cancelable: false,
-                inputType: 'insertText',
-                data: 'b'
-            } ) );
-            /*
-            // change event is OK on react, but not vue
-            textElem.dispatchEvent( new Event( 'change', {
-                bubbles: true,
-                cancelable: false,
-                composed: false
-            } ) );
-            */
-
+            typeToInputElement( textElem, 'b' );
             await wait();
 
             expect( textElem.value ).toEqual( 'Monster Hunterb' );
