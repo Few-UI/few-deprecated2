@@ -2,8 +2,9 @@
 
 import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
-// import './dummy.scss';
+import './FormExample.scss';
 
+// Form: Types
 interface Fields {
     [key: string]: {
         name: string;
@@ -13,6 +14,7 @@ interface Fields {
     };
 }
 
+// Form: Utils
 const convertType = ( type: string ): string => {
     switch( type ) {
         case 'number':
@@ -32,11 +34,6 @@ const getInputValue = ( elem: HTMLInputElement ): any => {
     return elem.value;
 };
 
-/**
- * get form input from Form HTML Element
- * @param {Element} elem Form element
- * @returns {Object} from input as name value pair
- */
 const getFormInput = ( elem: Element ): { [key: string]: any } => {
     const res = {} as { [key: string]: any };
     // TODO: not consider custom element for now
@@ -54,6 +51,7 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
     return res;
 };
 
+// Form: Components
 const Field = defineComponent( {
     name: 'Field',
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
@@ -63,7 +61,10 @@ const Field = defineComponent( {
                 path: 'value',
                 value: getInputValue( e.target )
             } )} required={field.required} />
-            <code style={{ color: 'red' }}>{field.check && field.check( model.value )}</code>
+            { field.required ?
+                <span className='validity'></span> :
+                <code style={{ color: 'red' }}>{field.check && field.check( model.value )}</code>
+            }
         </div>
 } );
 
@@ -80,6 +81,7 @@ const Form = defineComponent( {
         </form>
 } );
 
+// Form: Example
 export default defineComponent( {
     name: 'FormExample',
     view: h => ( { model, actions } ): JSX.Element =>
@@ -92,7 +94,6 @@ export default defineComponent( {
             name: {
                 name: 'name',
                 type: 'string',
-                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty',
                 required: true
             },
             age: {
