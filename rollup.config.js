@@ -54,6 +54,7 @@ import babel from '@rollup/plugin-babel';
 import alias from '@rollup/plugin-alias';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
+import postcss from 'rollup-plugin-postcss';
 
 // `npm run build` -> `production` is true
 // `npm run dev` -> `production` is false
@@ -74,6 +75,11 @@ export default {
                 find: /^@\/(.*)$/,
                 replacement: `${path.resolve( process.cwd(), 'src' )}/$1`
             } ]
+        } ),
+        postcss( {
+          extract: false,
+          modules: true,
+          use: [ 'sass' ]
         } ),
         resolve( {
             mainFields: [ 'module', 'main', 'jsnext:main', 'browser' ],

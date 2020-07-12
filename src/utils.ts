@@ -296,27 +296,4 @@ export function defineComponent( componentDef: unknown ): unknown {
     return componentDef;
 }
 
-/**
- * get form input from Form HTML Element
- * @param {Element} elem Form element
- * @returns {Object} from input as name value pair
- */
-export function getFormInput( elem: Element ): { [key: string]: any } {
-    const res = {} as { [key: string]: any };
-    // TODO: not consider custom element for now
-    if ( elem.tagName === 'FORM' ) {
-        const nodeList = ( elem as HTMLFormElement ).elements;
-        for ( let i = 0; i < nodeList.length; i++ ) {
-            if ( nodeList[i].nodeName === 'INPUT' && ( nodeList[i] as HTMLInputElement ).type === 'text' ) {
-                // Update text input
-                ( nodeList[i] as HTMLInputElement ).value.toLocaleUpperCase();
-            }
 
-            // only supports naming input
-            if ( ( nodeList[i] as HTMLInputElement ).name ) {
-                res[( nodeList[i] as HTMLInputElement ).name] = ( nodeList[i] as HTMLInputElement ).value;
-            }
-        }
-    }
-    return res;
-}

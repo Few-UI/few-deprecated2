@@ -1,40 +1,80 @@
-import { defineComponent, getFormInput } from '@/utils';
+// https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input
+
+import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
+// import './dummy.scss';
 
 interface Fields {
     [key: string]: {
         name: string;
-        type: string;
-        check: ( value: string ) => string;
+        type: 'number' | 'string' | 'boolean';
+        check?: ( value: string ) => string;
+        required?: boolean;
     };
 }
 
+const convertType = ( type: string ): string => {
+    switch( type ) {
+        case 'number':
+            return 'number';
+        case 'boolean':
+            return 'checkbox';
+        case 'string':
+        default:
+            return 'text';
+    }
+};
+
+const getInputValue = ( elem: HTMLInputElement ): any => {
+    if( elem.type === 'checkbox' ) {
+        return elem.checked;
+    }
+    return elem.value;
+};
+
+/**
+ * get form input from Form HTML Element
+ * @param {Element} elem Form element
+ * @returns {Object} from input as name value pair
+ */
+const getFormInput = ( elem: Element ): { [key: string]: any } => {
+    const res = {} as { [key: string]: any };
+    // TODO: not consider custom element for now
+    if ( elem.tagName === 'FORM' ) {
+        const nodeList = ( elem as HTMLFormElement ).elements;
+        for ( let i = 0; i < nodeList.length; i++ ) {
+            const node = nodeList[i] as HTMLInputElement;
+
+            // only supports naming input
+            if( node.nodeName === 'INPUT' && node.name ) {
+                res[node.name] = getInputValue( node );
+            }
+        }
+    }
+    return res;
+};
+
 const Field = defineComponent( {
     name: 'Field',
-    init: () => ( {} ),
-    view: h => ( { props: { id, field }, dispatch, model } ): JSX.Element =>
+    view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>
-            <label htmlFor={id}>{field.name}:</label>
-            <input type={field.type} id={id} name={id} onChange={
-                e => void dispatch( {
-                        path: 'value',
-                        value: e.target.value
-                    } )
-            }></input>
-            <code style={{ color: 'red' }}>{field.check( model.value )}</code>
+            <label htmlFor={id}>{field.name}{field.required ? '*' : ''}:</label>
+            <input id={id} name={id} type={convertType( field.type )} onChange={e => void dispatch( {
+                path: 'value',
+                value: getInputValue( e.target )
+            } )} required={field.required} />
+            <code style={{ color: 'red' }}>{field.check && field.check( model.value )}</code>
         </div>
 } );
 
 const Form = defineComponent( {
     name: 'Form',
     view: h => ( { props } ): JSX.Element =>
-        <form onSubmit={( e: FormEvent ): void => {
-            // if put it here, means we want to wrap event
-            e.preventDefault();
-            props.action( getFormInput( e.target as Element ) );
-        }}>
+        <form onSubmit={( e: FormEvent ) => void
+            ( e.preventDefault(), props.action( getFormInput( e.target as Element ) ) )
+        }>
             {Object.entries( props.fields as Fields ).map(
-                ( [ k, field ] ) => <Field key={k} id={k} field={field} />
+                ( [ key, field ] ) => <Field key={key} id={key} field={field} />
             )}
             <button type='submit'>submit</button>
         </form>
@@ -45,19 +85,24 @@ export default defineComponent( {
     view: h => ( { model, actions } ): JSX.Element =>
         <>
             <Form fields={model.fields} action={actions.updateResult} />
-            <pre>Result: {model.result}</pre>
+            <pre>Form Request: {model.result}</pre>
         </>,
     init: () => ( {
         fields: {
             name: {
                 name: 'name',
-                type: 'text',
+                type: 'string',
+                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty',
+                required: true
+            },
+            age: {
+                name: 'age',
+                type: 'number',
                 check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
             },
-            desc: {
-                name: 'desc',
-                type: 'text',
-                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
+            test: {
+                name: 'test',
+                type: 'boolean'
             }
         } as Fields
     } ),
