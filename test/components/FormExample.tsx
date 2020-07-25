@@ -68,7 +68,7 @@ const Field = defineComponent( {
         </div>
 } );
 
-const Form = defineComponent( {
+export const Form = defineComponent( {
     name: 'Form',
     view: h => ( { props } ): JSX.Element =>
         <form onSubmit={( e: FormEvent ) => void

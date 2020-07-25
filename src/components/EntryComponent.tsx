@@ -1,6 +1,7 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
 import FormEditExample from './FormEditExample';
+import AsyncViewExample from './AsyncViewExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -11,5 +12,6 @@ export default defineComponent( {
         <div>
             <ViewExample />
             <FormEditExample />
+            <AsyncViewExample />
         </div>
 } );
