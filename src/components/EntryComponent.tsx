@@ -1,6 +1,6 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
-import FormExample from '../../test/components/FormExample';
+import FormEditExample from './FormEditExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -10,6 +10,6 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
-            <FormExample />
+            <FormEditExample />
         </div>
 } );

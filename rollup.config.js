@@ -45,6 +45,9 @@
  *         extensions: ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs']
  *         presets: [ '@babel/preset-react' ]
  *     } ),
+ *
+ *  - For watch limit see below. If u are in docker env do it in docker app machine
+ *    https://github.com/gatsbyjs/gatsby/issues/11406
  */
 import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
