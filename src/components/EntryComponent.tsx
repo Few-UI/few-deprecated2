@@ -1,6 +1,7 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
 import FormEditExample from './FormEditExample';
+import FormExample from '../../test/components/FormExample';
 import AsyncViewExample from './AsyncViewExample';
 
 export default defineComponent( {
@@ -11,7 +12,7 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
-            <FormEditExample />
+            <FormExample />
             <AsyncViewExample />
         </div>
 } );

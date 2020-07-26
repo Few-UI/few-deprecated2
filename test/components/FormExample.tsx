@@ -16,6 +16,25 @@ export interface Fields {
     [key: string]: Field;
 }
 
+export const getUserFields = (): Fields => {
+    return {
+        name: {
+            name: 'name',
+            type: 'string',
+            required: true
+        },
+        age: {
+            name: 'age',
+            type: 'number',
+            check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
+        },
+        isAdmin: {
+            name: 'isAdmin',
+            type: 'boolean'
+        }
+    } as Fields;
+};
+
 // Form: Utils
 const mapFieldToInput = ( type: string, value: any ): any => {
     switch( type ) {
@@ -106,22 +125,7 @@ export default defineComponent( {
             <pre id='form-request'>Form Request: {model.result}</pre>
         </>,
     init: () => ( {
-        fields: {
-            name: {
-                name: 'name',
-                type: 'string',
-                required: true
-            },
-            age: {
-                name: 'age',
-                type: 'number',
-                check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
-            },
-            test: {
-                name: 'test',
-                type: 'boolean'
-            }
-        } as Fields
+        fields: getUserFields()
     } ),
     actions: {
         updateResult: ( { dispatch }, formValues ): void => dispatch( {

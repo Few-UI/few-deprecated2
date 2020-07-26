@@ -1,52 +1,25 @@
 import { defineComponent, wait } from '@/utils';
-import { Form, Fields } from '../../test/components/FormExample';
-import { update } from 'lodash';
+import { Form, Fields, getUserFields } from '../../test/components/FormExample';
 
 // Types
 interface User {
     name: string;
     age: number;
-    test: boolean;
+    isAdmin: boolean;
 }
 
 // mock
-const mockUser: User = {
-    name: 'John',
-    age: 29,
-    test: true
-};
-
 const mockServer = {
     _currUser: {
         name: 'John',
         age: 29,
-        test: true
+        isAdmin: true
     } as User,
     getCurrUser: async(): Promise<User> => ( ( await wait( 500 ), mockServer._currUser ) ),
     updateCurrUser: async( updateValues: User ): Promise<void> => void ( ( await wait( 500 ), Object.assign( mockServer._currUser, updateValues ) ) )
 };
 
-const getEditSchema = ( type: string ): Fields => {
-    return {
-        name: {
-            name: 'name',
-            type: 'string',
-            required: true
-        },
-        age: {
-            name: 'age',
-            type: 'number',
-            check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
-        },
-        test: {
-            name: 'test',
-            type: 'boolean'
-        }
-    } as Fields;
-};
-
-const getEditFields = ( type: string, curr: User ): Fields => {
-    const schema = getEditSchema( type );
+const createEditFields = ( curr: User, schema: Fields ): Fields => {
     Object.entries( curr ).forEach( ( [ k, v ] ) => {
         schema[k].value = v;
     } );
@@ -66,7 +39,7 @@ export default defineComponent( {
             <button onClick={actions.toggleEdit} disabled={!model.currUser}>{model.editing ? 'Cancel Edit' : 'Start Edit'}</button>
             {model.editing &&
                 <>
-                    <Form fields={getEditFields( 'User', model.currUser as User )} action={actions.saveEdit} />
+                    <Form fields={createEditFields( model.currUser as User, getUserFields() )} action={actions.saveEdit} />
                 </>
             }
         </>,

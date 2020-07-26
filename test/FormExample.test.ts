@@ -73,11 +73,11 @@ const _testSuite = ( name: string, createApp: Function ): void =>
             expect( ageInputElem.parentElement.querySelector( 'code' ).textContent ).toEqual( '' );
 
             // test field
-            const testInputElem = document.getElementById( 'test' ) as HTMLInputElement;
+            const testInputElem = document.getElementById( 'isAdmin' ) as HTMLInputElement;
             expect( testInputElem.type ).toEqual( 'checkbox' );
             expect( testInputElem.required ).toEqual( false );
             expect( testInputElem.checked ).toEqual( false );
-            expect( testInputElem.parentElement.querySelector( 'label' ).innerHTML ).toEqual( 'test: ' );
+            expect( testInputElem.parentElement.querySelector( 'label' ).innerHTML ).toEqual( 'isAdmin: ' );
             expect( testInputElem.parentElement.querySelector( 'span' ) ).toBeNull();
             expect( testInputElem.parentElement.querySelector( 'code' ) ).not.toBeNull();
 
@@ -99,7 +99,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
                 'Form Request: {',
                 '  "name": "John",',
                 '  "age": 456,',
-                '  "test": true',
+                '  "isAdmin": true',
                 '}'
             ].join( '\n' ) );
         } );
