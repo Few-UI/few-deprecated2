@@ -98,7 +98,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
             expect( requestElem.textContent ).toEqual( [
                 'Form Request: {',
                 '  "name": "John",',
-                '  "age": "456",',
+                '  "age": 456,',
                 '  "test": true',
                 '}'
             ].join( '\n' ) );

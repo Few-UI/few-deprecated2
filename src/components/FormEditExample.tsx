@@ -1,5 +1,6 @@
 import { defineComponent, wait } from '@/utils';
 import { Form, Fields } from '../../test/components/FormExample';
+import { update } from 'lodash';
 
 // Types
 interface User {
@@ -15,7 +16,15 @@ const mockUser: User = {
     test: true
 };
 
-const getCurrUser = async(): Promise<User> => ( ( await wait( 500 ), mockUser ) );
+const mockServer = {
+    _currUser: {
+        name: 'John',
+        age: 29,
+        test: true
+    } as User,
+    getCurrUser: async(): Promise<User> => ( ( await wait( 500 ), mockServer._currUser ) ),
+    updateCurrUser: async( updateValues: User ): Promise<void> => void ( ( await wait( 500 ), Object.assign( mockServer._currUser, updateValues ) ) )
+};
 
 const getEditSchema = ( type: string ): Fields => {
     return {
@@ -64,7 +73,7 @@ export default defineComponent( {
     actions: {
         loadUser: async( { dispatch } ): Promise<void> => {
             dispatch( { path: 'currUser', value: 'loading...' } );
-            dispatch( { path: 'currUser', value: await getCurrUser() } );
+            dispatch( { path: 'currUser', value: await mockServer.getCurrUser() } );
         },
         toggleEdit: ( { dispatch, model } ): void => {
             dispatch( {
@@ -72,14 +81,14 @@ export default defineComponent( {
                 value: !model.editing
             } );
         },
-        saveEdit: ( { dispatch }, formValues ): void => {
-            console.log( JSON.stringify( formValues, null, 2 ) );
-            /*
-            dispatch( {
-                path: 'result',
-                value: JSON.stringify( formValues, null, 2 )
-            } );
-            */
+        saveEdit: async( { dispatch, actions }, formValues ): Promise<void> => {
+            dispatch( { path: 'editing', value: false } );
+            dispatch( { path: 'currUser', value: 'updating...' } );
+            await mockServer.updateCurrUser( formValues );
+            dispatch( { path: 'currUser', value: 'updating complete' } );
+
+            // reuse action load user
+            actions.loadUser();
         }
     }
 } );

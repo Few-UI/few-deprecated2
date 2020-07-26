@@ -41,6 +41,8 @@ const mapFieldToInput = ( type: string, value: any ): any => {
 const getInputValue = ( elem: HTMLInputElement ): any => {
     if( elem.type === 'checkbox' ) {
         return elem.checked;
+    } else if ( elem.type === 'number' ) {
+        return Number( elem.value );
     }
     return elem.value;
 };
