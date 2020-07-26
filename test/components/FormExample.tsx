@@ -5,25 +5,36 @@ import { FormEvent } from 'react';
 import './FormExample.scss';
 
 // Form: Types
-interface Fields {
-    [key: string]: {
-        name: string;
-        type: 'number' | 'string' | 'boolean';
-        check?: ( value: string ) => string;
-        required?: boolean;
-    };
+export interface Field {
+    name: string;
+    type: 'number' | 'string' | 'boolean';
+    check?: ( value: string ) => string;
+    required?: boolean;
+    value?: any;
+}
+export interface Fields {
+    [key: string]: Field;
 }
 
 // Form: Utils
-const convertType = ( type: string ): string => {
+const mapFieldToInput = ( type: string, value: any ): any => {
     switch( type ) {
         case 'number':
-            return 'number';
+            return {
+                type: 'number',
+                value: value || ''
+            };
         case 'boolean':
-            return 'checkbox';
+            return {
+                type: 'checkbox',
+                checked: value || false
+            };
         case 'string':
         default:
-            return 'text';
+            return {
+                type: 'text',
+                value: value || ''
+            };
     }
 };
 
@@ -54,10 +65,13 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
 // Form: Components
 const Field = defineComponent( {
     name: 'Field',
+    init: ( { props: { field } } ) => ( {
+        value: field.value
+    } ),
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>
             <label htmlFor={id}>{field.name}{field.required ? '*' : ''}: </label>
-            <input id={id} name={id} type={convertType( field.type )} onChange={e => void dispatch( {
+            <input id={id} name={id} {...mapFieldToInput( field.type, model.value )} onChange={e => void dispatch( {
                 path: 'value',
                 value: getInputValue( e.target )
             } )} required={field.required} />

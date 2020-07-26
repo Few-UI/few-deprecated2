@@ -1,20 +1,11 @@
 import { defineComponent, wait } from '@/utils';
-import { Form } from '../../test/components/FormExample';
+import { Form, Fields } from '../../test/components/FormExample';
 
 // Types
 interface User {
     name: string;
     age: number;
     test: boolean;
-}
-
-interface Fields {
-    [key: string]: {
-        name: string;
-        type: 'number' | 'string' | 'boolean';
-        check?: ( value: string ) => string;
-        required?: boolean;
-    };
 }
 
 // mock
@@ -26,8 +17,7 @@ const mockUser: User = {
 
 const getCurrUser = async(): Promise<User> => ( ( await wait( 500 ), mockUser ) );
 
-const getEditSchema = async( type: string ): Promise<any> => {
-    await wait( 500 );
+const getEditSchema = ( type: string ): Fields => {
     return {
         name: {
             name: 'name',
@@ -46,6 +36,14 @@ const getEditSchema = async( type: string ): Promise<any> => {
     } as Fields;
 };
 
+const getEditFields = ( type: string, curr: User ): Fields => {
+    const schema = getEditSchema( type );
+    Object.entries( curr ).forEach( ( [ k, v ] ) => {
+        schema[k].value = v;
+    } );
+    return schema;
+};
+
 // example
 export default defineComponent( {
     name: 'FormEditExample',
@@ -57,11 +55,11 @@ export default defineComponent( {
             <pre>Current User: {JSON.stringify( model.currUser, null, 2 ) || 'Not Loaded'}</pre>
             <button onClick={actions.loadUser} disabled={model.editing as boolean}>Load</button>
             <button onClick={actions.toggleEdit} disabled={!model.currUser}>{model.editing ? 'Cancel Edit' : 'Start Edit'}</button>
-            { /* model.editing ||
+            {model.editing &&
                 <>
-                    <Form fields={model.fields} action={actions.updateResult} />
+                    <Form fields={getEditFields( 'User', model.currUser as User )} action={actions.saveEdit} />
                 </>
-            */}
+            }
         </>,
     actions: {
         loadUser: async( { dispatch } ): Promise<void> => {
@@ -73,6 +71,15 @@ export default defineComponent( {
                 path: 'editing',
                 value: !model.editing
             } );
+        },
+        saveEdit: ( { dispatch }, formValues ): void => {
+            console.log( JSON.stringify( formValues, null, 2 ) );
+            /*
+            dispatch( {
+                path: 'result',
+                value: JSON.stringify( formValues, null, 2 )
+            } );
+            */
         }
     }
 } );
