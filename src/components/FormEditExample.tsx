@@ -1,12 +1,8 @@
 import { defineComponent, wait } from '@/utils';
-import { Form, Fields, getUserFields } from '../../test/components/FormExample';
+import { Form, User, createUserFields } from '../../test/components/FormExample';
 
 // Types
-interface User {
-    name: string;
-    age: number;
-    isAdmin: boolean;
-}
+
 
 // mock
 const mockServer = {
@@ -19,12 +15,6 @@ const mockServer = {
     updateCurrUser: async( updateValues: User ): Promise<void> => void ( ( await wait( 500 ), Object.assign( mockServer._currUser, updateValues ) ) )
 };
 
-const createEditFields = ( curr: User, schema: Fields ): Fields => {
-    Object.entries( curr ).forEach( ( [ k, v ] ) => {
-        schema[k].value = v;
-    } );
-    return schema;
-};
 
 // example
 export default defineComponent( {
@@ -39,7 +29,7 @@ export default defineComponent( {
             <button onClick={actions.toggleEdit} disabled={!model.currUser}>{model.editing ? 'Cancel Edit' : 'Start Edit'}</button>
             {model.editing &&
                 <>
-                    <Form fields={createEditFields( model.currUser as User, getUserFields() )} action={actions.saveEdit} />
+                    <Form fields={createUserFields( model.currUser as User )} action={actions.saveEdit} />
                 </>
             }
         </>,

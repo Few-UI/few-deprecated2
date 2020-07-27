@@ -14,5 +14,6 @@ export default defineComponent( {
             <ViewExample />
             <FormExample />
             <AsyncViewExample />
+            <FormEditExample />
         </div>
 } );

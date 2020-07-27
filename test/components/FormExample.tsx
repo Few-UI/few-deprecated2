@@ -16,7 +16,13 @@ export interface Fields {
     [key: string]: Field;
 }
 
-export const getUserFields = (): Fields => {
+export interface User {
+    name: string;
+    age: number;
+    isAdmin: boolean;
+}
+
+const getUserFields = (): Fields => {
     return {
         name: {
             name: 'name',
@@ -33,6 +39,14 @@ export const getUserFields = (): Fields => {
             type: 'boolean'
         }
     } as Fields;
+};
+
+export const createUserFields = ( curr?: User ): Fields => {
+    const schema = getUserFields();
+    Object.entries( curr || {} ).forEach( ( [ k, v ] ) => {
+        schema[k].value = v;
+    } );
+    return schema;
 };
 
 // Form: Utils
@@ -89,6 +103,17 @@ const Field = defineComponent( {
     init: ( { props: { field } } ) => ( {
         value: field.value
     } ),
+    watchers: ( { props, actions } ) => {
+        return [ {
+            watch: props.field,
+            action: actions.reset
+        } ];
+    },
+    actions: {
+        reset: ( { dispatch, props } ): void => {
+            dispatch( { path: 'value', value: props.field.value } );
+        }
+    },
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>
             <label htmlFor={id}>{field.name}{field.required ? '*' : ''}: </label>
@@ -105,14 +130,29 @@ const Field = defineComponent( {
 
 export const Form = defineComponent( {
     name: 'Form',
-    view: h => ( { props } ): JSX.Element =>
+    init: ( { props } ) => ( {
+        fields: props.fields
+    } ),
+    actions: {
+        reset: ( { dispatch, model } ): void => {
+            const newVal = Object.entries( model.fields ).reduce( ( sum, [ k, v ] ) => {
+                sum[k] = { ...v };
+                return sum;
+            }, {} as Fields );
+            dispatch( { path: 'fields', value: newVal } );
+        }
+    },
+    view: h => ( { props, model, actions } ): JSX.Element =>
         <form onSubmit={( e: FormEvent ) => void
             ( e.preventDefault(), props.action( getFormInput( e.target as Element ) ) )
+        } onReset={( e: FormEvent ) => void
+            ( e.preventDefault(), actions.reset() )
         }>
-            {Object.entries( props.fields as Fields ).map(
+            {Object.entries( model.fields as Fields ).map(
                 ( [ key, field ] ) => <Field key={key} id={key} field={field} />
             )}
             <button id='submit' type='submit'>submit</button>
+            <button id='reset' type='reset'>reset</button>
         </form>
 } );
 
@@ -121,12 +161,9 @@ export default defineComponent( {
     name: 'FormExample',
     view: h => ( { model, actions } ): JSX.Element =>
         <>
-            <Form fields={model.fields} action={actions.updateResult} />
+            <Form fields={createUserFields()} action={actions.updateResult} />
             <pre id='form-request'>Form Request: {model.result}</pre>
         </>,
-    init: () => ( {
-        fields: getUserFields()
-    } ),
     actions: {
         updateResult: ( { dispatch }, formValues ): void => dispatch( {
             path: 'result',
