@@ -2,16 +2,10 @@
 
 import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
+import { Field, getInputValue } from './FieldExample';
 import './FormExample.scss';
 
 // Form: Types
-export interface Field {
-    name: string;
-    type: 'number' | 'string' | 'boolean';
-    check?: ( value: string ) => string;
-    required?: boolean;
-    value?: any;
-}
 export interface Fields {
     [key: string]: Field;
 }
@@ -50,36 +44,6 @@ export const createUserFields = ( curr?: User ): Fields => {
 };
 
 // Form: Utils
-const mapFieldToInput = ( type: string, value: any ): any => {
-    switch( type ) {
-        case 'number':
-            return {
-                type: 'number',
-                value: value || ''
-            };
-        case 'boolean':
-            return {
-                type: 'checkbox',
-                checked: value || false
-            };
-        case 'string':
-        default:
-            return {
-                type: 'text',
-                value: value || ''
-            };
-    }
-};
-
-const getInputValue = ( elem: HTMLInputElement ): any => {
-    if( elem.type === 'checkbox' ) {
-        return elem.checked;
-    } else if ( elem.type === 'number' ) {
-        return Number( elem.value );
-    }
-    return elem.value;
-};
-
 const getFormInput = ( elem: Element ): { [key: string]: any } => {
     const res = {} as { [key: string]: any };
     // TODO: not consider custom element for now
@@ -98,36 +62,6 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
 };
 
 // Form: Components
-const Field = defineComponent( {
-    name: 'Field',
-    init: ( { props: { field } } ) => ( {
-        value: field.value
-    } ),
-    watchers: ( { props, actions } ) => {
-        return [ {
-            watch: props.field,
-            action: actions.reset
-        } ];
-    },
-    actions: {
-        reset: ( { dispatch, props } ): void => {
-            dispatch( { path: 'value', value: props.field.value } );
-        }
-    },
-    view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
-        <div>
-            <label htmlFor={id}>{field.name}{field.required ? '*' : ''}: </label>
-            <input id={id} name={id} {...mapFieldToInput( field.type, model.value )} onChange={e => void dispatch( {
-                path: 'value',
-                value: getInputValue( e.target )
-            } )} required={field.required} />
-            { field.required ?
-                <span className='validity'></span> :
-                <code style={{ color: 'red' }}>{field.check && field.check( model.value )}</code>
-            }
-        </div>
-} );
-
 export const Form = defineComponent( {
     name: 'Form',
     init: ( { props } ) => ( {
