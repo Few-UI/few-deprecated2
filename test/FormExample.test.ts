@@ -26,6 +26,7 @@ const _testSuite = ( name: string, createApp: Function ): void =>
         it( `${Component.name} test on ${name}`, async() => {
             const containerElem = fixture.container;
             fixture.app = createApp( Component ).mount( containerElem );
+            await wait();
 
             // name field
             const nameInputElem = document.getElementById( 'name' ) as HTMLInputElement;

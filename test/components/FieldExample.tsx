@@ -1,4 +1,5 @@
 import { defineComponent } from '@/utils';
+import './Field.scss';
 
 export interface Field {
     name: string;

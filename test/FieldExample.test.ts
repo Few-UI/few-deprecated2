@@ -4,7 +4,6 @@ import {
     wait,
     setupComponentTest,
     typeToInputElement,
-    cleanInputElement,
     getSupportedFrameworks
 } from './utils';
 import Component from './components/FieldExample';

@@ -3,7 +3,6 @@
 import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
 import { Field, getInputValue } from './FieldExample';
-import './FormExample.scss';
 
 // Form: Types
 export interface Fields {
