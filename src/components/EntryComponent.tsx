@@ -14,9 +14,9 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
-            <InputExample />
-            {/*
             <FormExample />
+            {/*
+            <InputExample />
             <FieldExample />
             <AsyncViewExample />
             <FormEditExample />
