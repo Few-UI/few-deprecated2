@@ -1,7 +1,6 @@
 // https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input
 
 import { defineComponent } from '@/utils';
-import { FormEvent } from 'react';
 import { Field, getInputValue } from './FieldExample';
 import { ComponentDef, ComponentElement } from '@/types';
 
@@ -16,25 +15,22 @@ export interface User {
     isAdmin: boolean;
 }
 
-const getUserFields = (): Fields => {
-    return {
-        name: {
-            name: 'name',
-            type: 'string',
-            required: true
-        },
-        age: {
-            name: 'age',
-            type: 'number',
-            check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
-        },
-        isAdmin: {
-            name: 'isAdmin',
-            type: 'boolean'
-        }
-    } as Fields;
-};
-
+const getUserFields = (): Fields => ( {
+    name: {
+        name: 'name',
+        type: 'string',
+        required: true
+    },
+    age: {
+        name: 'age',
+        type: 'number',
+        check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
+    },
+    isAdmin: {
+        name: 'isAdmin',
+        type: 'boolean'
+    }
+} as Fields );
 
 // Form: Utils
 const getFormInput = ( elem: Element ): { [key: string]: any } => {
@@ -54,15 +50,14 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
     return res;
 };
 
-const createFormFields = ( fields: Fields, values?: { [key: string]: any } ): Fields => {
-    return Object.entries( fields || {} ).reduce( ( sum, [ k, v ] ) => {
+const createFormFields = ( fields: Fields, values?: { [key: string]: any } ): Fields =>
+    Object.entries( fields || {} ).reduce( ( sum, [ k, v ] ) => {
         sum[k] = {
             ...v,
             value: values && values[k]
         };
         return sum;
     }, {} as Fields );
-};
 
 // Form: Components
 // props.fields is one time input, high order component here will be more
@@ -70,18 +65,13 @@ const createFormFields = ( fields: Fields, values?: { [key: string]: any } ): Fi
 const FormTemplate = {
     name: 'Form',
     actions: {
-        reset: ( { dispatch, model } ): void => {
-            const newVal = Object.entries( model.fields ).reduce( ( sum, [ k, v ] ) => {
-                sum[k] = { ...v };
-                return sum;
-            }, {} as Fields );
-            dispatch( { path: 'fields', value: newVal } );
-        }
+        reset: ( { dispatch, model } ) => void
+            dispatch( { path: 'fields', value: createFormFields( model.fields as Fields ) } )
     },
     view: h => ( { props, model, actions } ): JSX.Element =>
-        <form onSubmit={( e: FormEvent ) => void
+        <form onSubmit={e => void
             ( e.preventDefault(), props.action( getFormInput( e.target as Element ) ) )
-        } onReset={( e: FormEvent ) => void
+        } onReset={e => void
             ( e.preventDefault(), actions.reset() )
         }>
             {Object.entries( model.fields as Fields ).map(
@@ -92,7 +82,6 @@ const FormTemplate = {
         </form>
 } as ComponentDef;
 
-
 export const createForm = ( fields: Fields ): ComponentElement => defineComponent( {
     ...FormTemplate,
     init: ( { props: { values } } ) => ( {
@@ -100,7 +89,7 @@ export const createForm = ( fields: Fields ): ComponentElement => defineComponen
     } )
 } );
 
-export const GeneralForm = defineComponent( {
+export const BaseForm = defineComponent( {
     ...FormTemplate,
     init: ( { props: { fields, values } } ) => ( {
         fields: createFormFields( fields, values )
@@ -118,9 +107,7 @@ export default defineComponent( {
             <pre id='form-request'>Form Request: {model.result}</pre>
         </>,
     actions: {
-        updateResult: ( { dispatch }, formValues ): void => dispatch( {
-            path: 'result',
-            value: JSON.stringify( formValues, null, 2 )
-        } )
+        updateResult: ( { dispatch }, formValues ) => void
+            dispatch( { path: 'result', value: JSON.stringify( formValues, null, 2 ) } )
     }
 } );

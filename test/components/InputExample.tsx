@@ -13,16 +13,16 @@ export default defineComponent( {
     view: h => ( { model, actions, dispatch } ): JSX.Element =>
         <>
             <div>
-                <input id='text' value={model.value as string} onChange={
-                    e => void dispatch( { path: 'value', value: e.target.value } )
+                <input id='text' value={model.value as string} onChange={ e => void
+                    dispatch( { path: 'value', value: e.target.value } )
                 } />
                 <button id='reset' onClick={actions.reset}>reset</button>
                 <code id='data'>{model.value}</code>
             </div>
             <div id='plusPanel'>
                 <div>{model.currNum}</div>
-                <button id='plus' onClick={
-                    () => void dispatch( { path: 'currNum', value: ( model.currNum as number ) + 1 } )
+                <button id='plus' onClick={ () => void
+                    dispatch( { path: 'currNum', value: ( model.currNum as number ) + 1 } )
                 }>+1</button>
             </div>
         </>
