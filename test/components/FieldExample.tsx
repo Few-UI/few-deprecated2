@@ -44,16 +44,16 @@ export const Field = defineComponent( {
     init: ( { props: { field } } ) => ( {
         value: field.value
     } ),
+    actions: {
+        reset: ( { dispatch, props } ): void => {
+            dispatch( { path: 'value', value: props.field.value } );
+        }
+    },
     watchers: ( { props, actions } ) => {
         return [ {
             watch: props.field,
             action: actions.reset
         } ];
-    },
-    actions: {
-        reset: ( { dispatch, props } ): void => {
-            dispatch( { path: 'value', value: props.field.value } );
-        }
     },
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>

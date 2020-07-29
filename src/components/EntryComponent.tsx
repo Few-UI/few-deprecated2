@@ -4,6 +4,7 @@ import FormEditExample from './FormEditExample';
 import FormExample from '../../test/components/FormExample';
 import AsyncViewExample from './AsyncViewExample';
 import FieldExample from '../../test/components/FieldExample';
+import InputExample from '../../test/components/InputExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -13,8 +14,9 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <div>
             <ViewExample />
-            <FormExample />
+            <InputExample />
             {/*
+            <FormExample />
             <FieldExample />
             <AsyncViewExample />
             <FormEditExample />
