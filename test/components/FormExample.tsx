@@ -3,6 +3,7 @@
 import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
 import { Field, getInputValue } from './FieldExample';
+import { ComponentDef } from '@/types';
 
 // Form: Types
 export interface Fields {
@@ -61,11 +62,10 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
 };
 
 // Form: Components
-export const Form = defineComponent( {
+// props.fields is one time input, high order component here will be more
+// approperate than 'prop'
+const FormTemplate = {
     name: 'Form',
-    init: ( { props } ) => ( {
-        fields: props.fields
-    } ),
     actions: {
         reset: ( { dispatch, model } ): void => {
             const newVal = Object.entries( model.fields ).reduce( ( sum, [ k, v ] ) => {
@@ -87,14 +87,30 @@ export const Form = defineComponent( {
             <button id='submit' type='submit'>submit</button>
             <button id='reset' type='reset'>reset</button>
         </form>
+} as ComponentDef;
+
+export const Form = defineComponent( {
+    ...FormTemplate,
+    init: ( { props } ) => ( {
+        fields: props.fields
+    } )
 } );
+
+export const createForm = ( fields: Fields ): any => defineComponent( {
+    ...FormTemplate,
+    init: () => ( {
+        fields: fields
+    } )
+} );
+
+export const UserForm = createForm( createUserFields() );
 
 // Form: Example
 export default defineComponent( {
     name: 'FormExample',
     view: h => ( { model, actions } ): JSX.Element =>
         <>
-            <Form fields={createUserFields()} action={actions.updateResult} />
+            <UserForm action={actions.updateResult} />
             <pre id='form-request'>Form Request: {model.result}</pre>
         </>,
     actions: {

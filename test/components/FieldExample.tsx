@@ -80,12 +80,16 @@ export default defineComponent( {
             check: ( v ): string => v || v === undefined ? '' : 'cannot be empty'
         } as Field
     } ),
-    view: h => ( { model, dispatch } ): JSX.Element =>
+    actions: {
+        reset: ( { model, dispatch } ) => void
+            dispatch( { path: 'field', value: { ...( model.field as Field ) } } )
+    },
+    view: h => ( { model, dispatch, actions } ): JSX.Element =>
         <>
-            <Field id='age' field={model.field as Field}></Field>
-            <button id='reset' onClick={
-                () => void dispatch( { path: 'field', value: { ...( model.field as Field ) } } )
-            }>reset</button>
+            <div>
+                <Field id='age' field={model.field as Field}></Field>
+                <button id='reset' onClick={actions.reset}>reset</button>
+            </div>
             <div id='plusPanel'>
                 <div>{model.currNum}</div>
                 <button id='plus' onClick={

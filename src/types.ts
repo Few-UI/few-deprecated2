@@ -46,11 +46,13 @@ export interface Component {
 export type RenderFn = ( component: Component ) => JSX.Element;
 export type View = ( h: Function ) => RenderFn;
 
+export type InitFn = ( _: { props: Props } ) => Model | Promise<Model>;
+
 // ComponentDef
 export interface ComponentDef {
     name: string;
     view: View;
-    init?: ( _: { props: Props } ) => Model | Promise<Model>;
+    init?: InitFn;
     actions?: {
         [key: string]: ActionDef;
     };

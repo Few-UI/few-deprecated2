@@ -7,16 +7,14 @@ export default defineComponent( {
         currNum: 7
     } ),
     actions: {
-        reset: ( { dispatch } ) => void dispatch( {
-            path: 'value',
-            value: ''
-        } )
+        reset: ( { dispatch } ) => void
+            dispatch( { path: 'value', value: '' } )
     },
     view: h => ( { model, actions, dispatch } ): JSX.Element =>
         <>
             <div>
                 <input id='text' value={model.value as string} onChange={
-                    ( e ) => void dispatch( { path: 'value', value: e.target.value } )
+                    e => void dispatch( { path: 'value', value: e.target.value } )
                 } />
                 <button id='reset' onClick={actions.reset}>reset</button>
                 <code id='data'>{model.value}</code>
