@@ -3,7 +3,7 @@
 import { defineComponent } from '@/utils';
 import { FormEvent } from 'react';
 import { Field, getInputValue } from './FieldExample';
-import { ComponentDef } from '@/types';
+import { ComponentDef, ComponentElement } from '@/types';
 
 // Form: Types
 export interface Fields {
@@ -35,13 +35,6 @@ const getUserFields = (): Fields => {
     } as Fields;
 };
 
-export const createUserFields = ( curr?: User ): Fields => {
-    const schema = getUserFields();
-    Object.entries( curr || {} ).forEach( ( [ k, v ] ) => {
-        schema[k].value = v;
-    } );
-    return schema;
-};
 
 // Form: Utils
 const getFormInput = ( elem: Element ): { [key: string]: any } => {
@@ -53,12 +46,22 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
             const node = nodeList[i] as HTMLInputElement;
 
             // only supports naming input
-            if( node.nodeName === 'INPUT' && node.name ) {
+            if ( node.nodeName === 'INPUT' && node.name ) {
                 res[node.name] = getInputValue( node );
             }
         }
     }
     return res;
+};
+
+const createFormFields = ( fields: Fields, values?: { [key: string]: any } ): Fields => {
+    return Object.entries( fields || {} ).reduce( ( sum, [ k, v ] ) => {
+        sum[k] = {
+            ...v,
+            value: values && values[k]
+        };
+        return sum;
+    }, {} as Fields );
 };
 
 // Form: Components
@@ -89,21 +92,22 @@ const FormTemplate = {
         </form>
 } as ComponentDef;
 
-export const Form = defineComponent( {
+
+export const createForm = ( fields: Fields ): ComponentElement => defineComponent( {
     ...FormTemplate,
-    init: ( { props } ) => ( {
-        fields: props.fields
+    init: ( { props: { values } } ) => ( {
+        fields: createFormFields( fields, values )
     } )
 } );
 
-export const createForm = ( fields: Fields ): any => defineComponent( {
+export const GeneralForm = defineComponent( {
     ...FormTemplate,
-    init: () => ( {
-        fields: fields
+    init: ( { props: { fields, values } } ) => ( {
+        fields: createFormFields( fields, values )
     } )
 } );
 
-export const UserForm = createForm( createUserFields() );
+export const UserForm = createForm( getUserFields() );
 
 // Form: Example
 export default defineComponent( {

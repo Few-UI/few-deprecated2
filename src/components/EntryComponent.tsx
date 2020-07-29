@@ -12,14 +12,14 @@ export default defineComponent( {
     // it is not friendly for jsbeautify
     // https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
     view: h => (): JSX.Element =>
-        <div>
+        <>
             <ViewExample />
-            <FormExample />
+            <FormEditExample />
             {/*
             <InputExample />
             <FieldExample />
             <AsyncViewExample />
-            <FormEditExample />
+            <FormExample />
             */}
-        </div>
+        </>
 } );

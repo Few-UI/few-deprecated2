@@ -64,6 +64,8 @@ export interface ComponentDef {
     unmount?: ActionDef;
 }
 
+export type ComponentElement = ComponentDef & { ( props: any ): JSX.Element }
+
 // Action Def
 export type ActionDef = ( vm: Component, ...args: any[] ) => void
 

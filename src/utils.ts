@@ -1,7 +1,8 @@
 /* eslint-env es6 */
 
 import {
-    ComponentDef
+    ComponentDef,
+    ComponentElement
 } from './types';
 
 export const BaseIndent = '  ';
@@ -285,7 +286,8 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
 // magical type script overload.....
 export function defineComponent(
     componentDef: ComponentDef
-): { ( props: any ): JSX.Element } & ComponentDef
+): ComponentElement
+
 
 /**
  * Wrapper function for JSX

@@ -1,10 +1,7 @@
 import { defineComponent, wait } from '@/utils';
-import { Form, User, createUserFields } from '../../test/components/FormExample';
+import { User, UserForm } from '../../test/components/FormExample';
 
-// Types
-
-
-// mock
+// mock server
 const mockServer = {
     _currUser: {
         name: 'John',
@@ -14,7 +11,6 @@ const mockServer = {
     getCurrUser: async(): Promise<User> => ( ( await wait( 500 ), mockServer._currUser ) ),
     updateCurrUser: async( updateValues: User ): Promise<void> => void ( ( await wait( 500 ), Object.assign( mockServer._currUser, updateValues ) ) )
 };
-
 
 // example
 export default defineComponent( {
@@ -29,7 +25,7 @@ export default defineComponent( {
             <button onClick={actions.toggleEdit} disabled={!model.currUser}>{model.editing ? 'Cancel Edit' : 'Start Edit'}</button>
             {model.editing &&
                 <>
-                    <Form fields={createUserFields( model.currUser as User )} action={actions.saveEdit} />
+                    <UserForm values={model.currUser} action={actions.saveEdit} />
                 </>
             }
         </>,
