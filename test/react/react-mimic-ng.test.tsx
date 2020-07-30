@@ -1,5 +1,7 @@
 /* eslint-env jest */
 
+import type { Props } from '@/types';
+
 import {
     wait,
     setupComponentTest
@@ -22,7 +24,7 @@ const printStack = [] as string[];
 ////////////////////////////////
 // No Property Widget
 ////////////////////////////////
-const NoPropWidget = ( props: unknown ): JSX.Element => {
+const NoPropWidget = ( props: Props ): JSX.Element => {
     useEffect( () => {
         printStack.push( 'NoPropWidget:prop changed' );
     }, [ props ] );
@@ -180,15 +182,14 @@ const MemoContainer = (): JSX.Element => {
 MemoContainer.displayName = 'MemoContainer';
 
 /////////////////////////////////////////////////////////////
-interface NgScope {
-    [key: string]: any;
+type NgScope = Props & {
     $digest?: Function;
     $apply?: Function;
     $parent?: NgScope;
 }
 
 const useScope = ( props: object ): NgScope => {
-    const [ $scope, setScope ]: [ NgScope, Function ] = useState( {
+    const [ $scope, setScope ]: [NgScope, Function] = useState( {
         ...props
     } );
 
@@ -197,9 +198,9 @@ const useScope = ( props: object ): NgScope => {
 
     // $scope.apply
     // https://stackoverflow.com/questions/35826219/angular-scope-digest-vs-scope-apply
-    $scope.$apply = ( callback: Function ) => {
+    $scope.$apply = ( callback: Function ): void => {
         let r = $scope;
-        while( r.$parent ) {
+        while ( r.$parent ) {
             r = r.$parent;
         }
 
@@ -211,12 +212,12 @@ const useScope = ( props: object ): NgScope => {
     return $scope;
 };
 
-const ChildComponent = ( props: any ): JSX.Element => {
+const ChildComponent = ( props: Props ): JSX.Element => {
     const $scope = useScope( props );
 
     return (
         <>
-            <code id='childText'>Child: { $scope.prop.value }</code>
+            <code id='childText'>Child: {$scope.prop.value}</code>
             <button id='clickDigest' onClick={
                 (): void => $scope.prop.value++ && $scope.$digest()
             }>+1 and digest</button>
@@ -228,11 +229,11 @@ const ChildComponent = ( props: any ): JSX.Element => {
 };
 ChildComponent.displayName = 'ChildComponent';
 
-const ParentComponent = ( props: any ): JSX.Element => {
+const ParentComponent = ( props: Props ): JSX.Element => {
     const $scope = useScope( props );
     return (
         <>
-            <code id='parentText'>Parent: { $scope.prop.value }</code>
+            <code id='parentText'>Parent: {$scope.prop.value}</code>
             <ChildComponent prop={$scope.prop} $parent={$scope}></ChildComponent>
         </>
     );
@@ -247,7 +248,7 @@ describe( 'mimic angularJS by react', () => {
     } );
 
     it( 'Test useEffect on no prop widget', async() => {
-        render( <ParentComponent prop={{ value:7 }} />, fixture.container );
+        render( <ParentComponent prop={{ value: 7 }} />, fixture.container );
 
         // init
         await wait();

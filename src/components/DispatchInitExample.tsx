@@ -20,7 +20,7 @@ export default defineComponent( {
     name: 'DispatchInitExample',
     // elm returns model and cmd ( call back which will launch dispatch )
     init: () => {
-        const dispatch = ( { path, value }: DispatchInput ): void =>
+        const dispatch = ( { path: _, value }: DispatchInput ): void =>
             console.log( `${name}:${value}` );
 
         // actions.loadMockData??

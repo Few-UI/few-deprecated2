@@ -2,7 +2,7 @@
 
 import { defineComponent } from '@/utils';
 import { Field, getInputValue } from './FieldExample';
-import { ComponentDef, ComponentElement } from '@/types';
+import type { Props, ComponentDef, ComponentElement } from '@/types';
 
 // Form: Types
 export interface Fields {
@@ -33,8 +33,8 @@ const getUserFields = (): Fields => ( {
 } as Fields );
 
 // Form: Utils
-const getFormInput = ( elem: Element ): { [key: string]: any } => {
-    const res = {} as { [key: string]: any };
+const getFormInput = ( elem: Element ): Props => {
+    const res = {} as Props;
     // TODO: not consider custom element for now
     if ( elem.tagName === 'FORM' ) {
         const nodeList = ( elem as HTMLFormElement ).elements;
@@ -50,7 +50,7 @@ const getFormInput = ( elem: Element ): { [key: string]: any } => {
     return res;
 };
 
-const createFormFields = ( fields: Fields, values?: { [key: string]: any } ): Fields =>
+const createFormFields = ( fields: Fields, values?: Props ): Fields =>
     Object.entries( fields || {} ).reduce( ( sum, [ k, v ] ) => {
         sum[k] = {
             ...v,

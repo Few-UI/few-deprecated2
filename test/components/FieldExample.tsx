@@ -1,3 +1,4 @@
+import type { Primitive, Props } from '@/types';
 import { defineComponent } from '@/utils';
 import './Field.scss';
 
@@ -6,10 +7,10 @@ export interface Field {
     type: 'number' | 'string' | 'boolean';
     check?: ( value: string ) => string;
     required?: boolean;
-    value?: any;
+    value?: Primitive;
 }
 
-export const getInputValue = ( elem: HTMLInputElement ): any => {
+export const getInputValue = ( elem: HTMLInputElement ): Primitive => {
     if ( elem.type === 'checkbox' ) {
         return elem.checked;
     } else if ( elem.type === 'number' ) {
@@ -18,7 +19,7 @@ export const getInputValue = ( elem: HTMLInputElement ): any => {
     return elem.value;
 };
 
-const mapFieldToInput = ( type: string, value: any ): any => {
+const mapFieldToInput = ( type: string, value: Primitive ): Props => {
     switch ( type ) {
         case 'number':
             return {
@@ -57,7 +58,7 @@ export const Field = defineComponent( {
     view: h => ( { props: { id, field }, model, dispatch } ): JSX.Element =>
         <div>
             <label htmlFor={id}>{field.name}{field.required ? '*' : ''}: </label>
-            <input id={id} name={id} {...mapFieldToInput( field.type, model.value )} onChange={e => void
+            <input id={id} name={id} {...mapFieldToInput( field.type, model.value as Primitive )} onChange={e => void
                 dispatch( { path: 'value', value: getInputValue( e.target ) } )
             } required={field.required} />
             {field.required ?

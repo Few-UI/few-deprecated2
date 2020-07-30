@@ -8,6 +8,11 @@
  * // for now just sit on react
  */
 
+/**
+ * primitive type in store
+ */
+export type Primitive = boolean | number | string;
+
 export interface Props {
     [key: string]: any;
 }
@@ -64,7 +69,7 @@ export interface ComponentDef {
     unmount?: ActionDef;
 }
 
-export type ComponentElement = ComponentDef & { ( props: any ): JSX.Element }
+export type ComponentElement = ComponentDef & { ( props: Props ): JSX.Element }
 
 // Action Def
 export type ActionDef = ( vm: Component, ...args: any[] ) => void

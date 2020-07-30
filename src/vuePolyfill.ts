@@ -6,11 +6,12 @@
 import App from './App.vue';
 */
 
-import {
+import type {
     App,
     Ref,
     Component,
     Watcher,
+    Props,
     ComponentDef,
     DispatchInput,
     CreateAppFunction
@@ -59,7 +60,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: { [key: string]: any } | null, ...children: VNodeArrayChildren ): VNode => {
+const h = ( type: string | ComponentDef, props?: Props | null, ...children: VNodeArrayChildren ): VNode => {
     // align on input behavior with react
     if ( type === 'input' && props.onChange ) {
         props.onInput = props.onChange;
