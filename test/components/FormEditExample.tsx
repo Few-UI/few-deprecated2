@@ -25,11 +25,7 @@ export default defineComponent( {
             <button onClick={actions.toggleEdit} disabled={!model.currUser}>
                 {model.editing ? 'Cancel Edit' : 'Start Edit'}
             </button>
-            {model.editing &&
-                <>
-                    <UserForm values={model.currUser} action={actions.saveEdit} />
-                </>
-            }
+            {model.editing && <UserForm values={model.currUser} action={actions.saveEdit} />}
         </>,
     actions: {
         loadUser: async( { dispatch } ): Promise<void> => {
