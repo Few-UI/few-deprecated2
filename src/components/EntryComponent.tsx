@@ -1,8 +1,6 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
-/*
-import AsyncViewExample from './AsyncViewExample';
-*/
+import AsyncViewExample from '../../test/components/AsyncViewExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -12,8 +10,6 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <>
             <ViewExample />
-            {/*
             <AsyncViewExample />
-            */}
         </>
 } );

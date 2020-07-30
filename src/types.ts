@@ -49,7 +49,7 @@ export interface Component {
 
 // View
 export type RenderFn = ( component: Component ) => JSX.Element;
-export type View = ( h: Function ) => RenderFn;
+export type View = ( h: H ) => RenderFn;
 
 export type InitFn = ( _: { props: Props } ) => Model | Promise<Model>;
 
@@ -117,3 +117,9 @@ export interface App {
 }
 
 export type CreateAppFunction = ( componentDef: ComponentDef ) => App;
+
+export interface H {
+    ( type: string | ComponentDef, props?: Props | null, ...children: any ): any;
+    Fragment: string | ComponentDef;
+    await: Function;
+}

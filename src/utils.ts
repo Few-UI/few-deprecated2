@@ -298,4 +298,13 @@ export function defineComponent( componentDef: unknown ): unknown {
     return componentDef;
 }
 
+export const AsyncH = defineComponent( {
+    name: 'AsyncH',
+    init: async() => ( {
+        content: 'loading...'
+    } ),
+    mount: async( { props, dispatch } ) => void dispatch( { path: 'content', value: await props.fn() } ),
+    view: h => ( { model } ): JSX.Element => h( h.Fragment, null, model.content )
+} );
+
 

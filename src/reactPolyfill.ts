@@ -1,4 +1,5 @@
 import type {
+    H,
     App,
     Ref,
     Props,
@@ -23,6 +24,7 @@ import ReactDOM from 'react-dom';
 import lodashSet from 'lodash/set';
 
 import {
+    AsyncH,
     isPromise,
     isComponentDef
 } from './utils';
@@ -44,7 +46,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...children: React.ReactNode[] ): JSX.Element => {
+const h = ( type: string | ComponentDef, props?: Props | null, ...children: React.ReactNode[] ): JSX.Element => {
     if ( !type ) {
         return createElement( Fragment, props, ...children );
     } else if ( isComponentDef( type ) ) {
@@ -58,8 +60,10 @@ const h = ( type: string | ComponentDef, props?: React.Attributes | null, ...chi
     }
     return createElement( type, props, ...children );
 };
-
 h.Fragment = Fragment;
+h.await = ( fn: Function ): JSX.Element => {
+    return h( AsyncH, { fn } );
+};
 
 /**
  * create platform specific component from few component
@@ -68,7 +72,7 @@ h.Fragment = Fragment;
  */
 export function createComponent( componentDef: ComponentDef ): { ( props: Props ): JSX.Element } {
     // we can do better bindings later
-    const renderFn = componentDef.view( polyfill.createElement );
+    const renderFn = componentDef.view( polyfill.createElement as H );
 
     const RenderFn = ( props: Props ): JSX.Element => {
         const initPromise = useRef( null );

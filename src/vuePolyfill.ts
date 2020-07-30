@@ -7,6 +7,7 @@ import App from './App.vue';
 */
 
 import type {
+    H,
     App,
     Ref,
     Component,
@@ -37,6 +38,7 @@ import {
 import lodashSet from 'lodash/set';
 
 import {
+    AsyncH,
     isPromise,
     isComponentDef
 } from './utils';
@@ -85,6 +87,9 @@ const h = ( type: string | ComponentDef, props?: Props | null, ...children: VNod
     return createElement( type, props, children );
 };
 h.Fragment = Fragment;
+h.await = ( fn: Function ): VNode => {
+    return h( AsyncH, { fn } );
+};
 
 /**
  * create platform specific component from few component
@@ -183,7 +188,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
             // console.log( `${oldVal} => ${newVal}` );
         } );
 
-        const renderFn = componentDef.view( polyfill.createElement );
+        const renderFn = componentDef.view( polyfill.createElement as H );
 
         // return component;
         return (): JSX.Element => {
@@ -209,4 +214,3 @@ export const createApp: CreateAppFunction = componentDef => {
 
 polyfill.createComponent = createComponent;
 polyfill.createElement = h;
-
