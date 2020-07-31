@@ -4,12 +4,12 @@ const MyButton = defineComponent( {
     name: 'MyButton',
     view: h => ( { props: { children } } ): JSX.Element =>
         <button>
-            {children}
+            {children( 'Hello' )}
         </button>
 } );
 
 export default defineComponent( {
-    name: 'SlotExample',
+    name: 'FunctionSlotExample',
     init: () => ( {
         val1: 'val1'
     } ),
@@ -18,7 +18,6 @@ export default defineComponent( {
     // https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
     view: h => ( { model } ): JSX.Element =>
         <MyButton>
-            <div>{model.val1}</div>
-            <div>div2</div>
+            {( str: string ): JSX.Element => <div>{str} {model.val1}</div>}
         </MyButton>
 } );

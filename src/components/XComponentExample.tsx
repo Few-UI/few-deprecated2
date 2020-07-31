@@ -31,7 +31,7 @@ const Link = defineComponent( {
     name: 'Link',
     view: h => ( { children } ): JSX.Element =>
         <>
-            {children}
+            {children()}
             <code>link</code>
         </>
 } );
@@ -39,14 +39,16 @@ const Link = defineComponent( {
 export default defineComponent( {
     name: 'XComponentExample',
     view: h => ( { model } ): JSX.Element =>
-        <>
-            <Link>
+        <Link>
+            { (): JSX.Element =>
+            <>
                 <Position name='Point A' onChange={
                     ( v: number ): void => console.log( v )
-                } />
-                <Position name='Point B' />
-            </Link>
-        </>,
+                }/>
+                <Position name='Point B'/>
+            </>
+            }
+        </Link>,
     init: () => ( {
         name: 'Monster Hunter'
     } )

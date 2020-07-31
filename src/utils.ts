@@ -258,9 +258,11 @@ export const cloneJson = ( input: JSON ): JSON => {
  */
 export const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
     const componeDef = type as ComponentDef;
-    return typeof componeDef.init === 'function' ||
+    return componeDef && (
+        typeof componeDef.init === 'function' ||
         typeof componeDef.view === 'function' ||
-        typeof componeDef.mount === 'function';
+        typeof componeDef.mount === 'function'
+    );
 };
 
 /**

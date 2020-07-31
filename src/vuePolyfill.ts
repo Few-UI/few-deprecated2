@@ -29,6 +29,7 @@ import {
     Fragment,
 
     // types
+    VNodeChild,
     VNodeArrayChildren,
     VNode,
     Component as VueComponent,
@@ -72,17 +73,29 @@ const h = ( type: string | ComponentDef, props?: Props | null, ...children: VNod
     // [Vue warn]: Non-function value encountered for default slot. Prefer function slots for better performance.
     // set children to null if children === []
     children =  children.length > 0  ? children : null;
+    /*
+    if( children.length === 1 ) {
+        children = children[0] as VNodeArrayChildren;
+    } else if ( children.length > 0 ) {
+        // do nothing
+    } else {
+        children = null;
+    }*/
 
-    if ( !type ) {
-        return createElement( Fragment, props, children );
-    } else if ( isComponentDef( type ) ) {
+    if ( isComponentDef( type ) ) {
         if ( !type._compiled || !type._compiled.vue ) {
             type._compiled = {
                 ...type._compiled,
                 vue: polyfill.createComponent( type )
             };
         }
-        return createElement( type._compiled.vue, props, children );
+        children = children && children.length === 1 ? children[0] as VNodeArrayChildren : children;
+        return createElement( type._compiled.vue, {
+            ...props,
+            children
+        } );
+    } else if ( !type ) {
+        return createElement( Fragment, props, children );
     }
     return createElement( type, props, children );
 };
@@ -192,7 +205,8 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
 
         // return component;
         return (): JSX.Element => {
-            component.children = context.slots.default && context.slots.default();
+            // component.children = context.slots.default && context.slots.default();
+            // component.children = context.attrs.children;
             return renderFn( component );
         };
     }

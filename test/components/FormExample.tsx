@@ -1,7 +1,7 @@
 // https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input
 
-import { defineComponent } from '@/utils';
-import { Field, getInputValue } from './FieldExample';
+import { defineComponent, getInputValue } from '@/utils';
+import { Field } from './FieldExample';
 import type { Props, ComponentDef, ComponentElement } from '@/types';
 
 // Form: Types
