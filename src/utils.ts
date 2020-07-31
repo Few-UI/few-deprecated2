@@ -1,8 +1,9 @@
 /* eslint-env es6 */
 
-import {
+import type {
     ComponentDef,
-    ComponentElement
+    ComponentElement,
+    Primitive
 } from './types';
 
 export const BaseIndent = '  ';
@@ -307,4 +308,16 @@ export const AsyncH = defineComponent( {
     view: h => ( { model } ): JSX.Element => h( h.Fragment, null, model.content )
 } );
 
-
+/**
+ * Get input value from input element
+ * @param elem input element
+ * @returns input value as either number, string or boolean
+ */
+export const getInputValue = ( elem: HTMLInputElement ): Primitive => {
+    if ( elem.type === 'checkbox' ) {
+        return elem.checked;
+    } else if ( elem.type === 'number' ) {
+        return Number( elem.value );
+    }
+    return elem.value;
+};

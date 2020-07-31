@@ -8,8 +8,12 @@ const Var = defineComponent( {
     view: h => ( { props, model, dispatch } ): JSX.Element =>
         <div>
             {props.name}: {model.val}
-            <button onClick={() => void dispatch( { path: 'val', value: model.val as number + 1 } ) }>+</button>
-            <button onClick={() => void dispatch( { path: 'val', value: model.val as number - 1 } ) }>-</button>
+            <button onClick={() => void
+                ( dispatch( { path: 'val', value: model.val as number + 1 } ), props.onChange && props.onChange( model.val ) )
+            }>+</button>
+            <button onClick={() => void
+                ( dispatch( { path: 'val', value: model.val as number - 1 } ), props.onChange && props.onChange( model.val ) )
+            }>-</button>
         </div>
 } );
 
@@ -19,7 +23,16 @@ const Position = defineComponent( {
         <>
             <h4>{props.name}</h4>
             <Var name='x' />
-            <Var name='y' />
+            <Var name='y' onChange={props.onChange} />
+        </>
+} );
+
+const Link = defineComponent( {
+    name: 'Link',
+    view: h => ( { children } ): JSX.Element =>
+        <>
+            {children}
+            <code>link</code>
         </>
 } );
 
@@ -27,8 +40,12 @@ export default defineComponent( {
     name: 'XComponentExample',
     view: h => ( { model } ): JSX.Element =>
         <>
-            <Position name='Point A'/>
-            <Position name='Point B'/>
+            <Link>
+                <Position name='Point A' onChange={
+                    ( v: number ): void => console.log( v )
+                } />
+                <Position name='Point B' />
+            </Link>
         </>,
     init: () => ( {
         name: 'Monster Hunter'
