@@ -44,7 +44,7 @@ export interface Component {
 
     // JSX
     ref: Ref;
-    children?: any;
+    // children?: any;
 }
 
 // View

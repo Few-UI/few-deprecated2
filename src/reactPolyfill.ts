@@ -101,8 +101,8 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {
                 component.ref[path || 'el'] = el;
             } ) as Ref,
-            props,
-            children: props && props.children
+            props
+            // children: props && props.children
         };
 
         if ( componentDef.actions ) {

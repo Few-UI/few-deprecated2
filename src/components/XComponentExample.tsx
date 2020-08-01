@@ -2,9 +2,17 @@ import { defineComponent } from '@/utils';
 
 const Var = defineComponent( {
     name: 'Var',
-    init: () => ( {
-        val: 0
+    init: ( { props } ) => ( {
+        val: props.val
     } ),
+    watchers: ( { props, actions } ) => [ {
+        watch: props.link,
+        action: actions.updateValue
+    } ],
+    actions: {
+        updateValue: ( { dispatch, props } ) => void
+            ( props.link !== undefined && dispatch( { path: 'val', value: props.link } ) )
+    },
     view: h => ( { props, model, dispatch } ): JSX.Element =>
         <div>
             {props.name}: {model.val}
@@ -22,34 +30,18 @@ const Position = defineComponent( {
     view: h => ( { props } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
-            <Var name='x' />
-            <Var name='y' onChange={props.onChange} />
-        </>
-} );
-
-const Link = defineComponent( {
-    name: 'Link',
-    view: h => ( { children } ): JSX.Element =>
-        <>
-            {children()}
-            <code>link</code>
+            <Var name='x' val={props.x} />
+            <Var name='y' val={props.y} onChange={props.onChange} link={props.link} />
         </>
 } );
 
 export default defineComponent( {
     name: 'XComponentExample',
-    view: h => ( { model } ): JSX.Element =>
-        <Link>
-            { (): JSX.Element =>
-            <>
-                <Position name='Point A' onChange={
-                    ( v: number ): void => console.log( v )
-                }/>
-                <Position name='Point B'/>
-            </>
-            }
-        </Link>,
-    init: () => ( {
-        name: 'Monster Hunter'
-    } )
+    view: h => ( { model, dispatch } ): JSX.Element =>
+        <>
+            <Position name='Point A' x={1} y={2} onChange={
+                ( v: number ): void => dispatch( { path: 'linkVal', value: v + 1 } )
+            }/>
+            <Position name='Point B' x={3} y={4} link={model.linkVal}/>
+        </>
 } );
