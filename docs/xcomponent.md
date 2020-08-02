@@ -8,23 +8,5 @@
 - Application level has no knowledge to point bindings
 
 # Facts
-- React dosen't support custom event
-
-
-## Step 1 - Point Component
-- Point
-```JSX
-<>
-    <h4>{props.name}</h4>
-    <Var name='x' val={props.x} />
-    <Var name='y' val={props.y} />
-</>
-```
-- Var
-```JSX
-<div>
-    {props.name}: {model.val}
-    <button onClick={() => void dispatch( { path: 'val', value: model.val as number + 1 } ) }>+</button>
-    <button onClick={() => void dispatch( { path: 'val', value: model.val as number - 1 } ) }>-</button>
-</div>
-```
+- React doesn't support custom event
+- For top-down React use prop to drive the update

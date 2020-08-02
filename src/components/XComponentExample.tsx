@@ -1,17 +1,18 @@
+import type { Props } from '@/types';
 import { defineComponent } from '@/utils';
 
 const Var = defineComponent( {
     name: 'Var',
     init: ( { props } ) => ( {
-        val: props.val
+        val: props.initVal
     } ),
     watchers: ( { props, actions } ) => [ {
-        watch: props.link,
+        watch: props.currVal,
         action: actions.updateValue
     } ],
     actions: {
         updateValue: ( { dispatch, props } ) => void
-            ( props.link !== undefined && dispatch( { path: 'val', value: props.link } ) )
+            ( props.currVal !== undefined && dispatch( { path: 'val', value: props.currVal } ) )
     },
     view: h => ( { props, model, dispatch } ): JSX.Element =>
         <div>
@@ -30,18 +31,35 @@ const Position = defineComponent( {
     view: h => ( { props } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
-            <Var name='x' val={props.x} />
-            <Var name='y' val={props.y} onChange={props.onChange} link={props.link} />
+            <Var name='x' initVal={props.initX} />
+            <Var name='y' initVal={props.initY} onChange={props.onChange} currVal={props.currY} />
+        </>
+} );
+
+/*
+    'updateB', v => v + 1
+    'updateA', v => v - 1
+*/
+const Link = defineComponent( {
+    name: 'Link',
+    view: h => ( { props: { children: [ primary, secondary ], forwardFn, backwardFn }, model, dispatch } ): JSX.Element =>
+        <>
+            {primary( {
+                currY: model.backward,
+                onChange: ( v: number ): void => forwardFn && dispatch( { path: 'forward', value: forwardFn( v ) } )
+            } )}
+            {secondary( {
+                currY: model.forward,
+                onChange: ( v: number ): void => backwardFn && dispatch( { path: 'backward', value: backwardFn( v ) } )
+            } )}
         </>
 } );
 
 export default defineComponent( {
     name: 'XComponentExample',
-    view: h => ( { model, dispatch } ): JSX.Element =>
-        <>
-            <Position name='Point A' x={1} y={2} onChange={
-                ( v: number ): void => dispatch( { path: 'linkVal', value: v + 1 } )
-            }/>
-            <Position name='Point B' x={3} y={4} link={model.linkVal}/>
-        </>
+    view: h => (): JSX.Element =>
+        <Link forwardFn={( v: number ): number => v + 1} backwardFn={( v: number ): number => v - 1}>
+            {( rel: Props ): JSX.Element => <Position name='Point A' initX={1} initY={2} {...rel} />}
+            {( rel: Props ): JSX.Element => <Position name='Point B' initX={3} initY={4} {...rel} />}
+        </Link>
 } );
