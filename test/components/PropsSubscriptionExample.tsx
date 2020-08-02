@@ -2,7 +2,10 @@
 import { defineComponent } from '@/utils';
 import { wait } from '../../src/utils';
 
-const PropSubscriptionWidget = defineComponent( {
+const PropSubscriptionWidget = defineComponent<{
+    firstName: string;
+    lastName: string;
+}>( {
     name: 'PropSubscriptionWidget',
     view: h => ( { props: { firstName, lastName }, model: { address } } ): JSX.Element =>
         <div>
@@ -34,7 +37,9 @@ const PropSubscriptionWidget = defineComponent( {
     }
 } );
 
-export default defineComponent( {
+export default defineComponent<{
+    lastName: string;
+}>( {
     name: 'PropSubscriptionExample',
     init: () => ( {
         lastName: 'Stark'

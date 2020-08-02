@@ -119,8 +119,9 @@ export interface App {
 
 export type CreateAppFunction = ( componentDef: ComponentDef<unknown> ) => App;
 
+
 export interface H {
-    ( type: string | ComponentDef<unknown>, props?: Props | null, ...children: any ): any;
+    <T extends Props>( type: string | ComponentDef<T>, props?: T | null, ...children: any ): any;
     Fragment: string | ComponentDef<unknown>;
     await: Function;
 }
