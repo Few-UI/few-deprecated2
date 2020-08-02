@@ -70,7 +70,9 @@ export interface ComponentDef<T> {
     unmount?: ActionDef<T>;
 }
 
-export type ComponentElement<T> = ComponentDef<T> & { ( props: Props ): JSX.Element }
+export type RenderFunction<T = Props> = ( props: T ) => JSX.Element;
+
+export type ComponentElement<T> = ComponentDef<T> & RenderFunction<T>
 
 // Action Def
 export type ActionDef<T> = ( vm: Component<T>, ...args: any[] ) => void

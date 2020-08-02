@@ -1,16 +1,14 @@
-import type { Props } from '@/types';
+import type { Props, RenderFunction } from '@/types';
 import { defineComponent } from '@/utils';
 
-const Var = defineComponent( {
+const Var = defineComponent<{
+    name: string;
+    initVal: number;
+    currVal?: number;
+    onChange?: Function;
+}>( {
     name: 'Var',
-    init: ( { props }: {
-        props: {
-            name: string;
-            initVal: number;
-            currVal: number;
-            onChange: Function;
-        };
-    } ) => ( {
+    init: ( { props } ) => ( {
         val: props.initVal
     } ),
     watchers: ( { props, actions } ) => [ {
@@ -33,13 +31,15 @@ const Var = defineComponent( {
         </div>
 } );
 
-const Position = defineComponent( {
+const Position = defineComponent<{
+    name: string;
+    initX: number;
+    initY: number;
+    currY?: number;
+    onChange?: Function;
+}>( {
     name: 'Position',
-    view: h => ( { props }/*: {
-        props: {
-            name: string;
-        };
-    }*/ ): JSX.Element =>
+    view: h => ( { props } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
             <Var name='x' initVal={props.initX} />
@@ -51,7 +51,11 @@ const Position = defineComponent( {
 // primary here is not HOC yet but just a inline function to return h
 // - inline function will not impact vDOM compare but will just getting executed directly
 // - The result of HOC wll be used as a component, and will be involve in vDOM Compare
-const Link = defineComponent( {
+const Link = defineComponent<{
+    forwardFn: Function;
+    backwardFn: Function;
+    children: [ RenderFunction, RenderFunction ];
+}>( {
     name: 'Link',
     view: h => ( { props: { children: [ primary, secondary ], forwardFn, backwardFn }, model, dispatch } ): JSX.Element =>
         <>
@@ -71,8 +75,8 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <>
             <Link forwardFn={( y: number ): number => y + 1} backwardFn={( y: number ): number => y - 1}>
-                {( rel: Props ): JSX.Element => <Position name='Point A' initX={1} initY={2} {...rel} />}
-                {( rel: Props ): JSX.Element => <Position name='Point B' initX={3} initY={4} {...rel} />}
+                {( rel ): JSX.Element => <Position name='Point A' initX={1} initY={2} {...rel} />}
+                {( rel ): JSX.Element => <Position name='Point B' initX={3} initY={4} {...rel} />}
             </Link>
             <Position name='Point C (Isolated)' initX={5} initY={6} />
         </>

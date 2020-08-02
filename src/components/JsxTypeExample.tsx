@@ -75,7 +75,8 @@ const Example = (): TestElem =>
     <>
         <FunctionComponent value={3} />
         <RenderFn name='5' />
-        <Function2 value={5} />
+        <Function2 value={5}>
+        </Function2>
         <MyComponent />
         <MyFactoryFunction />
     </>;
