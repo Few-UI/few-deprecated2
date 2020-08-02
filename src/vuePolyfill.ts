@@ -62,7 +62,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: Props | null, ...children: VNodeArrayChildren ): VNode => {
+const h = ( type: string | ComponentDef<Props>, props?: Props | null, ...children: VNodeArrayChildren ): VNode => {
     // align on input behavior with react
     if ( type === 'input' && props.onChange ) {
         props.onInput = props.onChange;
@@ -100,7 +100,7 @@ h.await = ( fn: Function ): VNode => {
  * @param componentDef few component
  * @returns platform specific component
  */
-export const createComponent = ( componentDef: ComponentDef ): VueComponent => ( {
+export const createComponent = ( componentDef: ComponentDef<Props> ): VueComponent => ( {
     name: componentDef.name,
     inheritAttrs: false,
     // in Vue render is deined as loose as 'Function'
@@ -124,7 +124,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
             current: [] as Watcher[]
         };
 
-        const updateWatchers = ( component: Component ): void => {
+        const updateWatchers = ( component: Component<Props> ): void => {
             if ( componentDef.watchers ) {
                 const watcherRes = componentDef.watchers( component );
                 const lastRes = watching.current;
@@ -139,7 +139,7 @@ export const createComponent = ( componentDef: ComponentDef ): VueComponent => (
             }
         };
 
-        const component: Component = {
+        const component: Component<Props> = {
             model: reactive( isPromise( model ) ? {} : model ),
             dispatch: store.createDispatch( ( { path, value }: DispatchInput ): void => {
                 lodashSet( component.model, path, value );

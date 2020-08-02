@@ -1,6 +1,6 @@
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 
-export default {
+export default defineComponent( {
     name: 'NewKeyDispatchExample',
     // h( 'div', null, 'current number: ', model.name ) is working too
     view: h => ( { model, dispatch } ): JSX.Element =>
@@ -18,4 +18,4 @@ export default {
         ),
     // the name key dosen't exist in init data
     init: () => ( {} )
-} as ComponentDef;
+} );

@@ -3,7 +3,8 @@
 import type {
     ComponentDef,
     ComponentElement,
-    Primitive
+    Primitive,
+    Props
 } from './types';
 
 export const BaseIndent = '  ';
@@ -256,8 +257,8 @@ export const cloneJson = ( input: JSON ): JSON => {
  * @param type component type
  * @returns true if type is component def.
  */
-export const isComponentDef = ( type: string | ComponentDef ): type is ComponentDef => {
-    const componeDef = type as ComponentDef;
+export const isComponentDef = ( type: string | ComponentDef<unknown> ): type is ComponentDef<unknown> => {
+    const componeDef = type as ComponentDef<unknown>;
     return componeDef && (
         typeof componeDef.init === 'function' ||
         typeof componeDef.view === 'function' ||
@@ -287,9 +288,9 @@ export const wait = ( elapsed = 0 ): Promise<{}> => {
 };
 
 // magical type script overload.....
-export function defineComponent(
-    componentDef: ComponentDef
-): ComponentElement
+export function defineComponent<T extends Props>(
+    componentDef: ComponentDef<T>
+): ComponentElement<T>
 
 
 /**
@@ -297,7 +298,7 @@ export function defineComponent(
  * @param componentDef componentDef
  * @returns componentDef
  */
-export function defineComponent( componentDef: unknown ): unknown {
+export function defineComponent<T>( componentDef: T ): T {
     return componentDef;
 }
 
@@ -306,7 +307,7 @@ export const AsyncH = defineComponent( {
     init: async() => ( {
         content: 'loading...'
     } ),
-    mount: async( { props, dispatch } ) => void dispatch( { path: 'content', value: await props.fn() } ),
+    mount: async( { props, dispatch } ) => void dispatch( { path: 'content', value: await ( props as { fn: Function} ).fn() } ),
     view: h => ( { model } ): JSX.Element => h( h.Fragment, null, model.content )
 } );
 

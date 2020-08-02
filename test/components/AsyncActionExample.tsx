@@ -1,5 +1,4 @@
-import { ComponentDef } from '../../src/types';
-import { defineComponent } from '../../src/utils';
+import { defineComponent } from '@/utils';
 
 export default defineComponent( {
     name: 'AsyncActionExample',
@@ -18,4 +17,4 @@ export default defineComponent( {
             <button id='button3' onClick={actions.setValue3}>value3</button>
             <div id='value3'>{model.value3}</div>
         </div>
-} as ComponentDef );
+} );

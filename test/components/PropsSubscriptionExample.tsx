@@ -1,8 +1,8 @@
 // https://medium.com/@mickey.vip/an-approach-to-nested-reusable-view-functions-in-elm-a1531b9abaf3
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 import { wait } from '../../src/utils';
 
-const PropSubscriptionWidget = {
+const PropSubscriptionWidget = defineComponent( {
     name: 'PropSubscriptionWidget',
     view: h => ( { props: { firstName, lastName }, model: { address } } ): JSX.Element =>
         <div>
@@ -32,9 +32,9 @@ const PropSubscriptionWidget = {
             }
         }
     }
-} as ComponentDef;
+} );
 
-export default {
+export default defineComponent( {
     name: 'PropSubscriptionExample',
     init: () => ( {
         lastName: 'Stark'
@@ -55,5 +55,5 @@ export default {
                 onClick: actions.changeFamily
             }, 'change' )
         )
-} as ComponentDef;
+} );
 

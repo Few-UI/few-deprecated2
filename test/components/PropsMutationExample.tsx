@@ -1,5 +1,4 @@
-import { ComponentDef, Model } from '../../src/types';
-import { defineComponent } from '../../src/utils';
+import { defineComponent } from '@/utils';
 
 const PropsDomWidget = defineComponent( {
     name: 'PropsDomWidget',
@@ -21,9 +20,9 @@ const PropsDomWidget = defineComponent( {
             ref.el.style.color = props.prop.color as string;
         }
     }
-} as ComponentDef );
+} );
 
-export default {
+export default defineComponent( {
     name: 'PropsDomExample',
     view: h => ( { model, actions } ): JSX.Element =>
         <div>
@@ -38,14 +37,14 @@ export default {
     } ),
     actions: {
         switchColor: ( { model, dispatch } ): void => {
-            const prop = model.prop as Model;
+            const prop = model.prop as {color: string};
             dispatch( { path: 'prop.color',  value: prop.color === 'green' ? 'black' : 'green' } );
             /*
-            Blow is working too bu a different effect
+            Blow is working too but a different effect
             dispatch( 'prop', {
                 color: prop.color === 'green' ? 'black' : 'green'
             } );
             */
         }
     }
-} as ComponentDef;
+} );

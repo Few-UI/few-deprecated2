@@ -33,10 +33,11 @@ export type { Few as JSX };
  * @param type component definition
  * @returns anything
  */
-export function h( type: ComponentDef ): JSX.Element {
+export function h( type: ComponentDef<unknown> ): JSX.Element {
     type;
     return createElement( 'div' );
 }
+h.displayName = 'dummy';
 
 // https://github.com/microsoft/TypeScript/issues/23762
 // eslint-disable-next-line no-redeclare
@@ -51,6 +52,7 @@ const FunctionComponent = ( { value }: { value: number } ): Few.Element => ( { a
 const Function2 = ( { value }: { value: number } ): number => value + 1;
 
 const RenderFn = ( { name }: { name: string } ): JSX.Element => createElement( 'div', null, name );
+RenderFn.displayName = 'aa';
 
 // Class following Element Class Pattern. Object doesn't work
 class MyComponent {

@@ -46,7 +46,7 @@ const polyfill: {
  * @param children child components
  * @returns virtual DOM component
  */
-const h = ( type: string | ComponentDef, props?: Props | null, ...children: React.ReactNode[] ): JSX.Element => {
+const h = ( type: string | ComponentDef<Props>, props?: Props | null, ...children: React.ReactNode[] ): JSX.Element => {
     if ( !type ) {
         return createElement( Fragment, props, ...children );
     } else if ( isComponentDef( type ) ) {
@@ -70,7 +70,7 @@ h.await = ( fn: Function ): JSX.Element => {
  * @param componentDef few component
  * @returns platform specific component
  */
-export function createComponent( componentDef: ComponentDef ): { ( props: Props ): JSX.Element } {
+export function createComponent( componentDef: ComponentDef<Props> ): { ( props: Props ): JSX.Element } {
     // we can do better bindings later
     const renderFn = componentDef.view( polyfill.createElement as H );
 
@@ -95,7 +95,7 @@ export function createComponent( componentDef: ComponentDef ): { ( props: Props 
             setState( { ...vm } );
         } );
 
-        const component: Component = {
+        const component: Component<Props> = {
             model: vm.model,
             dispatch,
             ref: ( ( path?: string ) => ( el: HTMLElement ): void => {

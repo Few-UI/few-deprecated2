@@ -1,6 +1,6 @@
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 
-export default {
+export default defineComponent( {
     name: 'ViewExample',
     view: h => ( { model } ): JSX.Element =>
         <>
@@ -10,4 +10,4 @@ export default {
     init: () => ( {
         name: 'Monster Hunter'
     } )
-} as ComponentDef;
+} );

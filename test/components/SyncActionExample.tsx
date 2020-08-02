@@ -1,6 +1,6 @@
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 
-export default {
+export default defineComponent( {
     name: 'SyncActionExample',
     init: () => ( {
         value: 7
@@ -19,4 +19,4 @@ export default {
             */}
             <button onClick={actions.plusOne}>+1</button>
         </div>
-} as ComponentDef;
+} );

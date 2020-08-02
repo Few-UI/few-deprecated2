@@ -1,6 +1,6 @@
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 
-export default {
+export default defineComponent( {
     name: 'DomComponentExample',
     view: h => ( { ref, actions } ): JSX.Element =>
         <div>
@@ -31,4 +31,4 @@ export default {
             ref.el.style.color = color as string;
         }
     }
-} as ComponentDef;
+} );

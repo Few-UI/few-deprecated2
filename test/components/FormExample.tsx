@@ -62,7 +62,7 @@ const createFormFields = ( fields: Fields, values?: Props ): Fields =>
 // Form: Components
 // props.fields is one time input, high order component here will be more
 // approperate than 'prop'
-const FormTemplate = {
+const FormTemplate = defineComponent( {
     name: 'Form',
     actions: {
         reset: ( { dispatch, model } ) => void
@@ -80,9 +80,9 @@ const FormTemplate = {
             <button id='submit' type='submit'>submit</button>
             <button id='reset' type='reset'>reset</button>
         </form>
-} as ComponentDef;
+} );
 
-export const createForm = ( fields: Fields ): ComponentElement => defineComponent( {
+export const createForm = ( fields: Fields ): ComponentElement<Props> => defineComponent( {
     ...FormTemplate,
     init: ( { props: { values } } ) => ( {
         fields: createFormFields( fields, values )

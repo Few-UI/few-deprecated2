@@ -1,5 +1,4 @@
-import { ComponentDef } from '../../src/types';
-import { defineComponent } from '../../src/utils';
+import { defineComponent } from '@/utils';
 
 const PropsDomWidget = defineComponent( {
     name: 'PropsDomWidget',
@@ -21,9 +20,9 @@ const PropsDomWidget = defineComponent( {
             ref.el.style.color = props.color as string;
         }
     }
-} as ComponentDef );
+}  );
 
-export default {
+export default defineComponent( {
     name: 'PropsDomExample',
     view: h => ( { model, actions } ): JSX.Element =>
         <div>
@@ -38,4 +37,4 @@ export default {
             dispatch( { path: 'color', value: model.color === 'green' ? 'black' : 'green' } );
         }
     }
-} as ComponentDef;
+} );

@@ -1,10 +1,16 @@
 import type { Props } from '@/types';
 import { defineComponent } from '@/utils';
-import { useCallback } from 'react';
 
 const Var = defineComponent( {
     name: 'Var',
-    init: ( { props } ) => ( {
+    init: ( { props }: {
+        props: {
+            name: string;
+            initVal: number;
+            currVal: number;
+            onChange: Function;
+        };
+    } ) => ( {
         val: props.initVal
     } ),
     watchers: ( { props, actions } ) => [ {
@@ -29,7 +35,11 @@ const Var = defineComponent( {
 
 const Position = defineComponent( {
     name: 'Position',
-    view: h => ( { props } ): JSX.Element =>
+    view: h => ( { props }/*: {
+        props: {
+            name: string;
+        };
+    }*/ ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
             <Var name='x' initVal={props.initX} />

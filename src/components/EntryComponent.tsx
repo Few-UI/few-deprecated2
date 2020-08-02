@@ -1,6 +1,7 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
 import XComponentExample from './XComponentExample';
+import FunctionComponentExample from './FunctionComponentExample';
 
 export default defineComponent( {
     name: 'EntryComponent',

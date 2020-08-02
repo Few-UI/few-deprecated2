@@ -1,13 +1,13 @@
-import { ComponentDef } from '../../src/types';
+import { defineComponent } from '@/utils';
 
-const PropWidget = {
+const PropWidget = defineComponent( {
     name: 'PropWidget',
     view: h => ( { props: { firstName, lastName } } ): JSX.Element =>
         <div>Hello {firstName || 'Jane'} {lastName || 'Dole'}!</div>,
     init: () => ( {} )
-} as ComponentDef;
+} );
 
-export default {
+export default defineComponent( {
     name: 'PropExample',
     init: () => ( {
         value: 7
@@ -27,5 +27,5 @@ export default {
                 onClick: actions.plusOne
             }, '+1' )
         )
-} as ComponentDef;
+} );
 

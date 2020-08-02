@@ -4,6 +4,7 @@
  * https://github.com/microsoft/TypeScript/issues/1897
  * https://github.com/basarat/typescript-book/blob/master/docs/styleguide/styleguide.md#type
  * https://stackoverflow.com/questions/53718296/index-d-ts-vs-normal-type-file
+ * https://www.tslang.cn/docs/handbook/generics.html
  *
  * // for now just sit on react
  */
@@ -29,9 +30,9 @@ export interface Ref {
 }
 
 // Component
-export interface Component {
+export interface Component<T> {
     // props
-    props: Props;
+    props: T;
 
     // local store
     model: Model;
@@ -48,31 +49,31 @@ export interface Component {
 }
 
 // View
-export type RenderFn = ( component: Component ) => JSX.Element;
-export type View = ( h: H ) => RenderFn;
+export type RenderFn<T> = ( component: Component<T> ) => JSX.Element;
+export type View<T> = ( h: H ) => RenderFn<T>;
 
-export type InitFn = ( _: { props: Props } ) => Model | Promise<Model>;
+export type InitFn<T> = ( _: { props: T } ) => Model | Promise<Model>;
 
 // ComponentDef
-export interface ComponentDef {
+export interface ComponentDef<T> {
     name: string;
-    view: View;
-    init?: InitFn;
+    view: View<T>;
+    init?: InitFn<T>;
     actions?: {
-        [key: string]: ActionDef;
+        [key: string]: ActionDef<T>;
     };
-    watchers?: WatchersDef;
+    watchers?: WatchersDef<T>;
     _compiled?: {
         [platform: string]: () => JSX.Element;
     };
-    mount?: ActionDef;
-    unmount?: ActionDef;
+    mount?: ActionDef<T>;
+    unmount?: ActionDef<T>;
 }
 
-export type ComponentElement = ComponentDef & { ( props: Props ): JSX.Element }
+export type ComponentElement<T> = ComponentDef<T> & { ( props: Props ): JSX.Element }
 
 // Action Def
-export type ActionDef = ( vm: Component, ...args: any[] ) => void
+export type ActionDef<T> = ( vm: Component<T>, ...args: any[] ) => void
 
 // Watch
 export interface Watcher {
@@ -81,7 +82,7 @@ export interface Watcher {
     watch?: unknown;
 }
 
-export type WatchersDef = ( vm: Component, ...args: any[] ) => Watcher[]
+export type WatchersDef<T> = ( vm: Component<T>, ...args: any[] ) => Watcher[]
 
 // dispatch input
 export interface DispatchInput {
@@ -116,10 +117,10 @@ export interface App {
     unmount: ( elem: HTMLElement ) => App;
 }
 
-export type CreateAppFunction = ( componentDef: ComponentDef ) => App;
+export type CreateAppFunction = ( componentDef: ComponentDef<unknown> ) => App;
 
 export interface H {
-    ( type: string | ComponentDef, props?: Props | null, ...children: any ): any;
-    Fragment: string | ComponentDef;
+    ( type: string | ComponentDef<unknown>, props?: Props | null, ...children: any ): any;
+    Fragment: string | ComponentDef<unknown>;
     await: Function;
 }
