@@ -52,8 +52,8 @@ const Position = defineComponent<{
 // - inline function will not impact vDOM compare but will just getting executed directly
 // - The result of HOC wll be used as a component, and will be involve in vDOM Compare
 const Link = defineComponent<{
-    forwardFn: Function;
-    backwardFn: Function;
+    forwardFn?: Function;
+    backwardFn?: Function;
     children: [ RenderFunction, RenderFunction ];
 }>( {
     name: 'Link',
