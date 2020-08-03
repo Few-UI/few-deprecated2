@@ -9,12 +9,14 @@ const Var = defineComponent<{
     init: ( { props } ) => ( {
         val: props.initVal
     } ),
-    view: h => ( { props, model, dispatch } ): JSX.Element =>
+    actions: {
+        plusOne: ( { model, dispatch } ) => void
+            dispatch( { path: 'val', value: model.val as number + 1 } )
+    },
+    view: h => ( { props, model, actions, dispatch } ): JSX.Element =>
         <div>
             {props.name}: {model.val}
-            <button onClick={() => void
-                dispatch( { path: 'val', value: model.val as number + 1 } )
-            }>+</button>
+            <button onClick={ actions.plusOne}>+</button>
             <button onClick={() => void
                 dispatch( { path: 'val', value: model.val as number - 1 } )
             }>-</button>
@@ -31,24 +33,40 @@ const ComposePosition = defineComponent<{
         varX: Var.init( { props: { initVal: props.initX } } ),
         varY: Var.init( { props: { initVal: props.initY } } )
     } ),
-    view: h => ( { props, model, dispatch } ): JSX.Element =>
+    actions: {
+        dispatchX: ( { dispatch }, { path, value }: DispatchInput ) => void dispatch( {
+            path: `varX.${path}`,
+            value
+        } ),
+        dispatchY: ( { dispatch }, { path, value }: DispatchInput ) => void dispatch( {
+            path: `varY.${path}`,
+            value
+        } )
+    },
+    view: h => ( { props, model, actions } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
             {Var.view( h )( {
                 props: { name: 'x' },
                 model: model.varX as Model,
-                dispatch: ( { path, value }: DispatchInput ) => dispatch( {
-                    path: `varX.${path}`,
-                    value
-                } )
+                dispatch: actions.dispatchX,
+                actions: {
+                    plusOne: ( v: number ) => void Var.actions.plusOne( {
+                        model: model.varX as Model,
+                        dispatch: actions.dispatchX
+                    }, v )
+                }
             } )}
             {Var.view( h )( {
                 props: { name: 'y' },
                 model: model.varY as Model,
-                dispatch: ( { path, value }: DispatchInput ) => dispatch( {
-                    path: `varY.${path}`,
-                    value
-                } )
+                dispatch: actions.dispatchY,
+                actions: {
+                    plusOne: ( v: number ) => void Var.actions.plusOne( {
+                        model: model.varY as Model,
+                        dispatch: actions.dispatchY
+                    }, v )
+                }
             } )}
         </>
 } );
