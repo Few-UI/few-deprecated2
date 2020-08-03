@@ -16,59 +16,11 @@ const Var = defineComponent<{
     view: h => ( { props, model, actions, dispatch } ): JSX.Element =>
         <div>
             {props.name}: {model.val}
-            <button onClick={ actions.plusOne}>+</button>
+            <button onClick={actions.plusOne}>+</button>
             <button onClick={() => void
                 dispatch( { path: 'val', value: model.val as number - 1 } )
             }>-</button>
         </div>
-} );
-
-const ComposePosition = defineComponent<{
-    name: string;
-    initX: number;
-    initY: number;
-}>( {
-    name: 'Position',
-    init: ( { props } ) => ( {
-        varX: Var.init( { props: { initVal: props.initX } } ),
-        varY: Var.init( { props: { initVal: props.initY } } )
-    } ),
-    actions: {
-        dispatchX: ( { dispatch }, { path, value }: DispatchInput ) => void dispatch( {
-            path: `varX.${path}`,
-            value
-        } ),
-        dispatchY: ( { dispatch }, { path, value }: DispatchInput ) => void dispatch( {
-            path: `varY.${path}`,
-            value
-        } )
-    },
-    view: h => ( { props, model, actions } ): JSX.Element =>
-        <>
-            <h4>{props.name}</h4>
-            {Var.view( h )( {
-                props: { name: 'x' },
-                model: model.varX as Model,
-                dispatch: actions.dispatchX,
-                actions: {
-                    plusOne: ( v: number ) => void Var.actions.plusOne( {
-                        model: model.varX as Model,
-                        dispatch: actions.dispatchX
-                    }, v )
-                }
-            } )}
-            {Var.view( h )( {
-                props: { name: 'y' },
-                model: model.varY as Model,
-                dispatch: actions.dispatchY,
-                actions: {
-                    plusOne: ( v: number ) => void Var.actions.plusOne( {
-                        model: model.varY as Model,
-                        dispatch: actions.dispatchY
-                    }, v )
-                }
-            } )}
-        </>
 } );
 
 const Position = defineComponent<{
@@ -85,8 +37,54 @@ const Position = defineComponent<{
         </>
 } );
 
+const ComposePosition = defineComponent<{
+    name: string;
+    initX: number;
+    initY: number;
+}>( {
+    name: 'ComposePosition',
+    init: ( { props } ) => ( {
+        varX: Var.init( { props: { initVal: props.initX } } ),
+        varY: Var.init( { props: { initVal: props.initY } } )
+    } ),
+    actions: {
+        dispatchX: ( { dispatch }, { path, value } ) => void dispatch( {
+            path: `varX.${path}`,
+            value
+        } ),
+        plusOneX: ( { model, actions } ) => void Var.actions.plusOne( {
+            model: model.varX as Model,
+            dispatch: actions.dispatchX
+        } ),
+        dispatchY: ( { dispatch }, { path, value } ) => void dispatch( {
+            path: `varY.${path}`,
+            value
+        } ),
+        plusOneY: ( { model, actions } ): void => void Var.actions.plusOne( {
+            model: model.varY as Model,
+            dispatch: actions.dispatchY
+        } )
+    },
+    view: h => ( { props, model, actions } ): JSX.Element =>
+        <>
+            <h4>{props.name}</h4>
+            {Var.view( h )( {
+                props: { name: 'x' },
+                model: model.varX as Model,
+                dispatch: actions.dispatchX,
+                actions: { plusOne: actions.plusOneX }
+            } )}
+            {Var.view( h )( {
+                props: { name: 'y' },
+                model: model.varY as Model,
+                dispatch: actions.dispatchY,
+                actions: { plusOne: actions.plusOneY }
+            } )}
+        </>
+} );
+
 export default defineComponent( {
-    name: 'XComponentExample',
+    name: 'ComposeExample',
     view: h => (): JSX.Element =>
         <>
             <Position name='Position' initX={1} initY={2} />
