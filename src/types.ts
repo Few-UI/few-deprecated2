@@ -32,11 +32,11 @@ export interface Ref {
 // Component
 export interface Component<T> {
     // props
-    props: T;
+    props?: T;
 
     // local store
-    model: Model;
-    dispatch: Function;
+    model?: Model;
+    dispatch?: Function;
 
     // action
     actions?: {
@@ -44,7 +44,7 @@ export interface Component<T> {
     };
 
     // JSX
-    ref: Ref;
+    ref?: Ref;
     // children?: any;
 }
 

@@ -1,7 +1,7 @@
 import { defineComponent } from '@/utils';
 import ViewExample from './ViewExample';
 import XComponentExample from './XComponentExample';
-import FunctionComponentExample from './FunctionComponentExample';
+import ComposeExample from './ComposeExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -11,6 +11,6 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <>
             <ViewExample />
-            <XComponentExample />
+            <ComposeExample />
         </>
 } );
