@@ -1,4 +1,4 @@
-![build](https://github.com/Few-UI/few/workflows/build/badge.svg)
+[![build](https://github.com/Few-UI/few/workflows/build/badge.svg)](https://github.com/Few-UI/few/actions)
 
 # few
 How to be declarative :)

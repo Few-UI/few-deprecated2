@@ -302,6 +302,21 @@ export function defineComponent<T>( componentDef: T ): T {
     return componentDef;
 }
 
+// magical type script overload.....
+export function defineComponent2<T extends Props>(
+    componentDef: ComponentDef<T>
+): JSX.Element
+
+/**
+ * Wrapper function for JSX
+ * @param componentDef componentDef
+ * @returns componentDef
+ */
+export function defineComponent2<T>( componentDef: T ): T {
+    return componentDef;
+}
+
+
 export const AsyncH = defineComponent( {
     name: 'AsyncH',
     init: async() => ( {

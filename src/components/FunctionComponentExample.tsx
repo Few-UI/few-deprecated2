@@ -1,5 +1,5 @@
 import type { RenderFunction } from '@/types';
-import { defineComponent } from '@/utils';
+import { defineComponent2 } from '@/utils';
 
 const Widget = ( { name }: { name: string} ): JSX.Element =>
     <div>Hi {name}</div>;
@@ -11,7 +11,10 @@ const Slot = ( props: {
 Slot.displayName = 'Slot';
 
 const Widget2 = ( { name }: { name: string} ): JSX.Element =>
-    <div>Hi {name}</div>;
+    defineComponent2( {
+        name: 'Widget2',
+        view: h => (): JSX.Element => <div>Hi {name}</div>
+    } );
 Widget2.displayName = 'Widget2';
 
 const Example = (): JSX.Element =>
