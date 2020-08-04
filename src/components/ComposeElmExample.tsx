@@ -1,18 +1,20 @@
-import type { Model, DispatchInput, Component } from '@/types';
+import type { Model, DispatchInput, Component, ActionDef, ActionMap } from '@/types';
 import { defineComponent, get } from '@/utils';
 
 const mapDispatch = ( dispatch: Function, scope: string ) =>
-    ( { path, value }: DispatchInput ): void =>
-        dispatch( {
-            path: `${scope}.${path}`,
-            value
-        } );
-
-const mapAction = ( action: Function, scope: string ) =>
-    ( { model, dispatch }: Component<unknown> ): void => action( {
-        model: get( model, scope ),
-        dispatch: mapDispatch( dispatch, scope )
+    ( { path, value }: DispatchInput ): void => dispatch( {
+        path: `${scope}.${path}`,
+        value
     } );
+
+const mapComponent = ( component: Component<unknown>, actionDefs: { [key: string]: ActionDef<unknown> }  ): Component<unknown> => {
+    // TODO: we can have more check like if(!component.actions[key]){ //do map } to provide more flexibility
+    component.actions =  Object.entries( actionDefs ).reduce( ( sum, [ key, actionDef ] ) => {
+        sum[key] = ( ...args: any[] ): void => actionDef( component, ...args );
+        return sum;
+    }, {} as ActionMap );
+    return component;
+};
 
 const Counter = defineComponent( {
     name: 'Counter',
@@ -36,11 +38,8 @@ const Counter = defineComponent( {
 const CounterGroup = defineComponent( {
     name: 'CounterGroup',
     init: () => ( {
-        uid: 1,
-        counters: [ {
-            id: 0,
-            counter: Counter.init()
-        } ]
+        uid: 0,
+        counters: []
     } ),
     actions: {
         // local msg
@@ -68,21 +67,15 @@ const CounterGroup = defineComponent( {
             } );
         }
     },
-    view: h => ( { model, actions, dispatch } ): JSX.Element =>
+    view: h => ( { model, dispatch, actions } ): JSX.Element =>
         <>
             <button onClick={actions.insert}>Insert</button>
             <button onClick={actions.remove}>Remove</button>
-            { ( model.counters as Model[] ).map( ( _, idx ) =>
-                h( null, { key: idx }, Counter.view( h )( {
+            {( model.counters as Model[] ).map( ( _, idx ) =>
+                h( null, { key: idx }, Counter.view( h )( mapComponent( {
                     model: get( model, `counters[${idx}].counter` ) as Model,
-                    actions: {
-                       plusOne: mapAction( Counter.actions.plusOne, `counters[${idx}].counter` ).bind( null, {
-                           model,
-                           dispatch
-                       } )
-                    },
                     dispatch: mapDispatch( dispatch, `counters[${idx}].counter` )
-                } ) )
+                }, Counter.actions ) ) )
             )}
         </>
 } );
