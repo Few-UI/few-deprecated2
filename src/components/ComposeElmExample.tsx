@@ -26,24 +26,49 @@ const CounterGroup = defineComponent<{
 }>( {
     name: 'CounterGroup',
     init: () => ( {
-        uid: 0,
+        uid: 1,
         counters: [ {
             id: 0,
             counter: Counter.init()
         } ]
     } ),
-    view: h => ( { model } ): JSX.Element =>
+    actions: {
+        insert: ( { model, dispatch } ): void => {
+            dispatch( {
+                path: 'counters',
+                value: ( model.counters as Model[] ).concat( [ {
+                    id: model.uid,
+                    counter: Counter.init()
+                } ] )
+            } );
+            dispatch( {
+                path: 'uid',
+                value: ( model.uid as number )++
+            } );
+        },
+        remove: ( { model, dispatch } ): void => {
+            dispatch( {
+                path: 'counters',
+                value: ( ( model.counters as Model[] ).splice( -1, 1 ), model.counters )
+            } );
+            dispatch( {
+                path: 'uid',
+                value: ( model.uid as number )--
+            } );
+        }
+    },
+    view: h => ( { model, actions } ): JSX.Element =>
         <>
-            <button>Insert</button>
-            <button>Remove</button>
-            { ( model.counters as Model[] ).map( ( m ) =>
-                Counter.view( h )( {
+            <button onClick={actions.insert}>Insert</button>
+            <button onClick={actions.remove}>Remove</button>
+            { ( model.counters as Model[] ).map( ( m, idx ) =>
+                h( null, { key: idx }, Counter.view( h )( {
                     model: m.counter as Model,
                     actions: {
                         plusOne: () => console.log( 'plusOne' )
                     },
                     dispatch: () => console.log( 'dispatch' )
-                } )
+                } ) )
             )}
         </>
 } );
