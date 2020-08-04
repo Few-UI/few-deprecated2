@@ -40,7 +40,7 @@ export interface Component<T> {
 
     // action
     actions?: {
-        [key: string]: ( event?: unknown ) => void;
+        [key: string]: ( ...args: any[] ) => void;
     };
 
     // JSX

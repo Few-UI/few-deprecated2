@@ -1,9 +1,7 @@
-import type { Model } from '@/types';
+import type { Model, DispatchInput } from '@/types';
 import { defineComponent } from '@/utils';
 
-const Counter = defineComponent<{
-    initVal?: number;
-}>( {
+const Counter = defineComponent( {
     name: 'Counter',
     init: () => ( {
         val: 3
@@ -22,8 +20,7 @@ const Counter = defineComponent<{
         </div>
 } );
 
-const CounterGroup = defineComponent<{
-}>( {
+const CounterGroup = defineComponent( {
     name: 'CounterGroup',
     init: () => ( {
         uid: 1,
@@ -33,6 +30,7 @@ const CounterGroup = defineComponent<{
         } ]
     } ),
     actions: {
+        // local msg
         insert: ( { model, dispatch } ): void => {
             dispatch( {
                 path: 'counters',
@@ -55,7 +53,16 @@ const CounterGroup = defineComponent<{
                 path: 'uid',
                 value: ( model.uid as number )--
             } );
-        }
+        },
+        // mapping msg
+        plusOne: ( { model, actions }, idx ) => void Counter.actions.plusOne( {
+            model: ( model.counters as Model[] )[idx].counter as Model,
+            dispatch: ( _: DispatchInput ) => actions.dispatch( idx, _ )
+        } ),
+        dispatch: ( { dispatch }, idx, { path, value } ) => void dispatch( {
+            path: `counters[${idx}]counter.${path}`,
+            value
+        } )
     },
     view: h => ( { model, actions } ): JSX.Element =>
         <>
@@ -65,9 +72,9 @@ const CounterGroup = defineComponent<{
                 h( null, { key: idx }, Counter.view( h )( {
                     model: m.counter as Model,
                     actions: {
-                        plusOne: () => console.log( 'plusOne' )
+                       plusOne: actions.plusOne.bind( null, idx )
                     },
-                    dispatch: () => console.log( 'dispatch' )
+                    dispatch: actions.dispatch.bind( null, idx )
                 } ) )
             )}
         </>
