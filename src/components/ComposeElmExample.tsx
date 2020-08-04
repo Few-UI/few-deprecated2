@@ -1,4 +1,10 @@
-import type { Model, DispatchInput, Component, ActionDef, ActionMap } from '@/types';
+import type {
+    Model,
+    DispatchInput,
+    Component,
+    ActionMap,
+    ActionDefMap
+} from '@/types';
 import { defineComponent, get } from '@/utils';
 
 const mapDispatch = ( dispatch: Function, scope: string ) =>
@@ -7,9 +13,9 @@ const mapDispatch = ( dispatch: Function, scope: string ) =>
         value
     } );
 
-const mapComponent = ( component: Component<unknown>, actionDefs: { [key: string]: ActionDef<unknown> }  ): Component<unknown> => {
+const mapComponent = ( component: Component<unknown>, actionDefs: ActionDefMap<unknown> ): Component<unknown> => {
     // TODO: we can have more check like if(!component.actions[key]){ //do map } to provide more flexibility
-    component.actions =  Object.entries( actionDefs ).reduce( ( sum, [ key, actionDef ] ) => {
+    component.actions = Object.entries( actionDefs ).reduce( ( sum, [ key, actionDef ] ) => {
         sum[key] = ( ...args: any[] ): void => actionDef( component, ...args );
         return sum;
     }, {} as ActionMap );

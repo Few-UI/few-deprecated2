@@ -61,9 +61,7 @@ export interface ComponentDef<T> {
     name: string;
     view: View<T>;
     init?: InitFn<T>;
-    actions?: {
-        [key: string]: ActionDef<T>;
-    };
+    actions?: ActionDefMap<T>;
     watchers?: WatchersDef<T>;
     _compiled?: {
         [platform: string]: () => JSX.Element;
@@ -78,6 +76,10 @@ export type ComponentElement<T> = ComponentDef<T> & RenderFunction<T>
 
 // Action Def
 export type ActionDef<T> = ( vm: Component<T>, ...args: any[] ) => void
+
+export interface ActionDefMap<T> {
+    [key: string]: ActionDef<T>;
+}
 
 // Watch
 export interface Watcher {
