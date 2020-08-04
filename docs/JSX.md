@@ -17,3 +17,8 @@
 - Even logically `h` supports both `componentDef` and `renderFn`, the `JSX` may not be compiled to `renderFn` correctly since it has its own build config assumption.
   - If the `renderFn` is in different repo, we can try to pre-build that repo, which should be the common assumption for JSX usage.
   - If the `renderFn` is in the same repo, it needs to follow the pollyFill to get the h function.
+
+- Difference between ELM Component and React Component:
+  - In ELM, the Component is a pure function `view: Model -> Html Msg`, in composition it is used as function `[ button [ onClick Increment ] [ text '+' ] ]`
+  - In React, the Component is function but holds the state, in composition it is used as factory method `h( Button, { onClick: Increment }, [ '+' ])`. `Button` itself will be used for vDOM compare.
+    - It supports `Button( { onClick: Increment, children: [ '+' ] } )` too. In this case Button will just get evaluated directly, which is more close to ELM

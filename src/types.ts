@@ -52,7 +52,7 @@ export interface Component<T> {
 export type RenderFn<T> = ( component: Component<T> ) => JSX.Element;
 export type View<T> = ( h: H ) => RenderFn<T>;
 
-export type InitFn<T> = ( _: { props: T } ) => Model | Promise<Model>;
+export type InitFn<T> = ( _?: { props: T } ) => Model | Promise<Model>;
 
 // ComponentDef
 export interface ComponentDef<T> {

@@ -1,4 +1,4 @@
-import type { Model, DispatchInput } from '@/types';
+import type { Model } from '@/types';
 import { defineComponent } from '@/utils';
 
 const Var = defineComponent<{
@@ -28,7 +28,7 @@ const Position = defineComponent<{
     initX: number;
     initY: number;
 }>( {
-    name: 'ComposePosition',
+    name: 'Position',
     view: h => ( { props } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
@@ -52,13 +52,13 @@ const ComposePosition = defineComponent<{
             path: `varX.${path}`,
             value
         } ),
-        plusOneX: ( { model, actions } ) => void Var.actions.plusOne( {
-            model: model.varX as Model,
-            dispatch: actions.dispatchX
-        } ),
         dispatchY: ( { dispatch }, { path, value } ) => void dispatch( {
             path: `varY.${path}`,
             value
+        } ),
+        plusOneX: ( { model, actions } ) => void Var.actions.plusOne( {
+            model: model.varX as Model,
+            dispatch: actions.dispatchX
         } ),
         plusOneY: ( { model, actions } ): void => void Var.actions.plusOne( {
             model: model.varY as Model,
@@ -71,14 +71,14 @@ const ComposePosition = defineComponent<{
             {Var.view( h )( {
                 props: { name: 'x' },
                 model: model.varX as Model,
-                dispatch: actions.dispatchX,
-                actions: { plusOne: actions.plusOneX }
+                actions: { plusOne: actions.plusOneX },
+                dispatch: actions.dispatchX
             } )}
             {Var.view( h )( {
                 props: { name: 'y' },
                 model: model.varY as Model,
-                dispatch: actions.dispatchY,
-                actions: { plusOne: actions.plusOneY }
+                actions: { plusOne: actions.plusOneY },
+                dispatch: actions.dispatchY
             } )}
         </>
 } );
