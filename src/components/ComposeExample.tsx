@@ -1,5 +1,10 @@
 import type { Model } from '@/types';
-import { defineComponent } from '@/utils';
+import {
+    defineComponent,
+    get,
+    mapDispatch,
+    mapComponent
+} from '@/utils';
 
 const Var = defineComponent<{
     name?: string;
@@ -47,39 +52,19 @@ const ComposePosition = defineComponent<{
         varX: Var.init( { props: { initVal: props.initX } } ),
         varY: Var.init( { props: { initVal: props.initY } } )
     } ),
-    actions: {
-        dispatchX: ( { dispatch }, { path, value } ) => void dispatch( {
-            path: `varX.${path}`,
-            value
-        } ),
-        dispatchY: ( { dispatch }, { path, value } ) => void dispatch( {
-            path: `varY.${path}`,
-            value
-        } ),
-        plusOneX: ( { model, actions } ) => void Var.actions.plusOne( {
-            model: model.varX as Model,
-            dispatch: actions.dispatchX
-        } ),
-        plusOneY: ( { model, actions } ): void => void Var.actions.plusOne( {
-            model: model.varY as Model,
-            dispatch: actions.dispatchY
-        } )
-    },
-    view: h => ( { props, model, actions } ): JSX.Element =>
+    view: h => ( { props, model, dispatch } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
-            {Var.view( h )( {
+            {Var.view( h )( mapComponent( {
                 props: { name: 'x' },
                 model: model.varX as Model,
-                actions: { plusOne: actions.plusOneX },
-                dispatch: actions.dispatchX
-            } )}
-            {Var.view( h )( {
+                dispatch: mapDispatch( dispatch, 'varX' )
+            }, Var.actions ) )}
+            {Var.view( h )( mapComponent( {
                 props: { name: 'y' },
                 model: model.varY as Model,
-                actions: { plusOne: actions.plusOneY },
-                dispatch: actions.dispatchY
-            } )}
+                dispatch: mapDispatch( dispatch, 'varY' )
+            }, Var.actions ) )}
         </>
 } );
 
