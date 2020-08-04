@@ -29,6 +29,10 @@ export interface Ref {
     [key: string]: HTMLElement;
 }
 
+export interface ActionMap {
+    [key: string]: ( ...args: any[] ) => void;
+}
+
 // Component
 export interface Component<T> {
     // props
@@ -39,9 +43,7 @@ export interface Component<T> {
     dispatch?: Function;
 
     // action
-    actions?: {
-        [key: string]: ( ...args: any[] ) => void;
-    };
+    actions?: ActionMap;
 
     // JSX
     ref?: Ref;

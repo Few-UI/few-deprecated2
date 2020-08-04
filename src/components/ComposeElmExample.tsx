@@ -1,5 +1,18 @@
-import type { Model, DispatchInput } from '@/types';
-import { defineComponent } from '@/utils';
+import type { Model, DispatchInput, Component } from '@/types';
+import { defineComponent, get } from '@/utils';
+
+const mapDispatch = ( dispatch: Function, scope: string ) =>
+    ( { path, value }: DispatchInput ): void =>
+        dispatch( {
+            path: `${scope}.${path}`,
+            value
+        } );
+
+const mapAction = ( action: Function, scope: string ) =>
+    ( { model, dispatch }: Component<unknown> ): void => action( {
+        model: get( model, scope ),
+        dispatch: mapDispatch( dispatch, scope )
+    } );
 
 const Counter = defineComponent( {
     name: 'Counter',
@@ -53,28 +66,22 @@ const CounterGroup = defineComponent( {
                 path: 'uid',
                 value: ( model.uid as number )--
             } );
-        },
-        // mapping msg
-        plusOne: ( { model, actions }, idx ) => void Counter.actions.plusOne( {
-            model: ( model.counters as Model[] )[idx].counter as Model,
-            dispatch: ( _: DispatchInput ) => actions.dispatch( idx, _ )
-        } ),
-        dispatch: ( { dispatch }, idx, { path, value } ) => void dispatch( {
-            path: `counters[${idx}]counter.${path}`,
-            value
-        } )
+        }
     },
-    view: h => ( { model, actions } ): JSX.Element =>
+    view: h => ( { model, actions, dispatch } ): JSX.Element =>
         <>
             <button onClick={actions.insert}>Insert</button>
             <button onClick={actions.remove}>Remove</button>
-            { ( model.counters as Model[] ).map( ( m, idx ) =>
+            { ( model.counters as Model[] ).map( ( _, idx ) =>
                 h( null, { key: idx }, Counter.view( h )( {
-                    model: m.counter as Model,
+                    model: get( model, `counters[${idx}].counter` ) as Model,
                     actions: {
-                       plusOne: actions.plusOne.bind( null, idx )
+                       plusOne: mapAction( Counter.actions.plusOne, `counters[${idx}].counter` ).bind( null, {
+                           model,
+                           dispatch
+                       } )
                     },
-                    dispatch: actions.dispatch.bind( null, idx )
+                    dispatch: mapDispatch( dispatch, `counters[${idx}].counter` )
                 } ) )
             )}
         </>

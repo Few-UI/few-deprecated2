@@ -7,6 +7,8 @@ import type {
     Props
 } from './types';
 
+import lodashGet from 'lodash/get';
+
 export const BaseIndent = '  ';
 
 // DOM Node type in browser
@@ -20,6 +22,8 @@ export const Node = {
     DOCUMENT_TYPE_NODE: 10,
     DOCUMENT_FRAGMENT_NODE: 11
 };
+
+export const get = lodashGet;
 
 /**
  * escape string as regex input
