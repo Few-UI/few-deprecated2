@@ -66,15 +66,18 @@ export const setupComponentTest = ( skipMockTimer?: boolean ): {
  * @param elapsed elapsed time
  * @returns promise
  */
-export const wait = ( elapsed = 0 ): Promise<void> => act( (): Promise<void> => {
-    if ( _mockTimerEnabled ) {
-        jest.advanceTimersByTime( elapsed );
-        return Promise.resolve();
-    }
+export const wait = ( elapsed = 0, mockReact = true ): Promise<void> => {
+    const callback = (): Promise<void> => {
+        if ( _mockTimerEnabled ) {
+            jest.advanceTimersByTime( elapsed );
+            return Promise.resolve();
+        }
 
-    // real timer
-    return new Promise( resolve => setTimeout( resolve, elapsed ) );
-} );
+        // real timer
+        return new Promise( resolve => setTimeout( resolve, elapsed ) );
+    };
+    return mockReact ? act( callback ) : callback();
+};
 
 /**
  * trim comments in HTML string
