@@ -355,7 +355,7 @@ export const mapDispatch = ( dispatch: Function, scope: string ) =>
         value
     } );
 
-export const mapComponent = ( component: Component<unknown>, actionDefs: ActionDefMap<unknown> ): Component<unknown> => {
+export const mapComponent = <T>( component: Component<T>, actionDefs: ActionDefMap<T> ): Component<T> => {
     // TODO: we can have more check like if(!component.actions[key]){ //do map } to provide more flexibility
     component.actions = Object.entries( actionDefs ).reduce( ( sum, [ key, actionDef ] ) => {
         sum[key] = ( ...args: any[] ): void => actionDef( component, ...args );

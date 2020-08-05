@@ -12,6 +12,6 @@ export default defineComponent( {
     view: h => (): JSX.Element =>
         <>
             <ViewExample />
-            <ComposeExample />
+            <ComposeElmExample />
         </>
 } );

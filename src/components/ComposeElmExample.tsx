@@ -17,7 +17,7 @@ const Counter = defineComponent( {
         plusOne: ( { model, dispatch } ) => void
             dispatch( { path: 'val', value: model.val as number + 1 } )
     },
-    view: h => ( { model, actions, dispatch } ): JSX.Element =>
+    view: h => ( { model, dispatch, actions } ): JSX.Element =>
         <div>
             {model.val}
             <button onClick={actions.plusOne}>+</button>

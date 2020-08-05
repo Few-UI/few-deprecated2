@@ -1,15 +1,19 @@
-import type { Model } from '@/types';
+import type {
+    Model
+} from '@/types';
+
 import {
     defineComponent,
-    get,
     mapDispatch,
     mapComponent
 } from '@/utils';
 
-const Var = defineComponent<{
-    name?: string;
-    initVal?: number;
-}>( {
+interface VarProps {
+    name: string;
+    initVal: number;
+}
+
+const Var = defineComponent<VarProps>( {
     name: 'Var',
     init: ( { props } ) => ( {
         val: props.initVal
@@ -18,7 +22,7 @@ const Var = defineComponent<{
         plusOne: ( { model, dispatch } ) => void
             dispatch( { path: 'val', value: model.val as number + 1 } )
     },
-    view: h => ( { props, model, actions, dispatch } ): JSX.Element =>
+    view: h => ( { props, model, dispatch, actions } ): JSX.Element =>
         <div>
             {props.name}: {model.val}
             <button onClick={actions.plusOne}>+</button>
@@ -49,19 +53,19 @@ const ComposePosition = defineComponent<{
 }>( {
     name: 'ComposePosition',
     init: ( { props } ) => ( {
-        varX: Var.init( { props: { initVal: props.initX } } ),
-        varY: Var.init( { props: { initVal: props.initY } } )
+        varX: Var.init( { props: { initVal: props.initX } as VarProps } ),
+        varY: Var.init( { props: { initVal: props.initY } as VarProps } )
     } ),
     view: h => ( { props, model, dispatch } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
             {Var.view( h )( mapComponent( {
-                props: { name: 'x' },
+                props: { name: 'x' } as VarProps,
                 model: model.varX as Model,
                 dispatch: mapDispatch( dispatch, 'varX' )
             }, Var.actions ) )}
             {Var.view( h )( mapComponent( {
-                props: { name: 'y' },
+                props: { name: 'y' } as VarProps,
                 model: model.varY as Model,
                 dispatch: mapDispatch( dispatch, 'varY' )
             }, Var.actions ) )}
