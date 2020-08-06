@@ -98,7 +98,7 @@ describe( 'Scope design in react', () => {
         ].join( '' ) );
 
 
-        // click digest
+        // click
         const buttonElem = document.getElementById( 'button' );
         buttonElem.click();
         await wait( 500 );

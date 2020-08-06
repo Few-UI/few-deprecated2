@@ -22,3 +22,5 @@
   - In ELM, the Component is a pure function `view: Model -> Html Msg`, in composition it is used as function `[ button [ onClick Increment ] [ text '+' ] ]`
   - In React, the Component is function but holds the state, in composition it is used as factory method `h( Button, { onClick: Increment }, [ '+' ])`. `Button` itself will be used for vDOM compare.
     - It supports `Button( { onClick: Increment, children: [ '+' ] } )` too. In this case Button will just get evaluated directly, which is more close to ELM
+
+- Component = RenderFn + State
