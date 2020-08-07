@@ -54,8 +54,9 @@ export interface Component<T> {
 export type RenderFn<T> = ( component: Component<T> ) => JSX.Element;
 export type View<T> = ( h: H ) => RenderFn<T>;
 
-export type EvalCtx<T> = T & Model & ActionDefMap<T> & { dispatch: Function };
-export type RenderFn2<T> = ( ctx: EvalCtx<T> ) => JSX.Element;
+// export type EvalCtx<T> = T & Model & ActionDefMap<T> & { dispatch: Function };
+// export type EvalCtx<T> = Props;
+export type RenderFn2<T> = ( ctx: Props ) => JSX.Element;
 export type View2<T> = ( h: H ) => RenderFn2<T>;
 
 export type InitFn<T> = ( _?: { props: T } ) => Model | Promise<Model>;

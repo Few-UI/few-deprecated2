@@ -77,10 +77,11 @@ const ComposePosition = defineComponent<{
             {/* ( { name, val, dispatch, plusOne } ) */}
             {Var.view2( h )( {
                 name: 'y',
-                ...model.varY as Model,
+                // ...model.varY as Model,
+                val: ( model.varY as Model ).val,
                 dispatch: mapDispatch( dispatch, 'varY' ),
                 plusOne: mapAction( model.varY as Model, mapDispatch( dispatch, 'varY' ), Var.actions.plusOne )
-            } as EvalCtx<any> )}
+            } )}
         </>
 } );
 
