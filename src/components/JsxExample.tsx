@@ -14,7 +14,7 @@ const createJsxExample = ( h: H ) =>
 // JsxExample.displayName = 'JsxExample';
 
 const JsxExample2 = defineComponent<{
-    action?: Function;
+    action?: CallBack;
     content: string;
 }>( {
     name: 'JsxExample2',
@@ -47,11 +47,11 @@ export default defineComponent( {
                 action: (): void => console.log( 'JsxExample2.view' ),
                 content: 'JsxExample2.view'
             } } )}
-            <JsxExample2 action={(): void => console.log( 'JsxExample2' )} content='JsxExample2' />
             {JsxExample3.render( h )( {
                 action: (): void => console.log( 'JsxExample3.render' ),
                 content: 'JsxExample3.render'
             } )}
+            <JsxExample2 action={(): void => console.log( 'JsxExample2' )} content='JsxExample2' />
             <JsxExample3 action={(): void => console.log( 'JsxExample3' )} />
         </>
 } );
