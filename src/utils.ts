@@ -5,13 +5,16 @@ import type {
     ComponentElement,
     Primitive,
     Props,
+    Model,
     DispatchInput,
     Component,
     ActionMap,
+    ActionDef,
     ActionDefMap
 } from './types';
 
 import lodashGet from 'lodash/get';
+import { vModelCheckbox } from 'vue';
 
 export const BaseIndent = '  ';
 
@@ -355,6 +358,13 @@ export const mapDispatch = ( dispatch: Function, scope: string ) =>
         value
     } );
 
+export const mapAction = <T>(
+    model: Model,
+    dispatch: {( { path, value }: DispatchInput ): void },
+    actionDef: ActionDef<T> ): {( ...args: any[] ): void} => {
+    return ( ...args: any[] ): void => actionDef( { model, dispatch }, ...args );
+};
+
 export const mapComponent = <T>( component: Component<T>, actionDefs: ActionDefMap<T> ): Component<T> => {
     // TODO: we can have more check like if(!component.actions[key]){ //do map } to provide more flexibility
     component.actions = Object.entries( actionDefs ).reduce( ( sum, [ key, actionDef ] ) => {
@@ -363,3 +373,5 @@ export const mapComponent = <T>( component: Component<T>, actionDefs: ActionDefM
     }, {} as ActionMap );
     return component;
 };
+
+

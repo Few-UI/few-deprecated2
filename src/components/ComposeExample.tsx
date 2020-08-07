@@ -1,10 +1,12 @@
 import type {
-    Model
+    Model,
+    EvalCtx
 } from '@/types';
 
 import {
     defineComponent,
     mapDispatch,
+    mapAction,
     mapComponent
 } from '@/utils';
 
@@ -28,6 +30,14 @@ const Var = defineComponent<VarProps>( {
             <button onClick={actions.plusOne}>+</button>
             <button onClick={() => void
                 dispatch( { path: 'val', value: model.val as number - 1 } )
+            }>-</button>
+        </div>,
+    view2: h => ( { name, val, plusOne, dispatch } ): JSX.Element =>
+        <div>
+            {name}: {val}
+            <button onClick={() => void ( plusOne as Function )()}>+</button>
+            <button onClick={() => void
+                ( dispatch as Function )( { path: 'val', value: val as number - 1 } )
             }>-</button>
         </div>
 } );
@@ -64,11 +74,13 @@ const ComposePosition = defineComponent<{
                 model: model.varX as Model,
                 dispatch: mapDispatch( dispatch, 'varX' )
             }, Var.actions ) )}
-            {Var.view( h )( mapComponent( {
-                props: { name: 'y' } as VarProps,
-                model: model.varY as Model,
-                dispatch: mapDispatch( dispatch, 'varY' )
-            }, Var.actions ) )}
+            {/* ( { name, val, dispatch, plusOne } ) */}
+            {Var.view2( h )( {
+                name: 'y',
+                ...model.varY as Model,
+                dispatch: mapDispatch( dispatch, 'varY' ),
+                plusOne: mapAction( model.varY as Model, mapDispatch( dispatch, 'varY' ), Var.actions.plusOne )
+            } as EvalCtx<any> )}
         </>
 } );
 

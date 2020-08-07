@@ -3,6 +3,7 @@ import type {
     App,
     Ref,
     Props,
+    EvalCtx,
     Component,
     ComponentDef,
     DispatchInput,
@@ -72,8 +73,6 @@ h.await = ( fn: Function ): JSX.Element => {
  */
 export function createComponent( componentDef: ComponentDef<Props> ): { ( props: Props ): JSX.Element } {
     // we can do better bindings later
-    const renderFn = componentDef.view( polyfill.createElement as H );
-
     const RenderFn = ( props: Props ): JSX.Element => {
         const initPromise = useRef( null );
 
@@ -151,7 +150,17 @@ export function createComponent( componentDef: ComponentDef<Props> ): { ( props:
             }
         } );
 
-        return renderFn( component );
+        if ( componentDef.view2 ) {
+            return componentDef.view2( polyfill.createElement as H )( {
+                ...component.props,
+                ...component.model,
+                ...component.actions,
+                dispatch
+            } as EvalCtx<Props> );
+        } else if ( componentDef.view ) {
+            return componentDef.view( polyfill.createElement as H )( component );
+        }
+        throw Error( 'not supporting null component yet!' );
     };
     RenderFn.displayName = componentDef.name;
     return RenderFn;

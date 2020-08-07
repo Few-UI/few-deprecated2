@@ -3,6 +3,7 @@ import ViewExample from './ViewExample';
 import XComponentExample from './XComponentExample';
 import ComposeExample from './ComposeExample';
 import ComposeElmExample from './ComposeElmExample';
+import JsxExample from './JsxExample';
 
 export default defineComponent( {
     name: 'EntryComponent',
@@ -11,7 +12,6 @@ export default defineComponent( {
     // https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
     view: h => (): JSX.Element =>
         <>
-            <ViewExample />
-            <ComposeElmExample />
+            <ComposeExample />
         </>
 } );

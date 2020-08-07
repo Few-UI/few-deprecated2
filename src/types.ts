@@ -54,12 +54,17 @@ export interface Component<T> {
 export type RenderFn<T> = ( component: Component<T> ) => JSX.Element;
 export type View<T> = ( h: H ) => RenderFn<T>;
 
+export type EvalCtx<T> = T & Model & ActionDefMap<T> & { dispatch: Function };
+export type RenderFn2<T> = ( ctx: EvalCtx<T> ) => JSX.Element;
+export type View2<T> = ( h: H ) => RenderFn2<T>;
+
 export type InitFn<T> = ( _?: { props: T } ) => Model | Promise<Model>;
 
 // ComponentDef
 export interface ComponentDef<T> {
     name: string;
-    view: View<T>;
+    view?: View<T>;
+    view2?: View2<T>;
     init?: InitFn<T>;
     actions?: ActionDefMap<T>;
     watchers?: WatchersDef<T>;

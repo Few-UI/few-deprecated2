@@ -13,6 +13,7 @@ import type {
     Component,
     Watcher,
     Props,
+    EvalCtx,
     ComponentDef,
     DispatchInput,
     CreateAppFunction
@@ -71,7 +72,7 @@ const h = ( type: string | ComponentDef<Props>, props?: Props | null, ...childre
 
     // [Vue warn]: Non-function value encountered for default slot. Prefer function slots for better performance.
     // set children to null if children === []
-    children =  children.length > 0  ? children : null;
+    children = children.length > 0 ? children : null;
 
     if ( isComponentDef( type ) ) {
         if ( !type._compiled || !type._compiled.vue ) {
@@ -192,13 +193,21 @@ export const createComponent = ( componentDef: ComponentDef<Props> ): VueCompone
             // console.log( `${oldVal} => ${newVal}` );
         } );
 
-        const renderFn = componentDef.view( polyfill.createElement as H );
-
         // return component;
         return (): JSX.Element => {
             // component.children = context.slots.default && context.slots.default();
             // component.children = context.attrs.children;
-            return renderFn( component );
+            if ( componentDef.view2 ) {
+                return componentDef.view2( polyfill.createElement as H )( {
+                    ...component.props,
+                    ...component.model,
+                    ...component.actions,
+                    dispatch: component.dispatch
+                } as EvalCtx<Props> );
+            } else if ( componentDef.view ) {
+                return componentDef.view( polyfill.createElement as H )( component );
+            }
+            throw Error( 'not supporting null component yet!' );
         };
     }
 } );
