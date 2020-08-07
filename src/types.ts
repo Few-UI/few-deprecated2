@@ -65,7 +65,7 @@ export type InitFn<T> = ( _?: { props: T } ) => Model | Promise<Model>;
 export interface ComponentDef<T> {
     name: string;
     view?: View<T>;
-    view2?: View2<T>;
+    render?: View2<T>;
     init?: InitFn<T>;
     actions?: ActionDefMap<T>;
     watchers?: WatchersDef<T>;

@@ -13,7 +13,6 @@ import type {
     Component,
     Watcher,
     Props,
-    EvalCtx,
     ComponentDef,
     DispatchInput,
     CreateAppFunction
@@ -197,13 +196,13 @@ export const createComponent = ( componentDef: ComponentDef<Props> ): VueCompone
         return (): JSX.Element => {
             // component.children = context.slots.default && context.slots.default();
             // component.children = context.attrs.children;
-            if ( componentDef.view2 ) {
-                return componentDef.view2( polyfill.createElement as H )( {
+            if ( componentDef.render ) {
+                return componentDef.render( polyfill.createElement as H )( {
                     ...component.props,
                     ...component.model,
                     ...component.actions,
                     dispatch: component.dispatch
-                } as EvalCtx<Props> );
+                } );
             } else if ( componentDef.view ) {
                 return componentDef.view( polyfill.createElement as H )( component );
             }

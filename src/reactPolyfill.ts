@@ -3,7 +3,6 @@ import type {
     App,
     Ref,
     Props,
-    EvalCtx,
     Component,
     ComponentDef,
     DispatchInput,
@@ -150,13 +149,13 @@ export function createComponent( componentDef: ComponentDef<Props> ): { ( props:
             }
         } );
 
-        if ( componentDef.view2 ) {
-            return componentDef.view2( polyfill.createElement as H )( {
+        if ( componentDef.render ) {
+            return componentDef.render( polyfill.createElement as H )( {
                 ...component.props,
                 ...component.model,
                 ...component.actions,
                 dispatch
-            } as EvalCtx<Props> );
+            } );
         } else if ( componentDef.view ) {
             return componentDef.view( polyfill.createElement as H )( component );
         }

@@ -12,6 +12,6 @@ export default defineComponent( {
     // https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
     view: h => (): JSX.Element =>
         <>
-            <ComposeExample />
+            <JsxExample />
         </>
 } );

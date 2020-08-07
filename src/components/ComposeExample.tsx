@@ -1,6 +1,5 @@
 import type {
-    Model,
-    EvalCtx
+    Model
 } from '@/types';
 
 import {
@@ -32,7 +31,7 @@ const Var = defineComponent<VarProps>( {
                 dispatch( { path: 'val', value: model.val as number - 1 } )
             }>-</button>
         </div>,
-    view2: h => ( { name, val, plusOne, dispatch } ): JSX.Element =>
+    render: h => ( { name, val, plusOne, dispatch } ): JSX.Element =>
         <div>
             {name}: {val}
             <button onClick={() => void ( plusOne as Function )()}>+</button>
@@ -75,7 +74,7 @@ const ComposePosition = defineComponent<{
                 dispatch: mapDispatch( dispatch, 'varX' )
             }, Var.actions ) )}
             {/* ( { name, val, dispatch, plusOne } ) */}
-            {Var.view2( h )( {
+            {Var.render( h )( {
                 name: 'y',
                 // ...model.varY as Model,
                 val: ( model.varY as Model ).val,
