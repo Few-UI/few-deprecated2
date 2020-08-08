@@ -21,16 +21,10 @@ const Var = defineComponent<VarProps>( {
     } ),
     actions: {
         plusOne: ( { model, dispatch } ) => void
-            dispatch( { path: 'val', value: model.val as number + 1 } )
+            dispatch( { path: 'val', value: model.val as number + 1 } ),
+        minusOne: ( { model, dispatch } ) => void
+            dispatch( { path: 'val', value: model.val as number - 1 } )
     },
-    view: h => ( { props, model, dispatch, actions } ): JSX.Element =>
-        <div>
-            {props.name}: {model.val}
-            <button onClick={actions.plusOne}>+</button>
-            <button onClick={() => void
-                dispatch( { path: 'val', value: model.val as number - 1 } )
-            }>-</button>
-        </div>,
     render: h => ( { name, val, plusOne, dispatch } ): JSX.Element =>
         <div>
             {name}: {val}
@@ -62,24 +56,34 @@ const ComposePosition = defineComponent<{
 }>( {
     name: 'ComposePosition',
     init: ( { props } ) => ( {
-        varX: Var.init( { props: { initVal: props.initX } as VarProps } ),
-        varY: Var.init( { props: { initVal: props.initY } as VarProps } )
+        varX: {
+            ...Var.init( { props: { initVal: props.initX } as VarProps } ),
+            name: 'x'
+        },
+        varY: {
+            ...Var.init( { props: { initVal: props.initY } as VarProps } ),
+            name: 'y'
+        }
     } ),
     view: h => ( { props, model, dispatch } ): JSX.Element =>
         <>
             <h4>{props.name}</h4>
-            {Var.view( h )( mapComponent( {
-                props: { name: 'x' } as VarProps,
-                model: model.varX as Model,
-                dispatch: mapDispatch( dispatch, 'varX' )
-            }, Var.actions ) )}
             {/* ( { name, val, dispatch, plusOne } ) */}
             {Var.render( h )( {
-                name: 'y',
-                // ...model.varY as Model,
-                val: ( model.varY as Model ).val,
+                ...model.varX as Model,
+                dispatch: mapDispatch( dispatch, 'varX' ),
+                plusOne: mapAction(  Var.actions.plusOne, {
+                    model: model.varX as Model,
+                    dispatch: mapDispatch( dispatch, 'varX' )
+                } )
+            } )}
+            {Var.render( h )( {
+                ...model.varY as Model,
                 dispatch: mapDispatch( dispatch, 'varY' ),
-                plusOne: mapAction( model.varY as Model, mapDispatch( dispatch, 'varY' ), Var.actions.plusOne )
+                plusOne: mapAction(  Var.actions.plusOne, {
+                    model: model.varY as Model,
+                    dispatch: mapDispatch( dispatch, 'varY' )
+                } )
             } )}
         </>
 } );

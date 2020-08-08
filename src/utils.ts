@@ -358,11 +358,17 @@ export const mapDispatch = ( dispatch: Function, scope: string ) =>
         value
     } );
 
+    /*
 export const mapAction = <T>(
     model: Model,
     dispatch: {( { path, value }: DispatchInput ): void },
     actionDef: ActionDef<T> ): {( ...args: any[] ): void} => {
     return ( ...args: any[] ): void => actionDef( { model, dispatch }, ...args );
+};
+*/
+
+export const mapAction = <T>( actionDef: ActionDef<T>, component: Component<T> ): {( ...args: any[] ): void} => {
+    return ( ...args: any[] ): void => actionDef( component, ...args );
 };
 
 export const mapComponent = <T>( component: Component<T>, actionDefs: ActionDefMap<T> ): Component<T> => {
