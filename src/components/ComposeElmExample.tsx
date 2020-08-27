@@ -4,8 +4,7 @@ import type {
 import {
     defineComponent,
     get,
-    mapDispatch,
-    mapComponent
+    mapDispatch
 } from '@/utils';
 
 const Counter = defineComponent( {
@@ -15,15 +14,15 @@ const Counter = defineComponent( {
     } ),
     actions: {
         plusOne: ( { model, dispatch } ) => void
-            dispatch( { path: 'val', value: model.val as number + 1 } )
+            dispatch( { path: 'val', value: model.val as number + 1 } ),
+        minusOne: ( { model, dispatch } ) => void
+            dispatch( { path: 'val', value: model.val as number - 1 } )
     },
-    view: h => ( { model, dispatch, actions } ): JSX.Element =>
+    render: h => ( { val, plusOne, minusOne } ): JSX.Element =>
         <div>
-            {model.val}
-            <button onClick={actions.plusOne}>+</button>
-            <button onClick={() => void
-                dispatch( { path: 'val', value: model.val as number - 1 } )
-            }>-</button>
+            {val}
+            <button onClick={plusOne}>+</button>
+            <button onClick={minusOne}>-</button>
         </div>
 } );
 
@@ -57,24 +56,37 @@ const CounterGroup = defineComponent( {
                 path: 'uid',
                 value: ( model.uid as number )--
             } );
+        },
+        plus: ( { model, dispatch }, idx ): void => {
+            Counter.actions.plusOne( {
+                model: get( model, `counters[${idx}].counter` ) as Model,
+                dispatch: mapDispatch( dispatch, `counters[${idx}].counter` )
+            } );
+        },
+        minus: ( { model, dispatch }, idx ): void => {
+            Counter.actions.minusOne( {
+                model: get( model, `counters[${idx}].counter` ) as Model,
+                dispatch: mapDispatch( dispatch, `counters[${idx}].counter` )
+            } );
         }
     },
-    view: h => ( { model, dispatch, actions } ): JSX.Element =>
+    render: h => ( { counters, insert, remove, plus, minus } ): JSX.Element =>
         <>
-            <button onClick={actions.insert}>Insert</button>
-            <button onClick={actions.remove}>Remove</button>
-            {( model.counters as Model[] ).map( ( _, idx ) =>
-                h( null, { key: idx }, Counter.view( h )( mapComponent( {
-                    model: get( model, `counters[${idx}].counter` ) as Model,
-                    dispatch: mapDispatch( dispatch, `counters[${idx}].counter` )
-                }, Counter.actions ) ) )
+            <button onClick={insert}>Insert</button>
+            <button onClick={remove}>Remove</button>
+            {( counters as Model[] ).map( ( m, idx ) =>
+                h( null, { key: idx }, Counter.render( h )( {
+                    ...m.counter as Model,
+                    plusOne: () => plus( idx ),
+                    minusOne: () => minus( idx )
+                } ) )
             )}
         </>
 } );
 
 export default defineComponent( {
     name: 'CounterGroupExample',
-    view: h => (): JSX.Element =>
+    render: h => (): JSX.Element =>
         <>
             <CounterGroup />
         </>

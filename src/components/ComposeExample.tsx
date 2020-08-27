@@ -4,9 +4,7 @@ import type {
 
 import {
     defineComponent,
-    mapDispatch,
-    mapAction,
-    mapComponent
+    mapDispatch
 } from '@/utils';
 
 interface VarProps {
@@ -25,13 +23,11 @@ const Var = defineComponent<VarProps>( {
         minusOne: ( { model, dispatch } ) => void
             dispatch( { path: 'val', value: model.val as number - 1 } )
     },
-    render: h => ( { name, val, plusOne, dispatch } ): JSX.Element =>
+    render: h => ( { name, val, plusOne, minusOne } ): JSX.Element =>
         <div>
             {name}: {val}
             <button onClick={() => void ( plusOne as Function )()}>+</button>
-            <button onClick={() => void
-                ( dispatch as Function )( { path: 'val', value: val as number - 1 } )
-            }>-</button>
+            <button onClick={() => void ( minusOne as Function )()}>-</button>
         </div>
 } );
 
@@ -41,11 +37,11 @@ const Position = defineComponent<{
     initY: number;
 }>( {
     name: 'Position',
-    view: h => ( { props } ): JSX.Element =>
+    render: h => ( { name, initX, initY } ): JSX.Element =>
         <>
-            <h4>{props.name}</h4>
-            <Var name='x' initVal={props.initX} />
-            <Var name='y' initVal={props.initY} />
+            <h4>{name}</h4>
+            <Var name='x' initVal={initX} />
+            <Var name='y' initVal={initY} />
         </>
 } );
 
@@ -65,32 +61,54 @@ const ComposePosition = defineComponent<{
             name: 'y'
         }
     } ),
-    view: h => ( { props, model, dispatch } ): JSX.Element =>
+    actions: {
+        plusOne: ( { model, dispatch }, key ): void => Var.actions.plusOne( {
+            model: model[key] as Model,
+            dispatch: mapDispatch( dispatch, key )
+        } ),
+        minusOne: ( { model, dispatch }, key ): void => Var.actions.minusOne( {
+            model: model[key] as Model,
+            dispatch: mapDispatch( dispatch, key )
+        } )
+        /*
+        plusX: ( { model, dispatch } ): void => Var.actions.plusOne( {
+            model: model.varX as Model,
+            dispatch: mapDispatch( dispatch, 'varX' )
+        } ),
+        plusY: ( { model, dispatch } ): void => Var.actions.plusOne( {
+            model: model.varY as Model,
+            dispatch: mapDispatch( dispatch, 'varY' )
+        } ),
+        minusX: ( { model, dispatch } ): void => Var.actions.minusOne( {
+            model: model.varX as Model,
+            dispatch: mapDispatch( dispatch, 'varX' )
+        } ),
+        minusY: ( { model, dispatch } ): void => Var.actions.minusOne( {
+            model: model.varY as Model,
+            dispatch: mapDispatch( dispatch, 'varY' )
+        } )
+        */
+    },
+    render: h => ( { name, varX, varY, plusOne, minusOne } ): JSX.Element =>
         <>
-            <h4>{props.name}</h4>
+            <h4>{name}</h4>
             {/* ( { name, val, dispatch, plusOne } ) */}
             {Var.render( h )( {
-                ...model.varX as Model,
-                dispatch: mapDispatch( dispatch, 'varX' ),
-                plusOne: mapAction(  Var.actions.plusOne, {
-                    model: model.varX as Model,
-                    dispatch: mapDispatch( dispatch, 'varX' )
-                } )
+                ...varX as Model,
+                plusOne: () => plusOne( 'varX' ),
+                minusOne: () => minusOne( 'varX' )
             } )}
             {Var.render( h )( {
-                ...model.varY as Model,
-                dispatch: mapDispatch( dispatch, 'varY' ),
-                plusOne: mapAction(  Var.actions.plusOne, {
-                    model: model.varY as Model,
-                    dispatch: mapDispatch( dispatch, 'varY' )
-                } )
+                ...varY as Model,
+                plusOne: () => plusOne( 'varY' ),
+                minusOne: () => minusOne( 'varY' )
             } )}
         </>
 } );
 
 export default defineComponent( {
     name: 'ComposeExample',
-    view: h => (): JSX.Element =>
+    render: h => (): JSX.Element =>
         <>
             <Position name='Position' initX={1} initY={2} />
             <ComposePosition name='ComposePosition' initX={3} initY={4} />

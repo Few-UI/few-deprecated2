@@ -273,6 +273,7 @@ export const isComponentDef = ( type: string | ComponentDef<unknown> ): type is 
     return componeDef && (
         typeof componeDef.init === 'function' ||
         typeof componeDef.view === 'function' ||
+        typeof componeDef.render === 'function' ||
         typeof componeDef.mount === 'function'
     );
 };

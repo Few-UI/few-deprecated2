@@ -173,6 +173,8 @@ const view = ( { props, model, dispatch, action } ) => {
 const Component = { view, model, dispatch, action };
 ```
 
+- Action map is not flex enough. How can we map sub action to parent in an easy way?
+
 - To simplify the compose design, we can try:
   - merge props, model and action, so that `view = f( object )` could be reused between pure component and stateful component
   - props cannot be overwrite by actions and model, so that pure component will be always at bottom, and stateful component can reuse
