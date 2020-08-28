@@ -10,7 +10,7 @@ export default defineComponent( {
     // h( 'div', null, 'current number: ', model.name ) is working too, but
     // it is not friendly for jsbeautify
     // https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
-    view: h => (): JSX.Element =>
+    render: h => (): JSX.Element =>
         <>
             <ComposeElmExample />
             <ComposeExample />
